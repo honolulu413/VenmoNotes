@@ -13,9 +13,9 @@ import android.widget.Toast;
 
 public class WebLoginActivity extends ActionBarActivity {
     private WebView webView;
-    private static final String TAG = "SS";
+    private static final String TAG = "SSDD";
 
-
+    //TTTTTTTTTTT
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
