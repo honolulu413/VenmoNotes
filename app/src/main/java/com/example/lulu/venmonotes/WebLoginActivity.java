@@ -18,7 +18,7 @@ public class WebLoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_webLogin);
+        setContentView(R.layout.activity_weblogin);
         webView = (WebView) findViewById(R.id.webView1);
 
         webView.getSettings().setJavaScriptEnabled(true);//设置使用够执行JS脚本
