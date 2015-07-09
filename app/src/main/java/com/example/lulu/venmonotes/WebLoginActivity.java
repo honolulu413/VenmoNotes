@@ -13,16 +13,16 @@ import android.widget.Toast;
 
 public class WebLoginActivity extends ActionBarActivity {
     private WebView webView;
-    private static final String TAG = "WEBVIEW";
+    private static final String TAG = "WEBVIEW1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_webLogin);
+        setContentView(R.layout.activity_weblogin);
         webView = (WebView) findViewById(R.id.webView1);
 
-        webView.getSettings().setJavaScriptEnabled(true);//ÉèÖÃÊ¹ÓÃ¹»Ö´ÐÐJS½Å±¾
-        webView.getSettings().setBuiltInZoomControls(true);//ÉèÖÃÊ¹Ö§³ÖËõ·Å
+        webView.getSettings().setJavaScriptEnabled(true);//ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½Ã¹ï¿½Ö´ï¿½ï¿½JSï¿½Å±ï¿½
+        webView.getSettings().setBuiltInZoomControls(true);//ï¿½ï¿½ï¿½ï¿½Ê¹Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //      webView.getSettings().setDefaultFontSize(5);
 
         webView.loadUrl("https://api.venmo.com/v1/oauth/authorize?client_id=2743&scope=make_payments");
@@ -32,11 +32,11 @@ public class WebLoginActivity extends ActionBarActivity {
                 Log.d(TAG, url);
                 if (url.contains("lulu")) return true;
                 // TODO Auto-generated method stub
-                view.loadUrl(url);// Ê¹ÓÃµ±Ç°WebView´¦ÀíÌø×ª
-                return true;//true±íÊ¾´ËÊÂ¼þÔÚ´Ë´¦±»´¦Àí£¬²»ÐèÒªÔÙ¹ã²¥
+                view.loadUrl(url);// Ê¹ï¿½Ãµï¿½Ç°WebViewï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ª
+                return true;//trueï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Â¼ï¿½ï¿½Ú´Ë´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½Ù¹ã²¥
             }
 
-            @Override   //×ªÏò´íÎóÊ±µÄ´¦Àí
+            @Override   //×ªï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½Ä´ï¿½ï¿½ï¿½
             public void onReceivedError(WebView view, int errorCode,
                                         String description, String failingUrl) {
                 // TODO Auto-generated method stub
@@ -44,7 +44,7 @@ public class WebLoginActivity extends ActionBarActivity {
             }
         });
     }
-    @Override   //Ä¬ÈÏµã»ØÍË¼ü£¬»áÍË³öActivity£¬Ðè¼àÌý°´¼ü²Ù×÷£¬Ê¹»ØÍËÔÚWebViewÄÚ·¢Éú
+    @Override   //Ä¬ï¿½Ïµï¿½ï¿½ï¿½Ë¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½Activityï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½WebViewï¿½Ú·ï¿½ï¿½ï¿½
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub
         if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
