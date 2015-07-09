@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class WebLoginActivity extends ActionBarActivity {
     private WebView webView;
-    private static final String TAG = "SS";
+    private static final String TAG = "123";
 
 
     @Override
