@@ -21,8 +21,8 @@ public class WebLoginActivity extends ActionBarActivity {
         setContentView(R.layout.activity_weblogin);
         webView = (WebView) findViewById(R.id.webView1);
 
-        webView.getSettings().setJavaScriptEnabled(true);//����ʹ�ù�ִ��JS�ű�
-        webView.getSettings().setBuiltInZoomControls(true);//����ʹ֧������
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(true);
 //      webView.getSettings().setDefaultFontSize(5);
 
         webView.loadUrl("https://api.venmo.com/v1/oauth/authorize?client_id=2743&scope=make_payments");
@@ -32,11 +32,11 @@ public class WebLoginActivity extends ActionBarActivity {
                 Log.d(TAG, url);
                 if (url.contains("lulu")) return true;
                 // TODO Auto-generated method stub
-                view.loadUrl(url);// ʹ�õ�ǰWebView������ת
-                return true;//true��ʾ���¼��ڴ˴�����������Ҫ�ٹ㲥
+                view.loadUrl(url);
+                return true;
             }
 
-            @Override   //ת�����ʱ�Ĵ���
+            @Override
             public void onReceivedError(WebView view, int errorCode,
                                         String description, String failingUrl) {
                 // TODO Auto-generated method stub
@@ -44,7 +44,7 @@ public class WebLoginActivity extends ActionBarActivity {
             }
         });
     }
-    @Override   //Ĭ�ϵ���˼������˳�Activity�����������������ʹ������WebView�ڷ���
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub
         if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
