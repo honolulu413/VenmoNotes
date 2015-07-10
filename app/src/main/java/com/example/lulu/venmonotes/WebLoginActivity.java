@@ -13,11 +13,9 @@ import android.widget.Toast;
 
 public class WebLoginActivity extends ActionBarActivity {
     private WebView webView;
-    private static final String TAG1 = "SSDDDDDDD";
-    private static final String TAG = "123";
-    String a = "123";
+    private static final String TAG = "SSDDDDDDD";
 
-
+    //TTTTTTTTTTT
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
