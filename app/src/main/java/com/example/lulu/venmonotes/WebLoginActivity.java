@@ -29,7 +29,7 @@ public class WebLoginActivity extends ActionBarActivity {
             "&scope=make_payments%20access_payment_history%20access_feed%20access_profile%20access_email%20access_phone" +
             "%20access_balance%20access_friends&response_type=code";
     private static final String TOKEN_URL = "https://api.venmo.com/v1/oauth/access_token";
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
