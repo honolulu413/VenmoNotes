@@ -3,6 +3,7 @@ package com.example.lulu.venmonotes;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -10,13 +11,15 @@ import android.view.MenuItem;
  * Created by lulu on 7/9/2015.
  */
 public class HomePageActivity extends ActionBarActivity{
-    public static final String TOKEN_IN_JASON = "TOKEN_IN_JASON";
+    public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
+    private static final String TAG = "HOME";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent = new Intent(this, WebLoginActivity.class);
-        startActivity(intent);
+        String token = getIntent().getStringExtra(ACCESS_TOKEN);
+        Log.d(TAG, token);
     }
 
     @Override
