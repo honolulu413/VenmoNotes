@@ -11,7 +11,7 @@ import android.view.MenuItem;
  * Created by lulu on 7/9/2015.
  */
 public class HomePageActivity extends ActionBarActivity{
-    public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
+    public static final String ACCESS_TOKEN = "com.example.lulu.HomePageActivity.accessToken";
     private static final String TAG = "HOME";
 
     @Override

@@ -120,7 +120,13 @@ public class WebLoginActivity extends ActionBarActivity {
             try {
                 object = new JSONObject(jason);
                 Intent i = new Intent(WebLoginActivity.this, HomePageActivity.class);
-                i.putExtra(HomePageActivity.ACCESS_TOKEN, object.getString(ACCESS_TOKEN));
+                String token = object.getString(ACCESS_TOKEN);
+
+                PreferenceManager.getDefaultSharedPreferences(WebLoginActivity.this)
+                        .edit()
+                        .putString(HomePageActivity.ACCESS_TOKEN, token)
+                        .commit();
+                i.putExtra(HomePageActivity.ACCESS_TOKEN, token);
                 startActivity(i);
             } catch (JSONException e) {
                 e.printStackTrace();

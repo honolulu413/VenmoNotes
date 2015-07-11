@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class HttpService {
     private static final String TAG = "HttpService";
-    
+
     byte[] getPostUrlBytes(String urlSpec, String parameters) throws IOException {
         Log.d(TAG, urlSpec);
         Log.d(TAG, parameters);

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,10 +23,16 @@ public class MainActivity extends ActionBarActivity {
         final Context context = this;
 
         super.onCreate(savedInstanceState);
+        String token = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(HomePageActivity.ACCESS_TOKEN, null);
+
+        if (token != null) {
+            Intent i = new Intent(this, WebLoginActivity.class);
+            startActivity(i);
+            finish();
+        }
+
         setContentView(R.layout.activity_main);
-
-
-
         button = (Button) findViewById(R.id.signUp);
 
         button.setOnClickListener(new View.OnClickListener() {
