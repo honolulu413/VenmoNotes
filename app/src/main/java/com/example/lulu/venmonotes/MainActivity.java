@@ -15,7 +15,8 @@ import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
-    private Button button;
+    private Button buttonSignUp;
+    private Button buttonSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +27,10 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-        button = (Button) findViewById(R.id.signUp);
+        buttonSignUp = (Button) findViewById(R.id.signUp);
+        buttonSignIn = (Button) findViewById(R.id.signIn);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonSignUp.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
@@ -38,6 +40,20 @@ public class MainActivity extends ActionBarActivity {
                 }
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://venmo.com/signup"));
                 startActivity(browserIntent);
+            }
+
+        });
+
+        buttonSignIn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                if (!haveNetworkConnection()) {
+                    Toast.makeText(MainActivity.this, "No network connection!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Intent intent = new Intent(MainActivity.this, WebLoginActivity.class);
+                startActivity(intent);
             }
 
         });
