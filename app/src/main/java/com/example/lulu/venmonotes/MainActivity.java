@@ -28,12 +28,12 @@ public class MainActivity extends ActionBarActivity {
                 .getString(HomePageActivity.ACCESS_TOKEN, null);
 
         if (token != null) {
-            Intent i = new Intent(this, WebLoginActivity.class);
+            Intent i = new Intent(this, HomePageActivity.class);
+            i.putExtra(HomePageActivity.ACCESS_TOKEN, token);
             startActivity(i);
-            finish();
         }
 
-
+        setContentView(R.layout.activity_main);
         buttonSignUp = (Button) findViewById(R.id.signUp);
         buttonSignIn = (Button) findViewById(R.id.signIn);
 

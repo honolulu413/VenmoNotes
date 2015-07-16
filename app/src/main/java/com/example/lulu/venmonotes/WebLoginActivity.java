@@ -105,12 +105,7 @@ public class WebLoginActivity extends ActionBarActivity {
     private class FetchToken extends AsyncTask<String,Void,String> {
         @Override
         protected String doInBackground(String... params) {
-            try {
-                return new HttpService().getPostUrl(TOKEN_URL, params[0]);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
+            return new HttpService().getPostUrl(TOKEN_URL, params[0]);
         }
 
         @Override

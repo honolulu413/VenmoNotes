@@ -20,10 +20,10 @@ import java.util.ArrayList;
  * Created by lulu on 6/24/2015.
  */
 public class HttpService {
-    private static final String TAG = "HttpService";
+    public static final String TAG = "HttpService";
 
     byte[] getPostUrlBytes(String urlSpec, String parameters) throws IOException {
-        Log.d(TAG, urlSpec);
+        Log.d(TAG, "visiting: " + urlSpec);
         Log.d(TAG, parameters);
 
         URL url = new URL(urlSpec);
@@ -44,7 +44,6 @@ public class HttpService {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             InputStream in = connection.getInputStream();
 
-            Log.d(TAG, "" + connection.getResponseCode());
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 return null;
             }
@@ -59,8 +58,50 @@ public class HttpService {
             connection.disconnect();
         }
     }
-    public String getPostUrl(String urlSpec, String parameters) throws IOException {
-        return new String(getPostUrlBytes(urlSpec, parameters));
+
+    byte[] getUrlBytes(String urlSpec) throws IOException {
+        Log.d(TAG, "visiting: " + urlSpec);
+
+        URL url = new URL(urlSpec);
+        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+
+        connection.connect();
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            InputStream in = connection.getInputStream();
+
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                return null;
+            }
+            int bytesRead = 0;
+            byte[] buffer = new byte[1024];
+            while ((bytesRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, bytesRead);
+            }
+            out.close();
+            return out.toByteArray();
+        } finally {
+            connection.disconnect();
+        }
+    }
+
+    public String getPostUrl(String urlSpec, String parameters){
+        try {
+            return new String(getPostUrlBytes(urlSpec, parameters));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    public String getUrl(String urlSpec){
+        try {
+            return new String(getUrlBytes(urlSpec));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
 
