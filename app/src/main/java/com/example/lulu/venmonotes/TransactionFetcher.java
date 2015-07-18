@@ -39,11 +39,8 @@ public class TransactionFetcher {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject tmpObject = jsonArray.getJSONObject(i);
                 String date = tmpObject.getString("date_completed");
-                JSONObject jUser = tmpObject.getJSONObject("target").getJSONObject("user");
-                User target = new User(jUser.getString("username"), jUser.getString("display_name"));
-
-                JSONObject jActor = tmpObject.getJSONObject("actor");
-                User actor = new User(jActor.getString("username"), jActor.getString("display_name"));
+                User target = new User(tmpObject.getJSONObject("target").getJSONObject("user"));
+                User actor = new User(tmpObject.getJSONObject("actor"));
                 String note = tmpObject.getString("note");
                 double amount = tmpObject.getDouble("amount");
                 String tAction = tmpObject.getString("action");

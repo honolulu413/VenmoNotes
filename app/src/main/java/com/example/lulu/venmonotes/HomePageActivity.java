@@ -36,8 +36,8 @@ public class HomePageActivity extends ActionBarActivity{
     public static final CharSequence[] options = {"pay", "charge"};
     public HomePageFragment fragment;
     public String token;
-    private String currentUser;
-
+    private User currentUser;
+    private String balance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +55,14 @@ public class HomePageActivity extends ActionBarActivity{
                     .commit();
         }
 
-         new FetchTransactions().execute(token);
+        new FetchTransactions().execute(token);
+        new ProfileFetcher().execute(token);
 
         buttonFilter = (Button) findViewById(R.id.filterButton);
         buttonFilter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //DO SOMETHING! {RUN SOME FUNCTION ... DO CHECKS... ETC}
-                filterAction();
+                //filterAction();
             }
         });
 
@@ -77,7 +78,6 @@ public class HomePageActivity extends ActionBarActivity{
                 switch (which) {
                     case 0:
                           mAction = "pay";
-                          fragment.mTransactions.clear();
                          break;
                     case 1:
                         mAction = "charge";
@@ -118,7 +118,7 @@ public class HomePageActivity extends ActionBarActivity{
         @Override
         protected ArrayList<Transaction> doInBackground(String... params){
             String token = params[0];
-            return new TransactionFetcher(token, currentUser).getTransactions(mDate);
+            return new TransactionFetcher(token, currentUser.getUserName()).getTransactions(mDate);
         }
 
         @Override
@@ -145,4 +145,31 @@ public class HomePageActivity extends ActionBarActivity{
 
         fragment.updateUI(tmp);
     }
+
+    private class ProfileFetcher extends AsyncTask<String, Void, JSONObject>{
+        private final String url = "https://api.venmo.com/v1/me?access_token=";
+        @Override
+        protected JSONObject doInBackground(String... params) {
+            String token = params[0];
+            String content = new HttpService().getUrl(url + token);
+            try {
+                return new JSONObject(content).getJSONObject("data");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            try {
+                balance = jsonObject.getString("balance");
+                currentUser = new User(jsonObject.getJSONObject("user"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
+
+
