@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class HomePageFragment extends ListFragment {
 //    public ArrayList<String> transactions = new ArrayList<String>();
-    public ArrayList<Transaction> mTransactions = new ArrayList<Transaction>();
+    private ArrayList<Transaction> mTransactions = new ArrayList<Transaction>();
 
 //    private Callbacks mCallbacks;
 
@@ -48,7 +48,9 @@ public class HomePageFragment extends ListFragment {
 //        mCallbacks = null;
 //    }
 
-    public void updateUI() {
+    public void updateUI(ArrayList<Transaction> list) {
+        mTransactions.clear();
+        mTransactions = list;
 //        ( (ArrayAdapter<Transaction>)getListAdapter()).notifyDataSetChanged();
         ArrayAdapter<Transaction> adapter =
                 new ArrayAdapter<Transaction>(getActivity(),

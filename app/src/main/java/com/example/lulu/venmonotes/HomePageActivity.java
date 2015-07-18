@@ -25,6 +25,8 @@ import java.util.ArrayList;
  * Created by lulu on 7/9/2015.
  */
 public class HomePageActivity extends ActionBarActivity{
+    enum Category {ALL, INCOME, EXPENSE}
+    Category mCategory = Category.ALL;
     public static final String ACCESS_TOKEN = "com.example.lulu.HomePageActivity.accessToken";
     private static final String TAG = "HOME";
     private ArrayList<Transaction> mTransactions;
@@ -34,6 +36,8 @@ public class HomePageActivity extends ActionBarActivity{
     public static final CharSequence[] options = {"pay", "charge"};
     public HomePageFragment fragment;
     public String token;
+    private String currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,17 +118,31 @@ public class HomePageActivity extends ActionBarActivity{
         @Override
         protected ArrayList<Transaction> doInBackground(String... params){
             String token = params[0];
-            return new TransactionFetcher(token).getTransactions(mAction, mDate);
+            return new TransactionFetcher(token, currentUser).getTransactions(mDate);
         }
 
         @Override
         protected void onPostExecute(ArrayList<Transaction> result) {
-//            mTransactions = result;
-            fragment.mTransactions = result;
-            fragment.updateUI();
-
-
+            mTransactions = result;
+            fragment.updateUI(result);
         }
 
+    }
+
+    private void updateUI() {
+        if (mCategory == Category.ALL) {
+            fragment.updateUI(mTransactions);
+            return;
+        }
+
+        ArrayList<Transaction> tmp = new ArrayList<Transaction>();
+        boolean getPositive = mCategory == Category.INCOME;
+        for (Transaction t: mTransactions) {
+            if (t.isPositive() == getPositive) {
+                tmp.add(t);
+            }
+        }
+
+        fragment.updateUI(tmp);
     }
 }

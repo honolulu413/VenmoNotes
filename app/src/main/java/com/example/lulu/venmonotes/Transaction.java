@@ -22,6 +22,7 @@ public class Transaction {
         if (actor.getUserName().equals(currentUser) && action.equals("charge") ||
                targetUser.getUserName().equals(currentUser) && action.equals("pay"))
             isPositive = true;
+
     }
 
     @Override
@@ -32,4 +33,11 @@ public class Transaction {
     public String getNode() {
         return note;
     }
+
+
+    public boolean isPositive() {
+        return isPositive;
+    }
+
+
 }
