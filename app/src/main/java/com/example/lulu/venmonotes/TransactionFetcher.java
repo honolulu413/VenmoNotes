@@ -16,14 +16,15 @@ public class TransactionFetcher {
     private final String ENDPOINT = "https://api.venmo.com/v1/payments";
     private String token;
     private String status = "settled";
-    public TransactionFetcher(String token) {
+    private String currentUser;
+    public TransactionFetcher(String token, String currentUser) {
         this.token = token;
+        this.currentUser = currentUser;
     }
 
-    public ArrayList<Transaction> getTransactions(String action, String dateAfter) {
+    public ArrayList<Transaction> getTransactions(String dateAfter) {
         Uri.Builder builder = Uri.parse(ENDPOINT).buildUpon();
         builder.appendQueryParameter("access_token", token).appendQueryParameter("status", status);
-        if (action != null) builder.appendQueryParameter("action", action);
         if (dateAfter != null) builder.appendQueryParameter("after", dateAfter);
 
         String urlSpec = builder.build().toString();
@@ -47,7 +48,7 @@ public class TransactionFetcher {
                 double amount = tmpObject.getDouble("amount");
                 String tAction = tmpObject.getString("action");
 
-                Transaction t = new Transaction(date, target, actor, note, amount, tAction);
+                Transaction t = new Transaction(date, target, actor, note, amount, tAction, currentUser);
                 transactions.add(t);
             }
         } catch (JSONException e) {
