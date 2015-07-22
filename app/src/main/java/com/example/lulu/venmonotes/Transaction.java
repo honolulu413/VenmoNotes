@@ -34,10 +34,8 @@ public class Transaction {
         return note;
     }
 
-
     public boolean isPositive() {
         return isPositive;
     }
-
 
 }

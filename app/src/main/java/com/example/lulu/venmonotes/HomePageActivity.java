@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -17,7 +19,12 @@ import org.json.JSONObject;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
+
+import com.loopj.android.image.SmartImageView;
 
 import java.util.ArrayList;
 
@@ -39,6 +46,16 @@ public class HomePageActivity extends ActionBarActivity{
     private User currentUser;
     private String balance;
 
+    private SmartImageView mImageView;
+    private TextView mUserName;
+    private TextView mDisplayName;
+
+    private Fragment mTranFragment;
+    private Fragment mStaFragment;
+    private RadioGroup mRadioGroup;
+
+    private FragmentManager fm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +63,7 @@ public class HomePageActivity extends ActionBarActivity{
         token = getIntent().getStringExtra(ACCESS_TOKEN);
         Log.d(TAG, token);
 
-        FragmentManager fm = getSupportFragmentManager();
+        fm = getSupportFragmentManager();
         fragment = (HomePageFragment)fm.findFragmentById(R.id.fragmentContainer);
         if (fragment == null) {
             fragment = new HomePageFragment();
@@ -65,6 +82,19 @@ public class HomePageActivity extends ActionBarActivity{
             }
         });
 
+        mImageView = (SmartImageView) findViewById(R.id.imageView);
+        mUserName = (TextView) findViewById(R.id.user_name);
+        mDisplayName = (TextView) findViewById(R.id.display_name);
+        mRadioGroup = (RadioGroup) findViewById(R.id.tab);
+
+        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                FragmentTransaction transaction = fm.beginTransaction();
+                
+
+            }
+        });
     }
 
     private void filterAction() {
@@ -165,7 +195,11 @@ public class HomePageActivity extends ActionBarActivity{
             try {
                 balance = jsonObject.getString("balance");
                 currentUser = new User(jsonObject.getJSONObject("user"));
-                Log.d(HttpService.TAG, currentUser.toString());
+                mImageView.setImageUrl(currentUser.getProfileUrl());
+                Log.d(HttpService.TAG, currentUser.getProfileUrl());
+
+                mDisplayName.setText(currentUser.getDisplayName());
+                mUserName.setText("@" + currentUser.getUserName());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

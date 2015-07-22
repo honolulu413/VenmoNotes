@@ -30,7 +30,7 @@ public class User {
         return display_name;
     }
 
-    public String getProfileUrl() { return display_name; }
+    public String getProfileUrl() { return profile_url; }
 
     @Override
     public String toString() {

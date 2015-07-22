@@ -10,11 +10,11 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp">
 
-        <ImageView
+        <com.loopj.android.image.SmartImageView
             android:id="@+id/imageView"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:scaleType="centerInside"
+            android:scaleType="fitXY"
             android:background="@android:color/darker_gray"
             android:cropToPadding="true"/>
 
@@ -41,11 +41,28 @@
 
 
     </LinearLayout>
-    <Button
-        android:id="@+id/filterButton"
-        android:layout_width="wrap_content"
+
+    <RadioGroup
+        android:id="@+id/tab"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Filter the results" />
+        >
+
+        <RadioButton
+            style="@style/tab_button"
+            android:text="Fileter" />
+
+        <RadioButton
+            style="@style/tab_button"
+            android:text="Transactions" />
+
+        <RadioButton
+            style="@style/tab_button"
+            android:text="Statistics" />
+
+    </RadioGroup>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/fragmentContainer"
