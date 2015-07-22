@@ -52,7 +52,7 @@
 
         <RadioButton
             style="@style/tab_button"
-            android:text="Fileter" />
+            android:text="Filter" />
 
         <RadioButton
             style="@style/tab_button"
