@@ -12,7 +12,7 @@ public class User {
     private String profile_url;
 
     public User(JSONObject jsonObject) throws JSONException {
-        userName = jsonObject.getString("userName");
+        userName = jsonObject.getString("username");
         display_name = jsonObject.getString("display_name");
         profile_url = jsonObject.getString("profile_picture_url");
     }

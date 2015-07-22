@@ -55,7 +55,6 @@ public class HomePageActivity extends ActionBarActivity{
                     .commit();
         }
 
-        new FetchTransactions().execute(token);
         new ProfileFetcher().execute(token);
 
         buttonFilter = (Button) findViewById(R.id.filterButton);
@@ -152,6 +151,7 @@ public class HomePageActivity extends ActionBarActivity{
         protected JSONObject doInBackground(String... params) {
             String token = params[0];
             String content = new HttpService().getUrl(url + token);
+            //Log.d(HttpService.TAG, content);
             try {
                 return new JSONObject(content).getJSONObject("data");
             } catch (JSONException e) {
@@ -165,9 +165,11 @@ public class HomePageActivity extends ActionBarActivity{
             try {
                 balance = jsonObject.getString("balance");
                 currentUser = new User(jsonObject.getJSONObject("user"));
+                Log.d(HttpService.TAG, currentUser.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            new FetchTransactions().execute(token);
         }
     }
 }
