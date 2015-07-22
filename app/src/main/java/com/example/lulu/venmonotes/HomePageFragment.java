@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class HomePageFragment extends ListFragment {
 //    public ArrayList<String> transactions = new ArrayList<String>();
-    public ArrayList<Transaction> mTransactions = new ArrayList<Transaction>();
+    private ArrayList<Transaction> mTransactions = new ArrayList<Transaction>();
 
 //    private Callbacks mCallbacks;
 
