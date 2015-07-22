@@ -78,7 +78,6 @@ public class HomePageActivity extends ActionBarActivity {
         month = c.get(Calendar.MONTH);
         day   = c.get(Calendar.DAY_OF_MONTH);
 
-        fragment = (HomePageFragment) fm.findFragmentById(R.id.fragmentContainer);
         fm = getSupportFragmentManager();
         fragment = (HomePageFragment)fm.findFragmentById(R.id.fragmentContainer);
         if (fragment == null) {
@@ -92,14 +91,14 @@ public class HomePageActivity extends ActionBarActivity {
 
 //        new FetchTransactions().execute(token);
 
-        buttonFilter = (Button) findViewById(R.id.filterButton);
-        buttonFilter.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //DO SOMETHING! {RUN SOME FUNCTION ... DO CHECKS... ETC}
-                filterAction();
-
-            }
-        });
+//        buttonFilter = (Button) findViewById(R.id.filterButton);
+//        buttonFilter.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                //DO SOMETHING! {RUN SOME FUNCTION ... DO CHECKS... ETC}
+//                filterAction();
+//
+//            }
+//        });
 
         mImageView = (SmartImageView) findViewById(R.id.imageView);
         mUserName = (TextView) findViewById(R.id.user_name);
@@ -110,8 +109,21 @@ public class HomePageActivity extends ActionBarActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 FragmentTransaction transaction = fm.beginTransaction();
-                
+                Log.d(TAG, "lalallalalla IS " + checkedId);
 
+                if (checkedId == 1) {
+                    Log.d(TAG, "sdf IS " + checkedId);
+
+                }
+//                    filterAction();
+
+//                switch (checkedId) {
+//                    case 1:
+//                        filterAction();
+//                        break;
+//
+//
+//                }
             }
         });
     }
