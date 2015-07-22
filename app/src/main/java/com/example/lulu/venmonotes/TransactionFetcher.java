@@ -55,5 +55,4 @@ public class TransactionFetcher {
         Log.d(HttpService.TAG, "" + transactions);
         return transactions;
     }
-
 }

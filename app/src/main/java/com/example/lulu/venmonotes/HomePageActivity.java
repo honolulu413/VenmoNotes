@@ -1,5 +1,7 @@
 package com.example.lulu.venmonotes;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -22,25 +24,31 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.DatePicker;
 
 
 import com.loopj.android.image.SmartImageView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by lulu on 7/9/2015.
  */
-public class HomePageActivity extends ActionBarActivity{
+public class HomePageActivity extends ActionBarActivity {
     enum Category {ALL, INCOME, EXPENSE}
     Category mCategory = Category.ALL;
     public static final String ACCESS_TOKEN = "com.example.lulu.HomePageActivity.accessToken";
-    private static final String TAG = "HOME";
+    private static final String TAG = "DATE";
     private ArrayList<Transaction> mTransactions;
     private String mAction = null;
     private String mDate = null;
     private Button buttonFilter;
-    public static final CharSequence[] options = {"pay", "charge"};
+    private static final CharSequence[] options = {"All", "Income", "Expense", "Date"};
+    private final boolean[] selected = new boolean[]{false, false, false, false};
+    private static final int DATE_PICKER_ID = 111;
+    private int year, month, day;
+
     public HomePageFragment fragment;
     public String token;
     private User currentUser;
@@ -63,6 +71,14 @@ public class HomePageActivity extends ActionBarActivity{
         token = getIntent().getStringExtra(ACCESS_TOKEN);
         Log.d(TAG, token);
 
+        // Get current date by calender
+
+        final Calendar c = Calendar.getInstance();
+        year  = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH);
+        day   = c.get(Calendar.DAY_OF_MONTH);
+
+        fragment = (HomePageFragment) fm.findFragmentById(R.id.fragmentContainer);
         fm = getSupportFragmentManager();
         fragment = (HomePageFragment)fm.findFragmentById(R.id.fragmentContainer);
         if (fragment == null) {
@@ -74,11 +90,14 @@ public class HomePageActivity extends ActionBarActivity{
 
         new ProfileFetcher().execute(token);
 
+//        new FetchTransactions().execute(token);
+
         buttonFilter = (Button) findViewById(R.id.filterButton);
         buttonFilter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //DO SOMETHING! {RUN SOME FUNCTION ... DO CHECKS... ETC}
-                //filterAction();
+                filterAction();
+
             }
         });
 
@@ -100,24 +119,41 @@ public class HomePageActivity extends ActionBarActivity{
     private void filterAction() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Filter");
-        builder.setItems(options, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
+
+        builder.setMultiChoiceItems(options, selected, new DialogInterface.OnMultiChoiceClickListener() {
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 // The 'which' argument contains the index position
                 // of the selected item
-                switch (which) {
-                    case 0:
-                          mAction = "pay";
-                         break;
-                    case 1:
-                        mAction = "charge";
-                        break;
+                if (isChecked) {
 
+                    switch (which) {
+                        case 0:
+                            mCategory = Category.ALL;
+                            break;
+                        case 1:
+                            mCategory = Category.INCOME;
+                            break;
+                        case 2:
+                            mCategory = Category.EXPENSE;
+                            break;
+                        case 3:
+                            showDialog(DATE_PICKER_ID);
+                            break;
+
+                    }
                 }
+            }
+        });
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
                 new FetchTransactions().execute(token);
-//                fragment.updateUI();
 
             }
         });
+
         builder.create().show();
     }
 
@@ -143,22 +179,28 @@ public class HomePageActivity extends ActionBarActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    private class FetchTransactions extends AsyncTask<String,Void,ArrayList<Transaction>>{
+    private class FetchTransactions extends AsyncTask<String, Void, ArrayList<Transaction>> {
         @Override
-        protected ArrayList<Transaction> doInBackground(String... params){
+        protected ArrayList<Transaction> doInBackground(String... params) {
             String token = params[0];
+            if (!selected[3])
+                mDate = null;
             return new TransactionFetcher(token, currentUser.getUserName()).getTransactions(mDate);
         }
 
         @Override
         protected void onPostExecute(ArrayList<Transaction> result) {
             mTransactions = result;
-            fragment.updateUI(result);
+//            fragment.mTransactions = result;
+            updateUI();
+
+
         }
 
     }
 
     private void updateUI() {
+        Log.d(TAG, "CATEGORY IS " + mCategory);
         if (mCategory == Category.ALL) {
             fragment.updateUI(mTransactions);
             return;
@@ -171,9 +213,38 @@ public class HomePageActivity extends ActionBarActivity{
                 tmp.add(t);
             }
         }
-
         fragment.updateUI(tmp);
     }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DATE_PICKER_ID:
+
+                // open datepicker dialog.
+                // set date picker for current date
+                // add pickerListener listner to date picker
+                return new DatePickerDialog(this, pickerListener, year, month,day);
+        }
+        return null;
+    }
+
+    private DatePickerDialog.OnDateSetListener pickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        @Override
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+
+            year  = selectedYear;
+            month = selectedMonth + 1;
+            day   = selectedDay;
+            mDate = "" + year + "-" + month + "-" + day;
+            Log.d(TAG, "MONTH IS " + month + "");
+
+
+        }
+    };
 
     private class ProfileFetcher extends AsyncTask<String, Void, JSONObject>{
         private final String url = "https://api.venmo.com/v1/me?access_token=";
@@ -207,5 +278,3 @@ public class HomePageActivity extends ActionBarActivity{
         }
     }
 }
-
-

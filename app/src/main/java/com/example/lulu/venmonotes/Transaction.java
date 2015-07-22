@@ -20,7 +20,7 @@ public class Transaction {
         this.amount = amount;
         this.action = action;
         if (actor.getUserName().equals(currentUser) && action.equals("charge") ||
-               targetUser.getUserName().equals(currentUser) && action.equals("pay"))
+                targetUser.getUserName().equals(currentUser) && action.equals("pay"))
             isPositive = true;
 
     }
