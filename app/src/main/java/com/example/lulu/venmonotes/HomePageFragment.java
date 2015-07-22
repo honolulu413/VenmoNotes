@@ -48,7 +48,9 @@ public class HomePageFragment extends ListFragment {
 //        mCallbacks = null;
 //    }
 
-    public void updateUI() {
+    public void updateUI(ArrayList<Transaction> list) {
+        mTransactions.clear();
+        mTransactions = list;
 //        ( (ArrayAdapter<Transaction>)getListAdapter()).notifyDataSetChanged();
         ArrayAdapter<Transaction> adapter =
                 new ArrayAdapter<Transaction>(getActivity(),
@@ -74,13 +76,6 @@ public class HomePageFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-//        getActivity().setTitle(R.string.crimes_title);
-//        mCrimes = CrimeLab.get(getActivity()).getCrimes();
-        // get transactions
-//        transactions.add("hehe");
-//        transactions.add("sss");
-//        transactions.add("aaaa");
-//        mTransactions.add(new Transaction("1", new User("2", "d"), new User("2", "d"), "ss", 1.0, "3"));
 
         ArrayAdapter<Transaction> adapter =
                 new ArrayAdapter<Transaction>(getActivity(),
