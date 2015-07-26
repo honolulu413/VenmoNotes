@@ -28,14 +28,16 @@ public class StatisticsFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
         mTransactions = (ArrayList<Transaction>)getArguments().getSerializable(ARRAYLIST);
-        //Log.d(TAG, "" + mTransactions);
-        
+        Log.d(TAG, "" + mTransactions);
+
         View v = inflater.inflate(R.layout.fragment_statistics, parent, false);
         GraphView graph = (GraphView) v.findViewById(R.id.recent_transaction);
         graph.addSeries(getDataPoints(mTransactions));
+        Log.d(TAG, "" + "123");
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
         graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
         graph.getViewport().setXAxisBoundsManual(true);
+        Log.d(TAG, "" + "456");
         return v;
     }
 
