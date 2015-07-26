@@ -42,7 +42,7 @@ public class StatisticsFragment extends Fragment{
         fragment.setArguments(args);
         return fragment;
     }
-
+    
     LineGraphSeries<DataPoint> getDataPoints(ArrayList<Transaction> transactions) {
         DataPoint[] points = new DataPoint[transactions.size()];
         for (int i = 0; i < points.length; i++) {
