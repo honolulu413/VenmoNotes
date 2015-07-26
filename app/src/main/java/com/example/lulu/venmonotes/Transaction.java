@@ -43,7 +43,7 @@ public class Transaction {
     }
 
     public Date getDate() {
-        String[] times = date.split("-");
+        String[] times = date.substring(0, date.indexOf("T")).split("-");
         int year = Integer.parseInt(times[0]);
         int month = Integer.parseInt(times[1]);
         int day = Integer.parseInt(times[2]);
