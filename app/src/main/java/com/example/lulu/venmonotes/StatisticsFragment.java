@@ -6,6 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -20,7 +25,13 @@ public class StatisticsFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
+        mTransactions = (ArrayList<Transaction>)getArguments().getSerializable(ARRAYLIST);
         View v = inflater.inflate(R.layout.fragment_statistics, parent, false);
+        GraphView graph = (GraphView) v.findViewById(R.id.recent_transaction);
+        graph.addSeries(getDataPoints(mTransactions));
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
+        graph.getViewport().setXAxisBoundsManual(true);
         return v;
     }
 
@@ -30,5 +41,15 @@ public class StatisticsFragment extends Fragment{
         StatisticsFragment fragment = new StatisticsFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+    
+    LineGraphSeries<DataPoint> getDataPoints(ArrayList<Transaction> transactions) {
+        DataPoint[] points = new DataPoint[transactions.size()];
+        for (int i = 0; i < points.length; i++) {
+            Transaction transaction = transactions.get(i);
+            points[i] = new DataPoint(transaction.getDate(), transaction.getRealAmount());
+        }
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(points);
+        return series;
     }
 }

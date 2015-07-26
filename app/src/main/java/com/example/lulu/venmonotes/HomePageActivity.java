@@ -79,9 +79,8 @@ public class HomePageActivity extends ActionBarActivity {
         day   = c.get(Calendar.DAY_OF_MONTH);
 
         fm = getSupportFragmentManager();
-        fragment = (HomePageFragment) fm.findFragmentById(R.id.fragmentContainer);
-
-         if (fragment == null) {
+        fragment = (HomePageFragment)fm.findFragmentById(R.id.fragmentContainer);
+        if (fragment == null) {
             fragment = new HomePageFragment();
             fm.beginTransaction()
                     .add(R.id.fragmentContainer, fragment)
@@ -101,16 +100,6 @@ public class HomePageActivity extends ActionBarActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 FragmentTransaction transaction = fm.beginTransaction();
-                switch (checkedId) {
-                    case R.id.filter:
-                        filterAction();
-                        break;
-                    case R.id.transactions:
-                        mCategory = Category.ALL;
-                        updateUI();
-                        break;
-                }
-
 
                 if (checkedId == 3) {
                     if (mStaFragment == null) mStaFragment = StatisticsFragment.newInstance(mTransactions);

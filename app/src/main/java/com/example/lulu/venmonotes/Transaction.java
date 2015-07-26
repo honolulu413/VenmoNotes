@@ -1,5 +1,9 @@
 package com.example.lulu.venmonotes;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 /**
  * Created by lulu on 7/16/2015.
  */
@@ -38,4 +42,26 @@ public class Transaction {
         return isPositive;
     }
 
+    public Date getDate() {
+        String[] times = date.split("-");
+        int year = Integer.parseInt(times[0]);
+        int month = Integer.parseInt(times[1]);
+        int day = Integer.parseInt(times[2]);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, day);
+        return calendar.getTime();
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public double getRealAmount() {
+        int a = isPositive? 1 : -1;
+        return a * amount;
+    }
 }
