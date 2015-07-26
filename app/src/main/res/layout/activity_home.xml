@@ -52,14 +52,17 @@
         android:orientation="horizontal">
 
         <RadioButton
+            android:id="@+id/filter"
             style="@style/tab_button"
             android:text="Filter" />
 
         <RadioButton
+            android:id="@+id/transactions"
             style="@style/tab_button"
             android:text="Transactions" />
 
         <RadioButton
+            android:id="@+id/statistics"
             style="@style/tab_button"
             android:text="Statistics" />
 
