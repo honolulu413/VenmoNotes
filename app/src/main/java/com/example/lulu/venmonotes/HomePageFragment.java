@@ -49,7 +49,7 @@ public class HomePageFragment extends ListFragment {
 //    }
 
     public void updateUI(ArrayList<Transaction> list) {
-        mTransactions.clear();
+//        mTransactions.clear();
         mTransactions = list;
 //        ( (ArrayAdapter<Transaction>)getListAdapter()).notifyDataSetChanged();
         ArrayAdapter<Transaction> adapter =
