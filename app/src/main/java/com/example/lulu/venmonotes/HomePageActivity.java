@@ -101,7 +101,7 @@ public class HomePageActivity extends ActionBarActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 FragmentTransaction transaction = fm.beginTransaction();
 
-                if (checkedId == R.id.statistics) {
+                if (checkedId == 3) {
                     if (mStaFragment == null) mStaFragment = StatisticsFragment.newInstance(mTransactions);
                     transaction.replace(R.id.fragmentContainer, mStaFragment).commit();
                 }
@@ -249,7 +249,7 @@ public class HomePageActivity extends ActionBarActivity {
             //Log.d(HttpService.TAG, content);
             try {
                 return new JSONObject(content).getJSONObject("data");
-            } catch (Exception e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
             return null;
@@ -257,17 +257,6 @@ public class HomePageActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
-            if (jsonObject == null) {
-                PreferenceManager.getDefaultSharedPreferences(HomePageActivity.this)
-                        .edit()
-                        .putString(HomePageActivity.ACCESS_TOKEN, null)
-                        .commit();
-                Intent i = new Intent(HomePageActivity.this, MainActivity.class);
-                startActivity(i);
-                finish();
-                return;
-            }
-
             try {
                 balance = jsonObject.getString("balance");
                 currentUser = new User(jsonObject.getJSONObject("user"));
