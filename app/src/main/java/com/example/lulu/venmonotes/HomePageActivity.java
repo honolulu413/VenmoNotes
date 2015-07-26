@@ -249,7 +249,7 @@ public class HomePageActivity extends ActionBarActivity {
             //Log.d(HttpService.TAG, content);
             try {
                 return new JSONObject(content).getJSONObject("data");
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
