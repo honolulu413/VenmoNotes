@@ -46,7 +46,7 @@ public class TransactionFetcher {
                 String tAction = tmpObject.getString("action");
 
                 Transaction t = new Transaction(date, target, actor, note, amount, tAction, currentUser);
-                transactions.add(t);
+                 transactions.add(t);
             }
         } catch (JSONException e) {
             e.printStackTrace();
