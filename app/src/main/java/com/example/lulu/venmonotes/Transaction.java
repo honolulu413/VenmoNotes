@@ -1,5 +1,7 @@
 package com.example.lulu.venmonotes;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -8,7 +10,7 @@ import java.util.GregorianCalendar;
  * Created by lulu on 7/16/2015.
  */
 public class Transaction {
-    private String date;
+    private Date date;
     private User targetUser;
     private User actor;
     private String note;
@@ -17,7 +19,14 @@ public class Transaction {
     private boolean isPositive = false;
 
     public Transaction(String date, User targetUser, User actor, String note, double amount, String action, String currentUser) {
-        this.date = date;
+        String[] times = date.substring(0, date.indexOf("T")).split("-");
+        int year = Integer.parseInt(times[0]);
+        int month = Integer.parseInt(times[1]);
+        int day = Integer.parseInt(times[2]);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, day);
+        this.date = calendar.getTime();
+
         this.targetUser = targetUser;
         this.actor = actor;
         this.note = note;
@@ -43,13 +52,12 @@ public class Transaction {
     }
 
     public Date getDate() {
-        String[] times = date.substring(0, date.indexOf("T")).split("-");
-        int year = Integer.parseInt(times[0]);
-        int month = Integer.parseInt(times[1]);
-        int day = Integer.parseInt(times[2]);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month - 1, day);
-        return calendar.getTime();
+        return date;
+    }
+
+    public String getDateString() {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        return df.format(date);
     }
 
     public double getAmount() {
