@@ -110,12 +110,6 @@ public class HomePageActivity extends ActionBarActivity {
                         updateUI();
                         break;
                 }
-                if (checkedId == R.id.statistics) {
-                    if (mStaFragment == null)
-                        mStaFragment = StatisticsFragment.newInstance(mTransactions);
-                    transaction.replace(R.id.fragmentContainer, mStaFragment).commit();
-                }
-
             }
         });
     }

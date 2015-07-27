@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * Created by Joseph on 2015/7/16.
  */
 public class HomePageFragment extends ListFragment {
-//    public ArrayList<String> transactions = new ArrayList<String>();
+    //    public ArrayList<String> transactions = new ArrayList<String>();
     private ArrayList<Transaction> mTransactions = new ArrayList<Transaction>();
 
 //    private Callbacks mCallbacks;
@@ -47,14 +47,18 @@ public class HomePageFragment extends ListFragment {
 //        super.onDetach();
 //        mCallbacks = null;
 //    }
-
     public void updateUI(ArrayList<Transaction> list) {
 //        mTransactions.clear();
         mTransactions = list;
 //        ( (ArrayAdapter<Transaction>)getListAdapter()).notifyDataSetChanged();
+//        ArrayAdapter<Transaction> adapter =
+//                new ArrayAdapter<Transaction>(getActivity(),
+//                        android.R.layout.simple_list_item_1,
+//                        mTransactions);
+
         ArrayAdapter<Transaction> adapter =
-                new ArrayAdapter<Transaction>(getActivity(),
-                        android.R.layout.simple_list_item_1,
+                new TransactionAdapter(getActivity(),
+                        -1,
                         mTransactions);
         setListAdapter(adapter);
 
@@ -66,7 +70,6 @@ public class HomePageFragment extends ListFragment {
         View v = super.onCreateView(inflater, parent, savedInstanceState);
 
         ListView listView = (ListView) v.findViewById(android.R.id.list);
-
 
 
         return v;

@@ -23,6 +23,7 @@ public class Transaction {
         this.note = note;
         this.amount = amount;
         this.action = action;
+        this.note = note;
         if (actor.getUserName().equals(currentUser) && action.equals("charge") ||
                 targetUser.getUserName().equals(currentUser) && action.equals("pay"))
             isPositive = true;
@@ -31,10 +32,20 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return actor + " " +  action + " " +  targetUser + " " + amount + "$";
+        String newDate = date.replaceAll("T.+", "");
+        return actor + " " + action + " " + targetUser + " " + amount + "$" + "\n" + note + "\t\t\t@" + newDate;
     }
 
-    public String getNode() {
+    public String getDetail() {
+        String tmp = isPositive ? "+" : "-";
+        return actor + " " + action + " " + targetUser + " " + tmp + amount + "$";
+    }
+
+    public String getShortDate() {
+        return date.replaceAll("T.+", "");
+    }
+
+    public String getNote() {
         return note;
     }
 
@@ -61,7 +72,11 @@ public class Transaction {
     }
 
     public double getRealAmount() {
-        int a = isPositive? 1 : -1;
+        int a = isPositive ? 1 : -1;
         return a * amount;
+    }
+
+    public User getActor() {
+        return actor;
     }
 }
