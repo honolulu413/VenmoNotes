@@ -37,6 +37,7 @@ import java.util.Calendar;
  */
 public class HomePageActivity extends ActionBarActivity {
     enum Category {ALL, INCOME, EXPENSE}
+
     Category mCategory = Category.ALL;
     public static final String ACCESS_TOKEN = "com.example.lulu.HomePageActivity.accessToken";
     private static final String TAG = "DATE";
@@ -74,12 +75,12 @@ public class HomePageActivity extends ActionBarActivity {
         // Get current date by calender
 
         final Calendar c = Calendar.getInstance();
-        year  = c.get(Calendar.YEAR);
+        year = c.get(Calendar.YEAR);
         month = c.get(Calendar.MONTH);
-        day   = c.get(Calendar.DAY_OF_MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);
 
         fm = getSupportFragmentManager();
-        fragment = (HomePageFragment)fm.findFragmentById(R.id.fragmentContainer);
+        fragment = (HomePageFragment) fm.findFragmentById(R.id.fragmentContainer);
         if (fragment == null) {
             fragment = new HomePageFragment();
             fm.beginTransaction()
@@ -100,9 +101,18 @@ public class HomePageActivity extends ActionBarActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 FragmentTransaction transaction = fm.beginTransaction();
-
+                switch (checkedId) {
+                    case R.id.filter:
+                        filterAction();
+                        break;
+                    case R.id.transactions:
+                        mCategory = Category.ALL;
+                        updateUI();
+                        break;
+                }
                 if (checkedId == R.id.statistics) {
-                    if (mStaFragment == null) mStaFragment = StatisticsFragment.newInstance(mTransactions);
+                    if (mStaFragment == null)
+                        mStaFragment = StatisticsFragment.newInstance(mTransactions);
                     transaction.replace(R.id.fragmentContainer, mStaFragment).commit();
                 }
 
@@ -202,7 +212,7 @@ public class HomePageActivity extends ActionBarActivity {
 
         ArrayList<Transaction> tmp = new ArrayList<Transaction>();
         boolean getPositive = mCategory == Category.INCOME;
-        for (Transaction t: mTransactions) {
+        for (Transaction t : mTransactions) {
             if (t.isPositive() == getPositive) {
                 tmp.add(t);
             }
@@ -218,7 +228,7 @@ public class HomePageActivity extends ActionBarActivity {
                 // open datepicker dialog.
                 // set date picker for current date
                 // add pickerListener listner to date picker
-                return new DatePickerDialog(this, pickerListener, year, month,day);
+                return new DatePickerDialog(this, pickerListener, year, month, day);
         }
         return null;
     }
@@ -230,9 +240,9 @@ public class HomePageActivity extends ActionBarActivity {
         public void onDateSet(DatePicker view, int selectedYear,
                               int selectedMonth, int selectedDay) {
 
-            year  = selectedYear;
+            year = selectedYear;
             month = selectedMonth + 1;
-            day   = selectedDay;
+            day = selectedDay;
             mDate = "" + year + "-" + month + "-" + day;
             Log.d(TAG, "MONTH IS " + month + "");
 
@@ -240,8 +250,9 @@ public class HomePageActivity extends ActionBarActivity {
         }
     };
 
-    private class ProfileFetcher extends AsyncTask<String, Void, JSONObject>{
+    private class ProfileFetcher extends AsyncTask<String, Void, JSONObject> {
         private final String url = "https://api.venmo.com/v1/me?access_token=";
+
         @Override
         protected JSONObject doInBackground(String... params) {
             String token = params[0];
