@@ -85,8 +85,11 @@ public class StatisticsFragment extends Fragment{
         mGraph.getViewport().setYAxisBoundsManual(true);
         mGraph.getViewport().setMinY(-30);
         mGraph.getViewport().setMaxY(80);
+
+        mGraph.getViewport().setXAxisBoundsManual(true);
+        mGraph.getViewport().setMinX(-30);
+        mGraph.getViewport().setMaxX(80);
         mGraph.getViewport().setScalable(true);
-        mGraph.getViewport().setScrollable(true);
         return v;
     }
 
