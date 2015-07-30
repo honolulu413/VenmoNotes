@@ -28,8 +28,8 @@ public class WebLoginActivity extends ActionBarActivity {
 
     private static final String ACCESS_TOKEN = "access_token";
     private static final String TAG = "WEBVIEW";
-    private static final String CLIENT_CODE = "2798";
-    private static final String CLIENT_SECRET = "KyH4ZrwcDJ2CtdwF65BDpgU8QTDhWS7Y";
+    private static final String CLIENT_CODE = "2810";
+    private static final String CLIENT_SECRET = "nG47dVUWJHh5SVLK2bybdn66QNf4xyT5";
     private static final String LOG_URL = "https://api.venmo.com/v1/oauth/authorize?client_id=" + CLIENT_CODE +
             "&scope=make_payments%20access_payment_history%20access_feed%20access_profile%20access_email%20access_phone" +
             "%20access_balance%20access_friends&response_type=code";
