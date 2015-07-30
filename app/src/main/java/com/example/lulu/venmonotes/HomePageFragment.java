@@ -25,7 +25,11 @@ import java.util.ArrayList;
  */
 public class HomePageFragment extends ListFragment {
     //    public ArrayList<String> transactions = new ArrayList<String>();
+    private static final String TAG = "ACTIVITY";
+
     private ArrayList<Transaction> mTransactions = new ArrayList<Transaction>();
+
+    private HomePageActivity myActivity;
 
 //    private Callbacks mCallbacks;
 
@@ -36,11 +40,11 @@ public class HomePageFragment extends ListFragment {
 //        void onCrimeSelected(String tx);
 //    }
 //
-//    @Override
-//    public void onAttach(Activity activity) {
-//        super.onAttach(activity);
-//        mCallbacks = (Callbacks) activity;
-//    }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        myActivity = (HomePageActivity) activity;
+    }
 //
 //    @Override
 //    public void onDetach() {
@@ -56,8 +60,9 @@ public class HomePageFragment extends ListFragment {
 //                        android.R.layout.simple_list_item_1,
 //                        mTransactions);
 
+        Log.d(TAG, "Activity is " + myActivity);
         ArrayAdapter<Transaction> adapter =
-                new TransactionAdapter(getActivity(),
+                new TransactionAdapter(myActivity,
                         -1,
                         mTransactions);
         setListAdapter(adapter);
@@ -81,8 +86,8 @@ public class HomePageFragment extends ListFragment {
         setHasOptionsMenu(true);
 
         ArrayAdapter<Transaction> adapter =
-                new ArrayAdapter<Transaction>(getActivity(),
-                        android.R.layout.simple_list_item_1,
+                new TransactionAdapter(getActivity(),
+                        -1,
                         mTransactions);
         setListAdapter(adapter);
     }

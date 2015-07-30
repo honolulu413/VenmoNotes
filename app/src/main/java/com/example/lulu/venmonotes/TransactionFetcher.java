@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by lulu on 7/11/2015.
@@ -23,6 +24,7 @@ public class TransactionFetcher {
     }
 
     public ArrayList<Transaction> getTransactions(String dateAfter) {
+        HashMap<String, User> users = new HashMap<String, User>();
         Uri.Builder builder = Uri.parse(ENDPOINT).buildUpon();
         builder.appendQueryParameter("access_token", token).appendQueryParameter("status", status);
         if (dateAfter != null) builder.appendQueryParameter("after", dateAfter);
@@ -39,8 +41,23 @@ public class TransactionFetcher {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject tmpObject = jsonArray.getJSONObject(i);
                 String date = tmpObject.getString("date_completed");
-                User target = new User(tmpObject.getJSONObject("target").getJSONObject("user"));
-                User actor = new User(tmpObject.getJSONObject("actor"));
+//                User target = new User(tmpObject.getJSONObject("target").getJSONObject("user"));
+//                User actor = new User(tmpObject.getJSONObject("actor"));
+
+                String targetName = tmpObject.getJSONObject("target").getJSONObject("user").getString("username");
+                if (!users.containsKey(targetName)) {
+                    users.put(targetName, new User(tmpObject.getJSONObject("target").getJSONObject("user")));
+                }
+                User target = users.get(targetName);
+
+                String actorName = tmpObject.getJSONObject("actor").getString("username");
+                if (!users.containsKey(actorName)) {
+                    users.put(actorName, new User(tmpObject.getJSONObject("actor")));
+                }
+                User actor = users.get(actorName);
+
+
+
                 String note = tmpObject.getString("note");
                 double amount = tmpObject.getDouble("amount");
                 String tAction = tmpObject.getString("action");

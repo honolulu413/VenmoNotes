@@ -31,6 +31,7 @@ import com.loopj.android.image.SmartImageView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  * Created by lulu on 7/9/2015.
@@ -65,13 +66,16 @@ public class HomePageActivity extends ActionBarActivity {
 
     private FragmentManager fm;
 
+    private HashMap<User, ArrayList<Transaction>> mFriendTransactions;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         token = getIntent().getStringExtra(ACCESS_TOKEN);
         Log.d(TAG, token);
-
+        mFriendTransactions = new HashMap<User, ArrayList<Transaction>>();
         // Get current date by calender
 
         final Calendar c = Calendar.getInstance();
@@ -198,6 +202,7 @@ public class HomePageActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(ArrayList<Transaction> result) {
             mTransactions = result;
+            updateTransaction();
 //            mHomeFragment.mTransactions = result;
             updateUI();
 
@@ -205,6 +210,25 @@ public class HomePageActivity extends ActionBarActivity {
         }
 
     }
+
+    private void updateTransaction() {
+        mFriendTransactions = new HashMap<User, ArrayList<Transaction>>();
+        for (Transaction tx : mTransactions) {
+            User friend;
+            if (currentUser.getUserName().equals(tx.getActor().getUserName())) {
+                friend = tx.getTargetUser();
+            } else {
+                friend = tx.getActor();
+            }
+            if (mFriendTransactions.get(friend) == null) {
+                mFriendTransactions.put(friend, new ArrayList<Transaction>());
+            }
+            mFriendTransactions.get(friend).add(tx);
+        }
+        Log.d(TAG, "Friends\n" + mFriendTransactions);
+
+    }
+
 
     private void updateUI() {
         Log.d(TAG, "CATEGORY IS " + mCategory);

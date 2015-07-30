@@ -87,4 +87,6 @@ public class Transaction {
     public User getActor() {
         return actor;
     }
+
+    public User getTargetUser() { return targetUser;}
 }
