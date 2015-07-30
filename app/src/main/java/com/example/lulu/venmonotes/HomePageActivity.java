@@ -50,7 +50,7 @@ public class HomePageActivity extends ActionBarActivity {
     private static final int DATE_PICKER_ID = 111;
     private int year, month, day;
 
-    public HomePageFragment fragment;
+    public HomePageFragment mHomeFragment;
     public String token;
     private User currentUser;
     private String balance;
@@ -80,11 +80,11 @@ public class HomePageActivity extends ActionBarActivity {
         day = c.get(Calendar.DAY_OF_MONTH);
 
         fm = getSupportFragmentManager();
-        fragment = (HomePageFragment) fm.findFragmentById(R.id.fragmentContainer);
-        if (fragment == null) {
-            fragment = new HomePageFragment();
+        mHomeFragment = (HomePageFragment) fm.findFragmentById(R.id.fragmentContainer);
+        if (mHomeFragment == null) {
+            mHomeFragment = new HomePageFragment();
             fm.beginTransaction()
-                    .add(R.id.fragmentContainer, fragment)
+                    .add(R.id.fragmentContainer, mHomeFragment)
                     .commit();
         }
 
@@ -103,11 +103,20 @@ public class HomePageActivity extends ActionBarActivity {
                 FragmentTransaction transaction = fm.beginTransaction();
                 switch (checkedId) {
                     case R.id.filter:
+                        transaction.replace(R.id.fragmentContainer, mHomeFragment).commit();
                         filterAction();
                         break;
                     case R.id.transactions:
+                        transaction.replace(R.id.fragmentContainer, mHomeFragment).commit();
                         mCategory = Category.ALL;
+
                         updateUI();
+                        break;
+                    case R.id.statistics:
+                        if (mStaFragment == null)
+                            mStaFragment = StatisticsFragment.newInstance(mTransactions);
+                        transaction.replace(R.id.fragmentContainer, mStaFragment).commit();
+//                        updateUI();
                         break;
                 }
             }
@@ -189,7 +198,7 @@ public class HomePageActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(ArrayList<Transaction> result) {
             mTransactions = result;
-//            fragment.mTransactions = result;
+//            mHomeFragment.mTransactions = result;
             updateUI();
 
 
@@ -200,7 +209,9 @@ public class HomePageActivity extends ActionBarActivity {
     private void updateUI() {
         Log.d(TAG, "CATEGORY IS " + mCategory);
         if (mCategory == Category.ALL) {
-            fragment.updateUI(mTransactions);
+            Log.d(TAG, "mTransactions is " + mTransactions);
+
+            mHomeFragment.updateUI(mTransactions);
             return;
         }
 
@@ -211,7 +222,7 @@ public class HomePageActivity extends ActionBarActivity {
                 tmp.add(t);
             }
         }
-        fragment.updateUI(tmp);
+        mHomeFragment.updateUI(tmp);
     }
 
     @Override
