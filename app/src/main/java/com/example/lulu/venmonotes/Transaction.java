@@ -39,11 +39,11 @@ public class Transaction {
 
     }
 
-    @Override
-    public String toString() {
-        String newDate = date.replaceAll("T.+", "");
-        return actor + " " + action + " " + targetUser + " " + amount + "$" + "\n" + note + "\t\t\t@" + newDate;
-    }
+//    @Override
+//    public String toString() {
+//        String newDate = date.replaceAll("T.+", "");
+//        return actor + " " + action + " " + targetUser + " " + amount + "$" + "\n" + note + "\t\t\t@" + newDate;
+//    }
 
     public String getDetail() {
         String tmp = isPositive ? "+" : "-";
@@ -51,7 +51,7 @@ public class Transaction {
     }
 
     public String getShortDate() {
-        return date.replaceAll("T.+", "");
+        return getDateString().replaceAll("T.+", "");
     }
 
     public String getNote() {
