@@ -33,6 +33,18 @@ public class User {
     public String getProfileUrl() { return profile_url; }
 
     @Override
+    public int hashCode() {
+        return userName.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) return true;
+        if (!(that instanceof User)) return false;
+        return this.userName.equals(((User)that).userName);
+    }
+
+    @Override
     public String toString() {
         return display_name;
     }

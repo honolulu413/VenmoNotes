@@ -39,11 +39,10 @@ public class Transaction {
 
     }
 
-//    @Override
-//    public String toString() {
-//        String newDate = date.replaceAll("T.+", "");
-//        return actor + " " + action + " " + targetUser + " " + amount + "$" + "\n" + note + "\t\t\t@" + newDate;
-//    }
+    @Override
+    public String toString() {
+        return actor + " " + action + " " + targetUser + " " + amount + "$ on " + getDateString() ;
+    }
 
     public String getDetail() {
         String tmp = isPositive ? "+" : "-";

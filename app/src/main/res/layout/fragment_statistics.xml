@@ -17,4 +17,18 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
 
+    <TextView
+        android:layout_marginLeft="7dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+
+        />
+
+    <com.jjoe64.graphview.GraphView
+        android:layout_margin="7dp"
+        android:id="@+id/top_friend"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+
 </LinearLayout>
