@@ -13,6 +13,7 @@ public class Transaction {
     private Date date;
     private User targetUser;
     private User actor;
+    private User friend;
     private String note;
     private double amount;
     private String action;
@@ -36,7 +37,8 @@ public class Transaction {
         if (actor.getUserName().equals(currentUser) && action.equals("charge") ||
                 targetUser.getUserName().equals(currentUser) && action.equals("pay"))
             isPositive = true;
-
+        if (actor.getUserName().equals(currentUser)) friend = actor;
+        else friend = targetUser;
     }
 
     @Override

@@ -118,7 +118,7 @@ public class HomePageActivity extends ActionBarActivity {
                         break;
                     case R.id.statistics:
                         if (mStaFragment == null)
-                            mStaFragment = StatisticsFragment.newInstance(mTransactions);
+                            mStaFragment = StatisticsFragment.newInstance(mTransactions, mFriendTransactions);
                         transaction.replace(R.id.fragmentContainer, mStaFragment).commit();
 //                        updateUI();
                         break;

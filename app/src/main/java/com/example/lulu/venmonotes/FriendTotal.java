@@ -19,6 +19,15 @@ public class FriendTotal implements Comparable<FriendTotal>{
     private double gain;
     private String displayName;
     private int times;
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getDisplayName() {
         return displayName;
@@ -68,5 +77,10 @@ public class FriendTotal implements Comparable<FriendTotal>{
         if (d > 0) return 1;
         else if (d < 0) return -1;
         else return 0;
+    }
+
+    @Override
+    public String toString() {
+        return displayName + " pay " + pay + " gain " + gain + " total " + total;
     }
 }
