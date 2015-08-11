@@ -25,7 +25,6 @@ import java.util.ArrayList;
 
 public class WebLoginActivity extends ActionBarActivity {
     private WebView webView;
-
     private static final String ACCESS_TOKEN = "access_token";
     private static final String TAG = "WEBVIEW";
     private static final String CLIENT_CODE = "2810";
