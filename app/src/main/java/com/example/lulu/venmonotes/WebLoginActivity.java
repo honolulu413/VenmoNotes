@@ -42,6 +42,7 @@ public class WebLoginActivity extends ActionBarActivity {
         setContentView(R.layout.activity_weblogin);
         webView = (WebView) findViewById(R.id.webView1);
 
+
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setDefaultFontSize(8);
