@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+<LinearLayout android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <TextView
@@ -17,18 +21,87 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
 
+
+
     <TextView
-        android:layout_marginLeft="7dp"
+        android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16dp"
-
+        android:text="@string/bar_text"
         />
 
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/top_friend"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="20dp"/>
+
+        <LinearLayout
+            android:layout_gravity="bottom"
+            android:id="@+id/top_friend_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.loopj.android.image.SmartImageView
+                android:layout_marginLeft="93dp"
+                style="@style/small_image" />
+            <com.loopj.android.image.SmartImageView
+                android:layout_marginLeft="38dp"
+                style="@style/small_image" />
+            <com.loopj.android.image.SmartImageView
+                android:layout_marginLeft="38dp"
+                style="@style/small_image"
+                android:layout_width="42dp"/>
+        </LinearLayout></FrameLayout>
+
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginBottom="7dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:text="@string/bar_text2"
+        />
+
+    <FrameLayout
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <com.jjoe64.graphview.GraphView
-        android:layout_margin="7dp"
-        android:id="@+id/top_friend"
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/top_friend_times"
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
 
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:id="@+id/top_friend_group2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.loopj.android.image.SmartImageView
+            android:layout_marginLeft="93dp"
+            style="@style/small_image" />
+        <com.loopj.android.image.SmartImageView
+            android:layout_marginLeft="38dp"
+            style="@style/small_image" />
+        <com.loopj.android.image.SmartImageView
+            android:layout_marginLeft="38dp"
+            style="@style/small_image"/>
+    </LinearLayout>
+    </FrameLayout>
+
+
 </LinearLayout>
+</ScrollView>
