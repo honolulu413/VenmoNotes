@@ -131,7 +131,7 @@ public class StatisticsFragment extends Fragment{
         mGraph.getViewport().setMaxX(mTransactions.get(0).getDate().getTime() + mDateOffSet);
         mGraph.getViewport().setScalable(true);
 
-        HashMap<User, ArrayList<Transaction>> map = (HashMap<User, ArrayList<Transaction>>) getArguments().getSerializable(ARRAYLIST);
+        HashMap<User, ArrayList<Transaction>> map = (HashMap<User, ArrayList<Transaction>>) getArguments().getSerializable(HASHMAP);
         PriorityQueue<FriendTotal> pq = new PriorityQueue<FriendTotal>();
         for (Map.Entry<User, ArrayList<Transaction>> entry: map.entrySet()) {
             FriendTotal tmp = new FriendTotal();

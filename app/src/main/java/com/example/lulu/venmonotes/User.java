@@ -49,5 +49,7 @@ public class User {
         return display_name;
     }
 
+    public String getDisplay_name() { return display_name; }
+
 
 }
