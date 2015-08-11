@@ -127,6 +127,7 @@ public class HomePageActivity extends ActionBarActivity {
         });
     }
 
+
     private void filterAction() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Filter");
