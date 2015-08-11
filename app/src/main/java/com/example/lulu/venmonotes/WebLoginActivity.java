@@ -25,7 +25,6 @@ import java.util.ArrayList;
 
 public class WebLoginActivity extends ActionBarActivity {
     private WebView webView;
-
     private static final String ACCESS_TOKEN = "access_token";
     private static final String TAG = "WEBVIEW";
     private static final String CLIENT_CODE = "2810";
@@ -43,7 +42,7 @@ public class WebLoginActivity extends ActionBarActivity {
         webView = (WebView) findViewById(R.id.webView1);
 
 
-        
+
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setDefaultFontSize(8);
