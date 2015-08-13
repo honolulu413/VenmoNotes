@@ -1,10 +1,15 @@
 package com.example.lulu.venmonotes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -18,7 +23,7 @@ public class FriendActivity extends ActionBarActivity {
     private EditText searchBox;
     private ArrayList<User> mFriendsList;
     private String currentUser;
-
+    private FriendAdapter mAdapter;
     private ListView mListViewFriend;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,36 @@ public class FriendActivity extends ActionBarActivity {
         searchBox = (EditText) findViewById(R.id.searchBox);
 
         mListViewFriend = (ListView) findViewById(R.id.friendList);
+        mListViewFriend.setClickable(true);
+        mListViewFriend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+            }
+        });
+
+
         new FetchFriends().execute(token);
+
+        searchBox.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                // When user changed the Text
+                mAdapter.getFilter().filter(cs);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                          int arg3) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
 
     }
 
@@ -50,8 +84,8 @@ public class FriendActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(ArrayList<User> result) {
             mFriendsList = result;
-            mListViewFriend.setAdapter(new FriendAdapter(FriendActivity.this, -1, mFriendsList));
-
+            mAdapter = new FriendAdapter(FriendActivity.this, -1, mFriendsList);
+            mListViewFriend.setAdapter(mAdapter);
         }
 
     }
