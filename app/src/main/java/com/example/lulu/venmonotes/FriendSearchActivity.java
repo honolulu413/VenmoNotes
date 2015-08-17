@@ -1,6 +1,7 @@
 package com.example.lulu.venmonotes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Joseph on 2015/8/11.
@@ -21,16 +23,18 @@ public class FriendSearchActivity extends ActionBarActivity {
     private String token;
     private EditText searchBox;
     private ArrayList<User> mFriendsList;
-    private String currentUser;
+    private User currentUser;
     private FriendSearchAdapter mAdapter;
     private ListView mListViewFriend;
+    private HashMap<User, ArrayList<Transaction>> mFriendTransactions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         final Context context = this;
 
         super.onCreate(savedInstanceState);
-        currentUser = getIntent().getStringExtra(HomePageActivity.CURRENT_USER);
-
+        currentUser = (User) getIntent().getSerializableExtra(HomePageActivity.CURRENT_USER);
+        mFriendTransactions = (HashMap<User, ArrayList<Transaction>>) getIntent().getSerializableExtra(HomePageActivity.TRAN);
 
         token = PreferenceManager.getDefaultSharedPreferences(this)
                 .getString(HomePageActivity.ACCESS_TOKEN, null);
@@ -43,6 +47,18 @@ public class FriendSearchActivity extends ActionBarActivity {
         mListViewFriend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+
+                User friend = (User) arg0.getAdapter().getItem(position);
+                Intent i = new Intent(FriendSearchActivity.this, FriendPageActivity.class);
+                Bundle mBundle = new Bundle();
+                mBundle.putSerializable(FriendPageActivity.USER, currentUser);
+//                mBundle.putSerializable(FriendPageActivity.TRAN, mFriendTransactions.get(friend));
+
+                i.putExtras(mBundle);
+                i.putExtra(FriendPageActivity.TRAN, mFriendTransactions.get(friend));
+                startActivity(i);
+
+
             }
         });
 
@@ -77,7 +93,7 @@ public class FriendSearchActivity extends ActionBarActivity {
         @Override
         protected ArrayList<User> doInBackground(String... params) {
             String token = params[0];
-            return new FriendSearchFetcher(token, currentUser).getFriend();
+            return new FriendSearchFetcher(token, currentUser.getUserName()).getFriend();
         }
 
         @Override

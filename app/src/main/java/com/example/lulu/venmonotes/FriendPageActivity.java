@@ -2,6 +2,7 @@ package com.example.lulu.venmonotes;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 public class FriendPageActivity extends ActionBarActivity {
     public static final String USER = "com.example.lulu.FriendPageActivity.user";
     public static final String TRAN = "com.example.lulu.FriendPageActivity.transactions";
+    String TAG = "TRAN";
     User mUser;
     ArrayList<Transaction> mTransactions;
 
@@ -20,6 +22,7 @@ public class FriendPageActivity extends ActionBarActivity {
         setContentView(R.layout.activity_friend);
         mUser = (User) getIntent().getSerializableExtra(USER);
         mTransactions = (ArrayList<Transaction>) getIntent().getSerializableExtra(TRAN);
+        Log.d(TAG, "" + mTransactions);
 
     }
 

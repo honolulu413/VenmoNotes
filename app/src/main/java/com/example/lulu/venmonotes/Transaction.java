@@ -1,5 +1,6 @@
 package com.example.lulu.venmonotes;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -9,7 +10,7 @@ import java.util.GregorianCalendar;
 /**
  * Created by lulu on 7/16/2015.
  */
-public class Transaction {
+public class Transaction implements Serializable {
     private Date date;
     private User targetUser;
     private User actor;

@@ -3,13 +3,16 @@ package com.example.lulu.venmonotes;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by lulu on 7/16/2015.
  */
-public class User {
+public class User implements Serializable {
     private String userName;
     private String display_name;
     private String profile_url;
+//    private static final long serialVersionUID = -7060210544600464481L;
 
     public User(JSONObject jsonObject) throws JSONException {
         userName = jsonObject.getString("username");

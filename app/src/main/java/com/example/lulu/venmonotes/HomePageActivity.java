@@ -42,6 +42,8 @@ public class HomePageActivity extends ActionBarActivity {
     Category mCategory = Category.ALL;
     public static final String ACCESS_TOKEN = "com.example.lulu.HomePageActivity.accessToken";
     public static final String CURRENT_USER = "com.example.lulu.HomePageActivity.currentUser";
+    public static final String TRAN = "com.example.lulu.HomePageActivity.transactions";
+
     private static final String TAG = "DATE";
     private ArrayList<Transaction> mTransactions;
     private String mAction = null;
@@ -108,7 +110,11 @@ public class HomePageActivity extends ActionBarActivity {
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i = new Intent(HomePageActivity.this, FriendSearchActivity.class);
-                i.putExtra(HomePageActivity.CURRENT_USER, currentUser.getUserName());
+                Bundle mBundle = new Bundle();
+                mBundle.putSerializable(HomePageActivity.CURRENT_USER, currentUser);
+//                mBundle.putSerializable(HomePageActivity.TRAN, mFriendTransactions);
+                i.putExtras(mBundle);
+                i.putExtra(HomePageActivity.TRAN, mFriendTransactions);
                 startActivity(i);
             }
         });
