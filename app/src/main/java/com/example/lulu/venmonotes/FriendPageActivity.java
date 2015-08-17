@@ -51,10 +51,10 @@ public class FriendPageActivity extends ActionBarActivity {
                 .create());
 //
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-//        viewPager.setAdapter(adapter);
-//
-//        SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
-//        viewPagerTab.setViewPager(viewPager);
+        viewPager.setAdapter(adapter);
+
+        SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
+        viewPagerTab.setViewPager(viewPager);
     }
 
 }
