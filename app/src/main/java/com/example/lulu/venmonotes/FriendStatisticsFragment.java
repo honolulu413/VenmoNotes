@@ -55,6 +55,7 @@ public class FriendStatisticsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
+
         mTransactions = (ArrayList<Transaction>)getArguments().getSerializable(ARRAYLIST);
         ArrayList<Transaction> pTransactions = new ArrayList<Transaction>();
         ArrayList<Transaction> nTransactions = new ArrayList<Transaction>();
