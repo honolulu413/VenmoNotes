@@ -3,8 +3,8 @@ package com.example.lulu.venmonotes;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.widget.TextView;
+import android.util.Log;
 
 import com.loopj.android.image.SmartImageView;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -31,9 +31,30 @@ public class FriendPageActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend);
+
         mUser = (User) getIntent().getSerializableExtra(USER);
         mTransactions = (ArrayList<Transaction>) getIntent().getSerializableExtra(TRAN);
-        Log.d(TAG, "" + mTransactions);
+        //Log.d(TAG, "" + mTransactions);
+
+        mImageView = (SmartImageView) findViewById(R.id.imageView);
+        mUserName = (TextView) findViewById(R.id.user_name);
+        mDisplayName = (TextView) findViewById(R.id.display_name);
+
+        mImageView.setImageUrl(mUser.getProfileUrl());
+        mUserName.setText(mUser.getUserName());
+        mDisplayName.setText(mUser.getDisplayName());
+
+        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
+                getSupportFragmentManager(), FragmentPagerItems.with(this)
+                .add(R.string.transactions, HomePageFragment.class, new Bundler().putSerializable(HomePageFragment.TRANS, mTransactions).get())
+                .add(R.string.statistics, FriendStatisticsFragment.class, new Bundler().putSerializable(FriendStatisticsFragment.ARRAYLIST, mTransactions).get())
+                .create());
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setAdapter(adapter);
+
+        SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
+        viewPagerTab.setViewPager(viewPager);
     }
 
 }

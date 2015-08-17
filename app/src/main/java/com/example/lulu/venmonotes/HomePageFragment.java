@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Joseph on 2015/7/16.
@@ -26,8 +27,9 @@ import java.util.ArrayList;
 public class HomePageFragment extends ListFragment {
     //    public ArrayList<String> transactions = new ArrayList<String>();
     private static final String TAG = "ACTIVITY";
+    public static final String TRANS = "com.example.lulu.HomePageFragment.transactions";
 
-    private ArrayList<Transaction> mTransactions = new ArrayList<Transaction>();
+    private ArrayList<Transaction> mTransactions;
 
     private Activity myActivity;
 
@@ -43,7 +45,7 @@ public class HomePageFragment extends ListFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        myActivity =  activity;
+        myActivity = activity;
     }
 //
 //    @Override
@@ -69,6 +71,14 @@ public class HomePageFragment extends ListFragment {
 
     }
 
+    public static HomePageFragment newInstance(ArrayList<Transaction> transactions) {
+        Bundle args = new Bundle();
+        args.putSerializable(TRANS, transactions);
+        HomePageFragment fragment = new HomePageFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
@@ -85,6 +95,7 @@ public class HomePageFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
+        mTransactions = (ArrayList<Transaction>) getArguments().getSerializable(TRANS);
         ArrayAdapter<Transaction> adapter =
                 new TransactionAdapter(getActivity(),
                         -1,

@@ -80,7 +80,7 @@ public class HomePageActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
         token = getIntent().getStringExtra(ACCESS_TOKEN);
-        Log.d(TAG, token);
+        //Log.d(TAG, token);
         mFriendTransactions = new HashMap<User, ArrayList<Transaction>>();
         // Get current date by calender
 
@@ -92,7 +92,7 @@ public class HomePageActivity extends ActionBarActivity {
         fm = getSupportFragmentManager();
         mHomeFragment = (HomePageFragment) fm.findFragmentById(R.id.fragmentContainer);
         if (mHomeFragment == null) {
-            mHomeFragment = new HomePageFragment();
+            mHomeFragment = HomePageFragment.newInstance(new ArrayList<Transaction>());
             fm.beginTransaction()
                     .add(R.id.fragmentContainer, mHomeFragment)
                     .commit();
