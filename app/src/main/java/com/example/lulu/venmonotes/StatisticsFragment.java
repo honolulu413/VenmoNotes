@@ -124,8 +124,10 @@ public class StatisticsFragment extends Fragment{
             }
         };
 
-        drawSeries(pTransactions, Color.RED);
-        drawSeries(nTransactions, Color.BLUE);
+        if (!pTransactions.isEmpty())
+            drawSeries(pTransactions, Color.RED);
+        if (!nTransactions.isEmpty())
+            drawSeries(nTransactions, Color.BLUE);
 
         mGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
         mGraph.getGridLabelRenderer().setNumHorizontalLabels(3);

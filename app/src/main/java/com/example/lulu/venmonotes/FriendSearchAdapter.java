@@ -33,8 +33,6 @@ public class FriendSearchAdapter extends ArrayAdapter<User> {
         SmartImageView mImageView = (SmartImageView) convertView.findViewById(R.id.profileImg2);
         mImageView.setImageUrl(friend.getProfileUrl());
 
-        
-
         return convertView;
     }
 

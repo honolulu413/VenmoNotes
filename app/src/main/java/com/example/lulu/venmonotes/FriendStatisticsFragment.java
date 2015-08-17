@@ -95,10 +95,10 @@ public class FriendStatisticsFragment extends Fragment {
         p = summary.indexOf("Paid:") + 6;
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), p, p + sPaid.length() , Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         sb.setSpan(new ForegroundColorSpan(Color.BLUE), p, p + sPaid.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        mSummary = (TextView) v.findViewById(R.id.statistics_summary);
+        mSummary = (TextView) v.findViewById(R.id.statistics_summary1);
         mSummary.setText(sb);
 
-        mGraph = (GraphView) v.findViewById(R.id.recent_transaction);
+        mGraph = (GraphView) v.findViewById(R.id.recent_transaction1);
 
         tapListener = new OnDataPointTapListener() {
             @Override
@@ -111,8 +111,10 @@ public class FriendStatisticsFragment extends Fragment {
             }
         };
 
-        drawSeries(pTransactions, Color.RED);
-        drawSeries(nTransactions, Color.BLUE);
+        if (!pTransactions.isEmpty())
+            drawSeries(pTransactions, Color.RED);
+        if (!nTransactions.isEmpty())
+            drawSeries(nTransactions, Color.BLUE);
 
         mGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
         mGraph.getGridLabelRenderer().setNumHorizontalLabels(3);
@@ -125,6 +127,7 @@ public class FriendStatisticsFragment extends Fragment {
         mGraph.getViewport().setMinX(mTransactions.get(mTransactions.size() - 1).getDate().getTime() - mDateOffSet);
         mGraph.getViewport().setMaxX(mTransactions.get(0).getDate().getTime() + mDateOffSet);
         mGraph.getViewport().setScalable(true);
+        Log.d(TAG, "123");
         return v;
     }
 
