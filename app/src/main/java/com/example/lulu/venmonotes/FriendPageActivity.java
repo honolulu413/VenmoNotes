@@ -47,7 +47,7 @@ public class FriendPageActivity extends ActionBarActivity {
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
                 .add(R.string.transactions, HomePageFragment.class, new Bundler().putSerializable(HomePageFragment.TRANS, mTransactions).get())
-                .add(R.string.statistics, StatisticsFragment.class, new Bundler().putSerializable(FriendStatisticsFragment.ARRAYLIST, mTransactions).get())
+                .add(R.string.statistics, FriendStatisticsFragment.class, new Bundler().putSerializable(FriendStatisticsFragment.ARRAYLIST, mTransactions).get())
                 .create());
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);

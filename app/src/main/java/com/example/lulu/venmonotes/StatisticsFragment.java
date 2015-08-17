@@ -78,6 +78,7 @@ public class StatisticsFragment extends Fragment{
         double min = 0;
         double paid = 0;
         double gained = 0;
+
         for (Transaction t: mTransactions) {
             if (t.isPositive()) {
                 pTransactions.add(t);

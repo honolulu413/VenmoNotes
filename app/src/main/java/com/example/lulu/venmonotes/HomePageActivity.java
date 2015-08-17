@@ -92,7 +92,7 @@ public class HomePageActivity extends ActionBarActivity {
         fm = getSupportFragmentManager();
         mHomeFragment = (HomePageFragment) fm.findFragmentById(R.id.fragmentContainer);
         if (mHomeFragment == null) {
-            mHomeFragment = new HomePageFragment();
+            mHomeFragment = HomePageFragment.newInstance(new ArrayList<Transaction>());
             fm.beginTransaction()
                     .add(R.id.fragmentContainer, mHomeFragment)
                     .commit();

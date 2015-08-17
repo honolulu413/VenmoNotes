@@ -59,7 +59,7 @@ public class FriendStatisticsFragment extends Fragment {
         ArrayList<Transaction> pTransactions = new ArrayList<Transaction>();
         ArrayList<Transaction> nTransactions = new ArrayList<Transaction>();
 
-        View v = inflater.inflate(R.layout.fragment_statistics, parent, false);
+        View v = inflater.inflate(R.layout.fragment_friend_sta, parent, false);
         //Log.d(TAG, "" + mTransactions);
         double max = 0;
         double min = 0;

@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import java.util.HashMap;
  * Created by Joseph on 2015/8/11.
  */
 public class FriendSearchActivity extends ActionBarActivity {
+    private String TAG = "SEARCH";
     private String token;
     private EditText searchBox;
     private ArrayList<User> mFriendsList;
@@ -70,6 +72,7 @@ public class FriendSearchActivity extends ActionBarActivity {
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 // When user changed the Text
+                Log.d(TAG, "" + (mAdapter == null));
                 mAdapter.getFilter().filter(cs);
             }
 

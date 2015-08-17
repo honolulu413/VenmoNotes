@@ -31,7 +31,7 @@ public class HomePageFragment extends ListFragment {
 
     private ArrayList<Transaction> mTransactions;
 
-    private HomePageActivity myActivity;
+    private Activity myActivity;
 
 //    private Callbacks mCallbacks;
 
@@ -45,7 +45,7 @@ public class HomePageFragment extends ListFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        myActivity = (HomePageActivity) activity;
+        myActivity = activity;
     }
 //
 //    @Override
