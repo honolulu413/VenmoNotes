@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Joseph on 2015/7/16.
@@ -68,6 +69,14 @@ public class HomePageFragment extends ListFragment {
                         mTransactions);
         setListAdapter(adapter);
 
+    }
+
+    public static HomePageFragment newInstance(ArrayList<Transaction> transactions) {
+        Bundle args = new Bundle();
+        args.putSerializable(TRANS, transactions);
+        HomePageFragment fragment = new HomePageFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
