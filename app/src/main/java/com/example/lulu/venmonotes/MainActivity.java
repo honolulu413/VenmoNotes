@@ -24,6 +24,8 @@ public class MainActivity extends ActionBarActivity {
         final Context context = this;
 
         super.onCreate(savedInstanceState);
+
+
         String token = PreferenceManager.getDefaultSharedPreferences(this)
                 .getString(HomePageActivity.ACCESS_TOKEN, null);
 

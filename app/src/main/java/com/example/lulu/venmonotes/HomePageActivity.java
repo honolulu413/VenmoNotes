@@ -21,7 +21,7 @@ import org.json.JSONObject;
 
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.DatePicker;
@@ -41,6 +41,7 @@ public class HomePageActivity extends ActionBarActivity {
 
     Category mCategory = Category.ALL;
     public static final String ACCESS_TOKEN = "com.example.lulu.HomePageActivity.accessToken";
+    public static final String CURRENT_USER = "com.example.lulu.HomePageActivity.currentUser";
     private static final String TAG = "DATE";
     private ArrayList<Transaction> mTransactions;
     private String mAction = null;
@@ -67,12 +68,15 @@ public class HomePageActivity extends ActionBarActivity {
     private FragmentManager fm;
 
     private HashMap<User, ArrayList<Transaction>> mFriendTransactions;
+    private ArrayList<User> mFriendsList;
 
+    private ListView mListViewFriend;
+    private Button mSearchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_drawer);
         token = getIntent().getStringExtra(ACCESS_TOKEN);
         Log.d(TAG, token);
         mFriendTransactions = new HashMap<User, ArrayList<Transaction>>();
@@ -94,12 +98,21 @@ public class HomePageActivity extends ActionBarActivity {
 
         new ProfileFetcher().execute(token);
 
-//        new FetchTransactions().execute(token);
-
+//        mListViewFriend = (ListView) findViewById(R.id.friendList);
+        mSearchButton = (Button) findViewById(R.id.searchButton);
         mImageView = (SmartImageView) findViewById(R.id.imageView);
         mUserName = (TextView) findViewById(R.id.user_name);
         mDisplayName = (TextView) findViewById(R.id.display_name);
         mRadioGroup = (RadioGroup) findViewById(R.id.tab);
+
+        mSearchButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i = new Intent(HomePageActivity.this, FriendSearchActivity.class);
+                i.putExtra(HomePageActivity.CURRENT_USER, currentUser.getUserName());
+                startActivity(i);
+            }
+        });
+
 
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -189,6 +202,23 @@ public class HomePageActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private class FetchFriends extends AsyncTask<String, Void, ArrayList<User>> {
+        @Override
+        protected ArrayList<User> doInBackground(String... params) {
+            String token = params[0];
+            return new FriendSearchFetcher(token, currentUser.getUserName()).getFriend();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<User> result) {
+            mFriendsList = result;
+//            mListViewFriend.setAdapter(new FriendSearchAdapter(HomePageActivity.this, -1, mFriendsList));
+
+        }
+
     }
 
     private class FetchTransactions extends AsyncTask<String, Void, ArrayList<Transaction>> {
@@ -319,6 +349,7 @@ public class HomePageActivity extends ActionBarActivity {
                 e.printStackTrace();
             }
             new FetchTransactions().execute(token);
+//            new FetchFriends().execute(token);
         }
     }
 }
