@@ -32,6 +32,7 @@ public class HomePageFragment extends ListFragment {
     private ArrayList<Transaction> mTransactions;
 
     private Activity myActivity;
+    private boolean flag;
 
 //    private Callbacks mCallbacks;
 
@@ -82,11 +83,11 @@ public class HomePageFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
+        if (flag) {
+            View v = inflater.inflate(R.layout.fragment_no_transactions, parent, false);
+            return v;
+        }
         View v = super.onCreateView(inflater, parent, savedInstanceState);
-
-        ListView listView = (ListView) v.findViewById(android.R.id.list);
-
-
         return v;
     }
 
@@ -96,12 +97,14 @@ public class HomePageFragment extends ListFragment {
         setHasOptionsMenu(true);
 
         mTransactions = (ArrayList<Transaction>) getArguments().getSerializable(TRANS);
+        if (mTransactions == null) {
+            mTransactions = new ArrayList<Transaction>();
+            flag = true;
+        }
         ArrayAdapter<Transaction> adapter =
                 new TransactionAdapter(getActivity(),
                         -1,
                         mTransactions);
         setListAdapter(adapter);
     }
-
-
 }

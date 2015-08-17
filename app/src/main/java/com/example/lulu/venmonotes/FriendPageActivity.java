@@ -34,7 +34,6 @@ public class FriendPageActivity extends ActionBarActivity {
 
         mUser = (User) getIntent().getSerializableExtra(USER);
         mTransactions = (ArrayList<Transaction>) getIntent().getSerializableExtra(TRAN);
-        //Log.d(TAG, "" + mTransactions);
 
         mImageView = (SmartImageView) findViewById(R.id.imageView);
         mUserName = (TextView) findViewById(R.id.user_name);
