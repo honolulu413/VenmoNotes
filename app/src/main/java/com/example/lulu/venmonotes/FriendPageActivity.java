@@ -34,7 +34,7 @@ public class FriendPageActivity extends ActionBarActivity {
 
         mUser = (User) getIntent().getSerializableExtra(USER);
         mTransactions = (ArrayList<Transaction>) getIntent().getSerializableExtra(TRAN);
-        //Log.d(TAG, "" + mTransactions);
+        Log.d(TAG, "" + mTransactions);
 
         mImageView = (SmartImageView) findViewById(R.id.imageView);
         mUserName = (TextView) findViewById(R.id.user_name);
@@ -49,12 +49,12 @@ public class FriendPageActivity extends ActionBarActivity {
                 .add(R.string.transactions, HomePageFragment.class, new Bundler().putSerializable(HomePageFragment.TRANS, mTransactions).get())
                 .add(R.string.statistics, FriendStatisticsFragment.class, new Bundler().putSerializable(FriendStatisticsFragment.ARRAYLIST, mTransactions).get())
                 .create());
-
+//
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(adapter);
-
-        SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
-        viewPagerTab.setViewPager(viewPager);
+//        viewPager.setAdapter(adapter);
+//
+//        SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
+//        viewPagerTab.setViewPager(viewPager);
     }
 
 }
