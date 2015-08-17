@@ -67,27 +67,7 @@ public class FriendSearchActivity extends ActionBarActivity {
 
         new FetchFriends().execute(token);
 
-        searchBox.addTextChangedListener(new TextWatcher() {
 
-            @Override
-            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                // When user changed the Text
-                Log.d(TAG, "" + (mAdapter == null));
-                mAdapter.getFilter().filter(cs);
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-                                          int arg3) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable arg0) {
-                // TODO Auto-generated method stub
-            }
-        });
 
     }
 
@@ -104,6 +84,28 @@ public class FriendSearchActivity extends ActionBarActivity {
             mFriendsList = result;
             mAdapter = new FriendSearchAdapter(FriendSearchActivity.this, -1, mFriendsList);
             mListViewFriend.setAdapter(mAdapter);
+
+            searchBox.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                    // When user changed the Text
+                    Log.d(TAG, "" + (mAdapter == null));
+                    mAdapter.getFilter().filter(cs);
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                              int arg3) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable arg0) {
+                    // TODO Auto-generated method stub
+                }
+            });
         }
 
     }
