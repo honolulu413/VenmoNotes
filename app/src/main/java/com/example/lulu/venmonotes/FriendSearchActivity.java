@@ -51,7 +51,7 @@ public class FriendSearchActivity extends ActionBarActivity {
                 User friend = (User) arg0.getAdapter().getItem(position);
                 Intent i = new Intent(FriendSearchActivity.this, FriendPageActivity.class);
                 Bundle mBundle = new Bundle();
-                mBundle.putSerializable(FriendPageActivity.USER, currentUser);
+                mBundle.putSerializable(FriendPageActivity.USER, friend);
 //                mBundle.putSerializable(FriendPageActivity.TRAN, mFriendTransactions.get(friend));
 
                 i.putExtras(mBundle);
