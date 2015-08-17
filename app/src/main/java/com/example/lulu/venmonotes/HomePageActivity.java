@@ -78,7 +78,7 @@ public class HomePageActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
         token = getIntent().getStringExtra(ACCESS_TOKEN);
-        Log.d(TAG, token);
+        //Log.d(TAG, token);
         mFriendTransactions = new HashMap<User, ArrayList<Transaction>>();
         // Get current date by calender
 

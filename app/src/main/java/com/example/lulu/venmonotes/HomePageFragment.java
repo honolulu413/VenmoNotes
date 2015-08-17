@@ -26,8 +26,9 @@ import java.util.ArrayList;
 public class HomePageFragment extends ListFragment {
     //    public ArrayList<String> transactions = new ArrayList<String>();
     private static final String TAG = "ACTIVITY";
+    public static final String TRANS = "com.example.lulu.HomePageFragment.transactions";
 
-    private ArrayList<Transaction> mTransactions = new ArrayList<Transaction>();
+    private ArrayList<Transaction> mTransactions;
 
     private HomePageActivity myActivity;
 
@@ -85,6 +86,7 @@ public class HomePageFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
+        mTransactions = (ArrayList<Transaction>) getArguments().getSerializable(TRANS);
         ArrayAdapter<Transaction> adapter =
                 new TransactionAdapter(getActivity(),
                         -1,
