@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.TextView;
+import android.util.Log;
 
 import com.loopj.android.image.SmartImageView;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 public class FriendPageActivity extends ActionBarActivity {
     public static final String USER = "com.example.lulu.FriendPageActivity.user";
     public static final String TRAN = "com.example.lulu.FriendPageActivity.transactions";
+    String TAG = "TRAN";
     User mUser;
     SmartImageView mImageView;
     TextView mUserName;
@@ -33,6 +35,7 @@ public class FriendPageActivity extends ActionBarActivity {
 
         mUser = (User) getIntent().getSerializableExtra(USER);
         mTransactions = (ArrayList<Transaction>) getIntent().getSerializableExtra(TRAN);
+        Log.d(TAG, "" + mTransactions);
 
         mImageView = (SmartImageView) findViewById(R.id.imageView);
         mUserName = (TextView) findViewById(R.id.user_name);
