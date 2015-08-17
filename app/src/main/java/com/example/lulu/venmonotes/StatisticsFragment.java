@@ -56,8 +56,6 @@ public class StatisticsFragment extends Fragment{
     private GraphView mGraph;
     private GraphView mBarGraph;
     private GraphView mBarGraph2;
-    private ViewGroup mImages;
-    private ViewGroup mImages2;
 
     private TextView mSummary;
     private int barSize = 3;
@@ -166,8 +164,9 @@ public class StatisticsFragment extends Fragment{
             pqTimes.add(tmp);
         }
 
-        FriendTotal[] topFriends = new FriendTotal[barSize];
-        for (int i = 0; i < barSize; i++) {
+        int realSize = Math.min(barSize, map.size());
+        FriendTotal[] topFriends = new FriendTotal[realSize];
+        for (int i = 0; i < realSize; i++) {
             topFriends[i] = pq.poll();
         }
 
@@ -176,7 +175,7 @@ public class StatisticsFragment extends Fragment{
         loadImage(group, topFriends);
         drawBars(topFriends);
 
-        for (int i = 0; i < barSize; i++) {
+        for (int i = 0; i < realSize; i++) {
             topFriends[i] = pqTimes.poll();
         }
 
@@ -217,7 +216,6 @@ public class StatisticsFragment extends Fragment{
     }
 
     private void drawBars(FriendTotal[] friends) {
-        int barWidth = 26;
         int size = friends.length;
         DataPoint[] gainPoints = new DataPoint[size];
         DataPoint[] payPoints = new DataPoint[size];
