@@ -317,6 +317,10 @@ public class StatisticsFragment extends Fragment{
         for (int i = 0; i < friends.length; i++) {
             SmartImageView image = (SmartImageView) v.getChildAt(i);
             final FriendTotal friend = friends[i];
+            Log.d(TAG, "image" + image);
+            Log.d(TAG, "friend" + friend);
+            Log.d(TAG, "friendurl" + friend.getUrl());
+
             image.setImageUrl(friend.getUrl());
             image.setOnClickListener(new View.OnClickListener() {
                 @Override

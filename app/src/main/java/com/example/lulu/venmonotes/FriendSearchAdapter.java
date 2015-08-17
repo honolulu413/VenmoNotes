@@ -14,15 +14,15 @@ import java.util.ArrayList;
 /**
  * Created by Joseph on 2015/8/11.
  */
-public class FriendAdapter extends ArrayAdapter<User> {
-    public FriendAdapter(Context context, int resource, ArrayList<User> items) {
+public class FriendSearchAdapter extends ArrayAdapter<User> {
+    public FriendSearchAdapter(Context context, int resource, ArrayList<User> items) {
         super(context, resource, items);
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext())
-                    .inflate(R.layout.activity_friend, null);
+                    .inflate(R.layout.activity_friend_search, null);
         }
 
         User friend = getItem(position);

@@ -1,7 +1,6 @@
 package com.example.lulu.venmonotes;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,12 +17,12 @@ import java.util.ArrayList;
 /**
  * Created by Joseph on 2015/8/11.
  */
-public class FriendActivity extends ActionBarActivity {
+public class FriendSearchActivity extends ActionBarActivity {
     private String token;
     private EditText searchBox;
     private ArrayList<User> mFriendsList;
     private String currentUser;
-    private FriendAdapter mAdapter;
+    private FriendSearchAdapter mAdapter;
     private ListView mListViewFriend;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +34,7 @@ public class FriendActivity extends ActionBarActivity {
 
         token = PreferenceManager.getDefaultSharedPreferences(this)
                 .getString(HomePageActivity.ACCESS_TOKEN, null);
-        setContentView(R.layout.activity_friendlist);
+        setContentView(R.layout.activity_friend_list);
 
         searchBox = (EditText) findViewById(R.id.searchBox);
 
@@ -78,13 +77,13 @@ public class FriendActivity extends ActionBarActivity {
         @Override
         protected ArrayList<User> doInBackground(String... params) {
             String token = params[0];
-            return new FriendFetcher(token, currentUser).getFriend();
+            return new FriendSearchFetcher(token, currentUser).getFriend();
         }
 
         @Override
         protected void onPostExecute(ArrayList<User> result) {
             mFriendsList = result;
-            mAdapter = new FriendAdapter(FriendActivity.this, -1, mFriendsList);
+            mAdapter = new FriendSearchAdapter(FriendSearchActivity.this, -1, mFriendsList);
             mListViewFriend.setAdapter(mAdapter);
         }
 

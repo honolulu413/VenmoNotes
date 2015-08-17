@@ -21,7 +21,6 @@ import org.json.JSONObject;
 
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -108,7 +107,7 @@ public class HomePageActivity extends ActionBarActivity {
 
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(HomePageActivity.this, FriendActivity.class);
+                Intent i = new Intent(HomePageActivity.this, FriendSearchActivity.class);
                 i.putExtra(HomePageActivity.CURRENT_USER, currentUser.getUserName());
                 startActivity(i);
             }
@@ -210,13 +209,13 @@ public class HomePageActivity extends ActionBarActivity {
         @Override
         protected ArrayList<User> doInBackground(String... params) {
             String token = params[0];
-            return new FriendFetcher(token, currentUser.getUserName()).getFriend();
+            return new FriendSearchFetcher(token, currentUser.getUserName()).getFriend();
         }
 
         @Override
         protected void onPostExecute(ArrayList<User> result) {
             mFriendsList = result;
-//            mListViewFriend.setAdapter(new FriendAdapter(HomePageActivity.this, -1, mFriendsList));
+//            mListViewFriend.setAdapter(new FriendSearchAdapter(HomePageActivity.this, -1, mFriendsList));
 
         }
 

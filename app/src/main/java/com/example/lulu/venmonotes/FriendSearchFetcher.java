@@ -14,12 +14,12 @@ import java.util.Comparator;
 /**
  * Created by Joseph on 2015/8/11.
  */
-public class FriendFetcher {
+public class FriendSearchFetcher {
     private String ENDPOINT;
     private String currentUser;
     private String token;
 
-    public FriendFetcher(String token, String currentUser) {
+    public FriendSearchFetcher(String token, String currentUser) {
         this.token = token;
         this.currentUser = currentUser;
         ENDPOINT = "https://api.venmo.com/v1/users/" + currentUser + "/friends";
