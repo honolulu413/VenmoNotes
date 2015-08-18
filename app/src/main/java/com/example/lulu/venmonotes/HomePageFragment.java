@@ -1,5 +1,6 @@
 package com.example.lulu.venmonotes;
 
+
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,12 +27,13 @@ import java.util.HashMap;
  */
 public class HomePageFragment extends ListFragment {
     //    public ArrayList<String> transactions = new ArrayList<String>();
-    private static final String TAG = "ACTIVITY";
+    private static final String TAG = "HOME";
     public static final String TRANS = "com.example.lulu.HomePageFragment.transactions";
 
     private ArrayList<Transaction> mTransactions;
 
     private Activity myActivity;
+    private boolean flag;
 
 //    private Callbacks mCallbacks;
 
@@ -47,7 +49,7 @@ public class HomePageFragment extends ListFragment {
         super.onAttach(activity);
         myActivity = activity;
     }
-    //
+//
 //    @Override
 //    public void onDetach() {
 //        super.onDetach();
@@ -82,6 +84,10 @@ public class HomePageFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
+//        if (flag) {
+//            View v = inflater.inflate(R.layout.fragment_no_transactions, parent, false);
+//            return v;
+//        }
         View v = super.onCreateView(inflater, parent, savedInstanceState);
         return v;
     }
@@ -94,7 +100,9 @@ public class HomePageFragment extends ListFragment {
         mTransactions = (ArrayList<Transaction>) getArguments().getSerializable(TRANS);
         if (mTransactions == null) {
             mTransactions = new ArrayList<Transaction>();
+            flag = true;
         }
+
         ArrayAdapter<Transaction> adapter =
                 new TransactionAdapter(getActivity(),
                         -1,

@@ -101,6 +101,7 @@ public class FriendSearchActivity extends ActionBarActivity {
 
                 }
 
+
                 @Override
                 public void afterTextChanged(Editable arg0) {
                     // TODO Auto-generated method stub

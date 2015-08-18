@@ -57,6 +57,12 @@ public class FriendStatisticsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         mTransactions = (ArrayList<Transaction>)getArguments().getSerializable(ARRAYLIST);
+
+        if (mTransactions == null || mTransactions.isEmpty()) {
+            View v = inflater.inflate(R.layout.fragment_no_transactions, parent, false);
+            return v;
+        }
+
         ArrayList<Transaction> pTransactions = new ArrayList<Transaction>();
         ArrayList<Transaction> nTransactions = new ArrayList<Transaction>();
 
