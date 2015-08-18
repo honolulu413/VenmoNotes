@@ -60,7 +60,7 @@ public class NotesFragment extends ListFragment {
                 startActivity(i);
                 return true;
             case R.id.menu_item_show_photo:
-
+                
                 return true;
 
             default:
