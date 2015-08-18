@@ -5,6 +5,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
@@ -27,6 +29,11 @@ public class Event {
     private static final String JSON_SUBEVENTS = "subevents";
     private static final String JSON_NOTE = "note";
 
+    public Event() {
+        date = new Date();
+        subEvents = new ArrayList<>();
+    }
+
     public Event(JSONObject json) throws JSONException {
         settled = json.getBoolean(JSON_SETTLED);
         title = json.getString(JSON_TITLE);
@@ -34,7 +41,7 @@ public class Event {
         JSONArray array = json.getJSONArray(JSON_SUBEVENTS);
         subEvents = new ArrayList<SubEvent>();
         for (int i = 0; i < array.length(); i++) {
-            subEvents.add(new SubEvent(array.get(i)));
+            subEvents.add(new SubEvent((JSONObject) array.get(i)));
         }
         if (json.has(JSON_PHOTO)) {
             photo = new Photo(json.getJSONObject(JSON_PHOTO));
@@ -55,6 +62,11 @@ public class Event {
         json.put(JSON_SUBEVENTS, array);
         json.put(JSON_PHOTO, photo.toJSON());
         return json;
+    }
+
+    public String getDateString() {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        return df.format(date);
     }
 
     @Override

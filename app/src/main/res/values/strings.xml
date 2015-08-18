@@ -8,5 +8,13 @@
     <string name="bar_text2">Top Friends by transaction times:</string>
     <string name="transactions">Transactions</string>
     <string name="statistics">Statistics</string>
+    <string name="notes">Note List</string>
+    <string name="show_photo">Show Photo</string>
+    <string name="hide_photo">Hide Photo</string>
+    <string name="event_hint">What's it for?</string>
+    <string name="event_settled">All Settled?</string>
+    <string name="add_friend">Add One</string>
+    <string name="pay_all">Pay/Charge All</string>
+
 
 </resources>

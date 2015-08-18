@@ -46,11 +46,11 @@ public class EventLab {
         return sEventLab;
     }
 
-    public ArrayList<Event> getCrimes() {
+    public ArrayList<Event> getEvents() {
         return mEvents;
     }
 
-    public Event getCrime(Date date) {
+    public Event getEvent(Date date) {
         for (Event e : mEvents) {
             if (e.getDate().equals(date))
                 return e;
