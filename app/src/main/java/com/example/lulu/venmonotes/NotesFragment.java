@@ -61,6 +61,8 @@ public class NotesFragment extends ListFragment {
                 return true;
             case R.id.menu_item_show_photo:
 
+
+                
                 return true;
 
             default:
