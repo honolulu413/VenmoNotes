@@ -47,7 +47,7 @@ public class HomePageFragment extends ListFragment {
         super.onAttach(activity);
         myActivity = activity;
     }
-//
+    //
 //    @Override
 //    public void onDetach() {
 //        super.onDetach();
@@ -83,10 +83,6 @@ public class HomePageFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, parent, savedInstanceState);
-
-        ListView listView = (ListView) v.findViewById(android.R.id.list);
-
-
         return v;
     }
 
@@ -96,12 +92,13 @@ public class HomePageFragment extends ListFragment {
         setHasOptionsMenu(true);
 
         mTransactions = (ArrayList<Transaction>) getArguments().getSerializable(TRANS);
+        if (mTransactions == null) {
+            mTransactions = new ArrayList<Transaction>();
+        }
         ArrayAdapter<Transaction> adapter =
                 new TransactionAdapter(getActivity(),
                         -1,
                         mTransactions);
         setListAdapter(adapter);
     }
-
-
 }
