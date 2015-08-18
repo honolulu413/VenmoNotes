@@ -74,6 +74,7 @@ public class HomePageActivity extends ActionBarActivity {
 
     private ListView mListViewFriend;
     private Button mSearchButton;
+    private Button mCreateNoteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +120,13 @@ public class HomePageActivity extends ActionBarActivity {
             }
         });
 
+
+        mCreateNoteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i = new Intent(HomePageActivity.this, NotesActivity.class);
+                startActivity(i);
+            }
+        });
 
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
