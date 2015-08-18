@@ -8,12 +8,12 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.Date;
 
 /**
  * Created by Joseph on 2015/8/18.
  */
-public class NotesPagerActivity extends FragmentActivity {
+public class EventPagerActivity extends FragmentActivity {
     private ViewPager mViewPager;
     private ArrayList<Event> mEvents;
     @Override
@@ -30,17 +30,17 @@ public class NotesPagerActivity extends FragmentActivity {
             public int getCount() {
                 return mEvents.size();
             }
+
             @Override
             public Fragment getItem(int pos) {
                 Event event = mEvents.get(pos);
-                return EventFragment.newInstance(event.getId());
+                return EventFragment.newInstance(event.getDate());
             }
         });
 
-        UUID crimeId = (UUID)getIntent()
-                .getSerializableExtra(CrimeFragment.EXTRA_CRIME_ID);
-        for (int i = 0; i < mCrimes.size(); i++) {
-            if (mCrimes.get(i).getId().equals(crimeId)) {
+        Date eventDate = (Date) getIntent().getSerializableExtra(EventFragment.EXTRA_EVENT_DATE);
+        for (int i = 0; i < mEvents.size(); i++) {
+            if (mEvents.get(i).getDate().equals(eventDate)) {
                 mViewPager.setCurrentItem(i);
                 break;
             }

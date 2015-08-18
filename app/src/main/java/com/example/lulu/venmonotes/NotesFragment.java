@@ -56,7 +56,7 @@ public class NotesFragment extends ListFragment {
                 EventLab.get(getActivity()).addEvent(event);
                 ((EventAdapter)getListAdapter()).notifyDataSetChanged();
                 Intent i = new Intent(getActivity(), EventPagerActivity.class);
-                i.putExtra(EventFragment.EXTRA_CRIME_ID, event.getDate());
+                i.putExtra(EventFragment.EXTRA_EVENT_DATE, event.getDate());
                 startActivity(i);
                 return true;
             case R.id.menu_item_show_photo:
