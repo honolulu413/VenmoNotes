@@ -3,6 +3,7 @@ package com.example.lulu.venmonotes;
 import android.app.Activity;
 import android.app.usage.UsageEvents;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -47,9 +48,14 @@ public class EventFragment extends Fragment {
     private TextView mDateFiled;
     private User mSelectedFriend;
     private Button mAddButton;
-    AutoCompleteTextView mAutoText;
-
+    private AutoCompleteTextView mAutoText;
     private CheckBox mSolvedCheckBox;
+    private TextView mPayTextView;
+    private TextView mChargeTextView;
+    private TextView mAmountTextView;
+
+    private double mPayAmount;
+    private double mChargeAmount;
 
     public static EventFragment newInstance(Event event, ArrayList<User> friends) {
         Bundle args = new Bundle();
@@ -72,6 +78,12 @@ public class EventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_event, parent, false);
+
+        mPayTextView = (TextView) v.findViewById(R.id.pay_amount);
+        mChargeTextView = (TextView) v.findViewById(R.id.charge_amount);
+        mPayTextView.setTextColor(Color.GREEN);
+        mChargeTextView.setTextColor(Color.RED);
+        updateUI();
 
         mDateFiled = (TextView) v.findViewById(R.id.event_date);
         mDateFiled.setText(mEvent.getDateString());
@@ -168,10 +180,32 @@ public class EventFragment extends Fragment {
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                try {
+                    int amount = Integer.parseInt(mAmountTextView.getText().toString());
+                    
+                } catch (Exception e) {
+                    return;
+                }
             }
         });
         return v;
+    }
+
+    public void updateUI() {
+        FragmentManager fm = getFragmentManager();
+        SubEventListFragment fragment = (SubEventListFragment)fm.findFragmentById(R.id.fragmentContainer);
+        fragment.updateUI();
+        mPayAmount = 0;
+        mChargeAmount = 0;
+        for (SubEvent e: mEvent.getSubEvents()) {
+            if (e.isPositive()) {
+                mChargeAmount += e.getAmount();
+            } else {
+                mPayAmount += e.getAmount();
+            }
+        }
+        mPayTextView.setText("" + mPayAmount);
+        mChargeTextView.setText("" + mChargeAmount);
     }
 
     @Override
