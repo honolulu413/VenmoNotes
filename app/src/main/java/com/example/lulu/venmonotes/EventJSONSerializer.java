@@ -46,7 +46,6 @@ public class EventJSONSerializer {
                 events.add(new Event(array.getJSONObject(i)));
             }
         } catch (FileNotFoundException e) {
-            // Ignore this one; it happens when starting fresh
         } finally {
             if (reader != null)
                 reader.close();

@@ -27,7 +27,43 @@ public class SubEvent {
     private static final String JSON_POSITIVE = "positive";
     private static final String JSON_SETTLED = "settled";
 
+    public void setDate(String date) {
+        this.date = date;
+    }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public void setProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public void setIsPositive(boolean isPositive) {
+        this.isPositive = isPositive;
+    }
+
+    public void setIsSettled(boolean isSettled) {
+        this.isSettled = isSettled;
+    }
+
+    public SubEvent(User user) {
+        userName = user.getUserName();
+        displayName = user.getDisplayName();
+        profileUrl = user.getProfileUrl();
+    }
     public SubEvent(JSONObject json) throws JSONException {
         date = json.getString(JSON_DATE);
         userName = json.getString(JSON_USER_NAME);

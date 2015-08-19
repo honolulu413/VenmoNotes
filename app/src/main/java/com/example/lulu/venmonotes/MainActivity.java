@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,9 +26,14 @@ public class MainActivity extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
 
-
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .edit()
+                .putString(HomePageActivity.ACCESS_TOKEN, "9edbf1b4ee7f3b627aefa81052bb6bcdc8f563e65afddc5a1cfe127abd5a6cdb")
+                .commit();
         String token = PreferenceManager.getDefaultSharedPreferences(this)
                 .getString(HomePageActivity.ACCESS_TOKEN, null);
+
+        //Log.d(HttpService.TAG, "" + token);
 
         if (token != null) {
             Intent i = new Intent(this, HomePageActivity.class);

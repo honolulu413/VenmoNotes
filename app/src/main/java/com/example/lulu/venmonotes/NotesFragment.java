@@ -107,8 +107,6 @@ public class NotesFragment extends ListFragment {
                     (TextView) convertView.findViewById(R.id.people);
             peopleTextView.setText(tmp);
 
-
-
             TextView titleTextView =
                     (TextView) convertView.findViewById(R.id.title);
             titleTextView.setText(e.getTitle());
@@ -137,8 +135,8 @@ public class NotesFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
 //        Crime c = (Crime) (getListAdapter()).getItem(position);
-        Event event = (Event)((EventAdapter) getListAdapter()).getItem(position);
-        Log.d(TAG, position + " is clicked");
+        Event event = ((EventAdapter) getListAdapter()).getItem(position);
+        //Log.d(TAG, position + " is clicked");
         // Start CrimeActivity
         Intent i = new Intent(getActivity(), EventPagerActivity.class);
         i.putExtra(HomePageActivity.FRIENDS, HomePageActivity.getFriendList());

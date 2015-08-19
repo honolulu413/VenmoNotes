@@ -2,15 +2,12 @@ package com.example.lulu.venmonotes;
 
 import android.app.Activity;
 import android.app.usage.UsageEvents;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -38,6 +35,7 @@ import java.util.UUID;
  * Created by lulu on 8/18/2015.
  */
 public class EventFragment extends Fragment {
+    private static final String TAG = "EVENTFRAGMENT";
     public static final String EXTRA_EVENT = "com.event";
     public static final String FRIENDS = "com.example.lulu.EventFragment.friends";
     private static final int REQUEST_PHOTO = 1;
@@ -49,10 +47,18 @@ public class EventFragment extends Fragment {
     private ImageView mPhotoView;
     private EditText mTitleField;
     private TextView mDateFiled;
-    private User selectedFriend;
-
+    private User mSelectedFriend;
+    private Button mAddPayButton;
+    private Button mAddChargeButton;
+    private AutoCompleteTextView mAutoText;
     private CheckBox mSolvedCheckBox;
-    private Button mPayAllButton;
+    private TextView mPayTextView;
+    private TextView mChargeTextView;
+    private EditText mAmountTextView;
+
+    private double mPayAmount;
+    private double mChargeAmount;
+    private String mAmountString = "";
 
     public static EventFragment newInstance(Event event, ArrayList<User> friends) {
         Bundle args = new Bundle();
@@ -69,6 +75,15 @@ public class EventFragment extends Fragment {
         setHasOptionsMenu(true);
         mEvent = (Event) getArguments().getSerializable(EXTRA_EVENT);
         mFriends = (ArrayList<User>) getArguments().getSerializable(FRIENDS);
+        FragmentManager fm = getChildFragmentManager();
+        SubEventListFragment fragment = null;
+
+        if (fragment == null) {
+            fragment = SubEventListFragment.newInstace(mEvent.getSubEvents());
+            fm.beginTransaction()
+                    .add(R.id.fragmentContainer, fragment)
+                    .commit();
+        }
     }
 
     @Override
@@ -76,27 +91,11 @@ public class EventFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_event, parent, false);
 
-        mPayAllButton = (Button) v.findViewById(R.id.pay_all_button);
-        mPayAllButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Confirm to pay all?");
-
-                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        payAllHelper();
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-
-            }
-        });
+        mPayTextView = (TextView) v.findViewById(R.id.pay_amount);
+        mChargeTextView = (TextView) v.findViewById(R.id.charge_amount);
+        mPayTextView.setTextColor(Color.RED);
+        mChargeTextView.setTextColor(Color.GREEN);
+        updateUI();
 
         mDateFiled = (TextView) v.findViewById(R.id.event_date);
         mDateFiled.setText(mEvent.getDateString());
@@ -109,7 +108,6 @@ public class EventFragment extends Fragment {
                 startActivityForResult(i, REQUEST_PHOTO);
             }
         });
-
 
         mPhotoView = (ImageView) v.findViewById(R.id.event_imageView);
         mPhotoView.setOnClickListener(new View.OnClickListener() {
@@ -154,22 +152,103 @@ public class EventFragment extends Fragment {
             }
         });
 
-        final AutoCompleteTextView autoText = (AutoCompleteTextView) v.findViewById(R.id.friend_selector);
+        mAutoText = (AutoCompleteTextView) v.findViewById(R.id.friend_selector);
         FriendSearchAdapter adapter = new FriendSearchAdapter(getActivity(), -1, mFriends);
-        autoText.setAdapter(adapter);
-        autoText.setThreshold(1);
-        autoText.setDropDownHeight(350);
-        autoText.setCompletionHint("Search by name");
+        mAutoText.setAdapter(adapter);
+        mAutoText.setThreshold(1);
+        mAutoText.setDropDownHeight(600);
+        mAutoText.setCompletionHint("Search by name");
 
-        autoText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mAmountTextView = (EditText) v.findViewById(R.id.amount);
+
+        mAddPayButton = (Button) v.findViewById(R.id.add_pay);
+        mAddChargeButton = (Button) v.findViewById(R.id.add_charge);
+
+        mAddPayButton.setEnabled(false);
+        mAddChargeButton.setEnabled(false);
+        mAutoText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedFriend = (User) parent.getAdapter().getItem(position);
-                autoText.setText(selectedFriend.getDisplayName());
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mAddPayButton.setEnabled(false);
+                mAddChargeButton.setEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
+        mAutoText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mSelectedFriend = (User) parent.getAdapter().getItem(position);
+                mAutoText.setText(mSelectedFriend.getDisplayName());
+                mAddPayButton.setEnabled(true);
+                mAddChargeButton.setEnabled(true);
+            }
+        });
+
+
+
+        mAddPayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Log.d(TAG, mAmountTextView.getText().toString());
+                    double amount = Double.parseDouble(mAmountTextView.getText().toString());
+                    SubEvent s = new SubEvent(mSelectedFriend);
+                    s.setAction("pay");
+                    s.setIsPositive(false);
+                    s.setAmount(amount);
+                    mEvent.addSubEvent(s);
+                    updateUI();
+                } catch (Exception e) {
+                    Log.d(TAG, "wrong number");
+                    return;
+                }
+            }
+        });
+
+        mAddChargeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    double amount = Double.parseDouble(mAmountTextView.getText().toString());
+                    SubEvent s = new SubEvent(mSelectedFriend);
+                    s.setAction("charge");
+                    s.setIsPositive(true);
+                    s.setAmount(amount);
+                    mEvent.addSubEvent(s);
+                    updateUI();
+                } catch (Exception e) {
+                    return;
+                }
+            }
+        });
         return v;
+    }
+
+    public void updateUI() {
+        FragmentManager fm = getChildFragmentManager();
+        SubEventListFragment fragment = (SubEventListFragment)fm.findFragmentById(R.id.fragmentContainer);
+        if (fragment != null) fragment.updateUI();
+        mPayAmount = 0;
+        mChargeAmount = 0;
+        for (SubEvent e: mEvent.getSubEvents()) {
+            if (e.isPositive()) {
+                mChargeAmount += e.getAmount();
+            } else {
+                mPayAmount += e.getAmount();
+            }
+        }
+        mPayTextView.setText("" + mPayAmount);
+        mChargeTextView.setText("" + mChargeAmount);
     }
 
     @Override
@@ -188,7 +267,6 @@ public class EventFragment extends Fragment {
     }
 
     private void showPhoto() {
-        // (Re)set the image button's image based on our photo
         Photo p = mEvent.getPhoto();
         BitmapDrawable b = null;
         if (p != null) {
@@ -216,26 +294,4 @@ public class EventFragment extends Fragment {
         super.onStart();
         showPhoto();
     }
-
-    private void payAllHelper() {
-        String ENDPOINT = "https://api.venmo.com/v1/payments";
-        String token = PreferenceManager.getDefaultSharedPreferences(getActivity())
-                .getString(HomePageActivity.ACCESS_TOKEN, null);
-
-        for (SubEvent subEvent : mEvent.getSubEvents()) {
-            Uri.Builder builder = Uri.parse(ENDPOINT).buildUpon();
-            builder.appendQueryParameter("access_token", token);
-            builder.appendQueryParameter("user_id", subEvent.getUserName());
-            builder.appendQueryParameter("note", mEvent.getTitle());
-            builder.appendQueryParameter("amount", subEvent.getRealAmount() + "");
-
-            String urlSpec = builder.build().toString();
-            HttpService httpService = new HttpService();
-            String jsonString = httpService.getUrl(urlSpec);
-        }
-
-
-
-    }
-
 }

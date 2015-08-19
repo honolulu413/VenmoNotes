@@ -13,9 +13,8 @@
     <string name="hide_photo">Hide Photo</string>
     <string name="event_hint">"What's it for?"</string>
     <string name="event_settled">All Settled?</string>
-    <string name="add_friend">Add One</string>
-    <string name="pay_all">Pay/Charge All</string>
+    <string name="add_pay">Add Pay</string>
+    <string name="add_charge">Add Charge</string>
+    <string name="pay_all">Send All</string>
     <string name="take">Take!</string>
-
-
 </resources>
