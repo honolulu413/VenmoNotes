@@ -2,11 +2,15 @@ package com.example.lulu.venmonotes;
 
 import android.app.Activity;
 import android.app.usage.UsageEvents;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -48,6 +52,7 @@ public class EventFragment extends Fragment {
     private User selectedFriend;
 
     private CheckBox mSolvedCheckBox;
+    private Button mPayAllButton;
 
     public static EventFragment newInstance(Event event, ArrayList<User> friends) {
         Bundle args = new Bundle();
@@ -70,6 +75,28 @@ public class EventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_event, parent, false);
+
+        mPayAllButton = (Button) v.findViewById(R.id.pay_all_button);
+        mPayAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Confirm to pay all?");
+
+                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        payAllHelper();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+            }
+        });
 
         mDateFiled = (TextView) v.findViewById(R.id.event_date);
         mDateFiled.setText(mEvent.getDateString());
@@ -189,4 +216,26 @@ public class EventFragment extends Fragment {
         super.onStart();
         showPhoto();
     }
+
+    private void payAllHelper() {
+        String ENDPOINT = "https://api.venmo.com/v1/payments";
+        String token = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .getString(HomePageActivity.ACCESS_TOKEN, null);
+
+        for (SubEvent subEvent : mEvent.getSubEvents()) {
+            Uri.Builder builder = Uri.parse(ENDPOINT).buildUpon();
+            builder.appendQueryParameter("access_token", token);
+            builder.appendQueryParameter("user_id", subEvent.getUserName());
+            builder.appendQueryParameter("note", mEvent.getTitle());
+            builder.appendQueryParameter("amount", subEvent.getRealAmount() + "");
+
+            String urlSpec = builder.build().toString();
+            HttpService httpService = new HttpService();
+            String jsonString = httpService.getUrl(urlSpec);
+        }
+
+
+
+    }
+
 }

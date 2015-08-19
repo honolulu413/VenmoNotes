@@ -3,10 +3,12 @@ package com.example.lulu.venmonotes;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by lulu on 8/17/2015.
  */
-public class Photo {
+public class Photo implements Serializable {
     private static final String JSON_FILENAME = "filename";
     private String mFilename;
     /** Create a Photo representing an existing file on disk */

@@ -20,7 +20,7 @@ import java.util.UUID;
 public class Event implements Serializable{
     String TAG = "photo";
     private boolean settled;
-    private String title;
+    private String title = "";
     private Date date;
     private ArrayList<SubEvent> subEvents;
     private Photo photo;
