@@ -70,7 +70,7 @@ public class EventFragment extends Fragment {
         mDateFiled = (TextView) v.findViewById(R.id.event_date);
         mDateFiled.setText(getDateString(mEvent.getDate()));
 
-        mPhotoButton = (ImageButton) v.findViewById(R.id.crime_imageButton);
+        mPhotoButton = (ImageButton) v.findViewById(R.id.event_imageButton);
         mPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +80,7 @@ public class EventFragment extends Fragment {
         });
 
 
-        mPhotoView = (ImageView) v.findViewById(R.id.crime_imageView);
+        mPhotoView = (ImageView) v.findViewById(R.id.event_imageView);
         mPhotoView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Photo p = mEvent.getPhoto();
@@ -96,7 +96,7 @@ public class EventFragment extends Fragment {
             }
         });
 
-        mTitleField = (EditText) v.findViewById(R.id.crime_title);
+        mTitleField = (EditText) v.findViewById(R.id.event_title);
         mTitleField.setText(mEvent.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(

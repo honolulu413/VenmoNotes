@@ -35,14 +35,14 @@ public class EventCameraFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_crime_camera, parent, false);
+        View v = inflater.inflate(R.layout.fragment_event_camera, parent, false);
 
-        mProgressContainer = v.findViewById(R.id.crime_camera_progressContainer);
+        mProgressContainer = v.findViewById(R.id.event_camera_progressContainer);
         mProgressContainer.setVisibility(View.INVISIBLE);
 
 
         Button takePictureButton = (Button)v
-                .findViewById(R.id.crime_camera_takePictureButton);
+                .findViewById(R.id.event_camera_takePictureButton);
         takePictureButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 //                getActivity().finish();
@@ -51,7 +51,7 @@ public class EventCameraFragment extends Fragment {
                 }
             }
         });
-        mSurfaceView = (SurfaceView)v.findViewById(R.id.crime_camera_surfaceView);
+        mSurfaceView = (SurfaceView)v.findViewById(R.id.event_camera_surfaceView);
         SurfaceHolder holder = mSurfaceView.getHolder();
         // setType() and SURFACE_TYPE_PUSH_BUFFERS are both deprecated,
         // but are required for Camera preview to work on pre-3.0 devices.

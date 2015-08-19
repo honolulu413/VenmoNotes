@@ -86,9 +86,26 @@ public class NotesFragment extends ListFragment {
                         .inflate(R.layout.list_item_event, null);
             }
             Event e = getItem(position);
+
+
+            ArrayList<SubEvent> subEvents = e.getSubEvents();
+            String tmp = "";
+            for (int i = 0; i < subEvents.size(); i++) {
+                if (i == 3) {
+                    tmp += "...";
+                    break;
+                }
+                tmp += subEvents.get(i).getDisplayName() + ",";
+            }
+            TextView peopleTextView =
+                    (TextView) convertView.findViewById(R.id.people);
+            peopleTextView.setText(tmp);
+
+
+
             TextView titleTextView =
                     (TextView) convertView.findViewById(R.id.title);
-            titleTextView.setText(e.getTitle());
+
             TextView dateTextView =
                     (TextView) convertView.findViewById(R.id.date);
             dateTextView.setText(e.getDateString());
