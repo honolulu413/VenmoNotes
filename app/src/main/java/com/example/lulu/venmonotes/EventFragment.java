@@ -45,7 +45,9 @@ public class EventFragment extends Fragment {
     private ImageView mPhotoView;
     private EditText mTitleField;
     private TextView mDateFiled;
-    private User selectedFriend;
+    private User mSelectedFriend;
+    private Button mAddButton;
+    AutoCompleteTextView mAutoText;
 
     private CheckBox mSolvedCheckBox;
 
@@ -128,21 +130,48 @@ public class EventFragment extends Fragment {
             }
         });
 
-        final AutoCompleteTextView autoText = (AutoCompleteTextView) v.findViewById(R.id.friend_selector);
+        mAutoText = (AutoCompleteTextView) v.findViewById(R.id.friend_selector);
         FriendSearchAdapter adapter = new FriendSearchAdapter(getActivity(), -1, mFriends);
-        autoText.setAdapter(adapter);
-        autoText.setThreshold(1);
-        autoText.setDropDownHeight(350);
-        autoText.setCompletionHint("Search by name");
+        mAutoText.setAdapter(adapter);
+        mAutoText.setThreshold(1);
+        mAutoText.setDropDownHeight(350);
+        mAutoText.setCompletionHint("Search by name");
 
-        autoText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mAddButton = (Button) v.findViewById(R.id.add_button);
+        mAddButton.setEnabled(false);
+        mAutoText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedFriend = (User) parent.getAdapter().getItem(position);
-                autoText.setText(selectedFriend.getDisplayName());
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mAddButton.setEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
+        mAutoText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mSelectedFriend = (User) parent.getAdapter().getItem(position);
+                mAutoText.setText(mSelectedFriend.getDisplayName());
+                mAddButton.setEnabled(true);
+            }
+        });
+
+
+        mAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         return v;
     }
 
