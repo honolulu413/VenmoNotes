@@ -57,7 +57,7 @@ public class NotesFragment extends ListFragment {
                 ((EventAdapter)getListAdapter()).notifyDataSetChanged();
                 Intent i = new Intent(getActivity(), EventPagerActivity.class);
                 i.putExtra(HomePageActivity.FRIENDS, HomePageActivity.getFriendList());
-                i.putExtra(EventFragment.EXTRA_EVENT_DATE, event.getDate());
+                i.putExtra(EventFragment.EXTRA_EVENT, event.getDate());
                 startActivity(i);
                 return true;
             case R.id.menu_item_show_photo:
