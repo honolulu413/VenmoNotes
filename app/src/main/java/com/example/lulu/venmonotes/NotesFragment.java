@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -44,6 +45,7 @@ public class NotesFragment extends ListFragment {
         EventAdapter adapter = new EventAdapter(mEvents);
         setListAdapter(adapter);
     }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -109,6 +111,7 @@ public class NotesFragment extends ListFragment {
 
             TextView titleTextView =
                     (TextView) convertView.findViewById(R.id.title);
+            titleTextView.setText(e.getTitle());
 
             TextView dateTextView =
                     (TextView) convertView.findViewById(R.id.date);

@@ -79,14 +79,13 @@
     </LinearLayout>
 
 
-    <!--<ListView android:id="@+id/left_drawer"-->
-    <!--android:layout_width="240dp"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_gravity="start"-->
-    <!--android:choiceMode="singleChoice"-->
-    <!--android:divider="@android:color/transparent"-->
-    <!--android:dividerHeight="0dp"-->
-    <!--android:background="#111"/>-->
+    <ListView android:id="@+id/left_drawer"
+    android:layout_width="240dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:choiceMode="singleChoice"
+    android:dividerHeight="0dp"
+        android:background="#ffffff"/>
 
     <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->
@@ -100,13 +99,13 @@
 
     <!--android:text="Search Friend" />-->
 
-        <Button
-            android:id="@+id/createNoteButton"
-            android:layout_width="240dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
+        <!--<Button-->
+            <!--android:id="@+id/createNoteButton"-->
+            <!--android:layout_width="240dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_gravity="start"-->
 
-            android:text="Create a Note" />
+            <!--android:text="Create a Note" />-->
     <!--</LinearLayout>-->
 
 

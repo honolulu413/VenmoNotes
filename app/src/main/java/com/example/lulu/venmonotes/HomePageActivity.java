@@ -20,6 +20,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -30,8 +32,10 @@ import android.widget.DatePicker;
 import com.loopj.android.image.SmartImageView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by lulu on 7/9/2015.
@@ -76,12 +80,13 @@ public class HomePageActivity extends ActionBarActivity {
     private ListView mListViewFriend;
     private Button mSearchButton;
     private Button mCreateNoteButton;
+    private ListView mDrawer;
 
     public  static ArrayList<User> getFriendList() {
         return mFriendsList;
     }
 
-    @Override
+    public static final List<String> drawerItems =  Arrays.asList("Search Friend", "Create Note", "Log Out");
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
@@ -111,7 +116,41 @@ public class HomePageActivity extends ActionBarActivity {
         mUserName = (TextView) findViewById(R.id.user_name);
         mDisplayName = (TextView) findViewById(R.id.display_name);
         mRadioGroup = (RadioGroup) findViewById(R.id.tab);
-        mCreateNoteButton = (Button) findViewById(R.id.createNoteButton);
+//        mCreateNoteButton = (Button) findViewById(R.id.createNoteButton);
+
+        mDrawer = (ListView) findViewById(R.id.left_drawer);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(HomePageActivity.this,
+                        android.R.layout.simple_list_item_1,
+                        drawerItems);
+        mDrawer.setAdapter(adapter);
+        mDrawer.setClickable(true);
+        mDrawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                if (position == 0) {
+                Intent i = new Intent(HomePageActivity.this, FriendSearchActivity.class);
+                Bundle mBundle = new Bundle();
+                mBundle.putSerializable(HomePageActivity.CURRENT_USER, currentUser);
+
+                i.putExtras(mBundle);
+                i.putExtra(HomePageActivity.TRAN, mFriendTransactions);
+                i.putExtra(HomePageActivity.FRIENDS, mFriendsList);
+                startActivity(i);
+                } else if (position == 1) {
+                    Intent i = new Intent(HomePageActivity.this, NotesActivity.class);
+                    startActivity(i);
+                } else {
+                    PreferenceManager.getDefaultSharedPreferences(HomePageActivity.this)
+                            .edit()
+                            .putString(HomePageActivity.ACCESS_TOKEN, null)
+                            .commit();
+                    Intent i = new Intent(HomePageActivity.this, MainActivity.class);
+                    startActivity(i);
+                }
+            }
+        });
+
 
 //        mSearchButton.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View v) {
@@ -127,12 +166,12 @@ public class HomePageActivity extends ActionBarActivity {
 //        });
 
 
-        mCreateNoteButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent i = new Intent(HomePageActivity.this, NotesActivity.class);
-                startActivity(i);
-            }
-        });
+//        mCreateNoteButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                Intent i = new Intent(HomePageActivity.this, NotesActivity.class);
+//                startActivity(i);
+//            }
+//        });
 
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
