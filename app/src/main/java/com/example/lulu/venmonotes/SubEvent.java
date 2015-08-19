@@ -95,6 +95,8 @@ public class SubEvent {
         isSettled = in;
     }
 
+    public String getAction() { return action; }
+
     @Override
     public String toString() {
         return "You " + action + " " + displayName + " " + amount + "$ on " + date;

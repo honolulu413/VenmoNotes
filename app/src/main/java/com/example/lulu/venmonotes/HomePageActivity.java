@@ -101,24 +101,23 @@ public class HomePageActivity extends ActionBarActivity {
 
         new ProfileFetcher().execute(token);
 
-//        mListViewFriend = (ListView) findViewById(R.id.friendList);
-        mSearchButton = (Button) findViewById(R.id.searchButton);
+//        mSearchButton = (Button) findViewById(R.id.searchButton);
         mImageView = (SmartImageView) findViewById(R.id.imageView);
         mUserName = (TextView) findViewById(R.id.user_name);
         mDisplayName = (TextView) findViewById(R.id.display_name);
         mRadioGroup = (RadioGroup) findViewById(R.id.tab);
+        mCreateNoteButton = (Button) findViewById(R.id.createNoteButton);
 
-        mSearchButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent i = new Intent(HomePageActivity.this, FriendSearchActivity.class);
-                Bundle mBundle = new Bundle();
-                mBundle.putSerializable(HomePageActivity.CURRENT_USER, currentUser);
-//                mBundle.putSerializable(HomePageActivity.TRAN, mFriendTransactions);
-                i.putExtras(mBundle);
-                i.putExtra(HomePageActivity.TRAN, mFriendTransactions);
-                startActivity(i);
-            }
-        });
+//        mSearchButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                Intent i = new Intent(HomePageActivity.this, FriendSearchActivity.class);
+//                Bundle mBundle = new Bundle();
+//                mBundle.putSerializable(HomePageActivity.CURRENT_USER, currentUser);
+//                i.putExtras(mBundle);
+//                i.putExtra(HomePageActivity.TRAN, mFriendTransactions);
+//                startActivity(i);
+//            }
+//        });
 
 
         mCreateNoteButton.setOnClickListener(new View.OnClickListener() {
