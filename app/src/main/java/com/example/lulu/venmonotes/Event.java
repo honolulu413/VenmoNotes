@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,7 +15,7 @@ import java.util.UUID;
 /**
  * Created by lulu on 8/17/2015.
  */
-public class Event {
+public class Event implements Serializable{
     private boolean settled;
     private String title;
     private Date date;

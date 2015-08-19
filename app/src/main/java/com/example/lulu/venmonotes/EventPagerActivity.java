@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +17,8 @@ import java.util.Date;
 public class EventPagerActivity extends FragmentActivity {
     private ViewPager mViewPager;
     private ArrayList<Event> mEvents;
+    private ArrayList<User> mFriends;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +28,9 @@ public class EventPagerActivity extends FragmentActivity {
 
         mEvents = EventLab.get(this).getEvents();
         FragmentManager fm = getSupportFragmentManager();
+
+        mFriends = (ArrayList<User>) getIntent().getSerializableExtra(HomePageActivity.FRIENDS);
+
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
             @Override
             public int getCount() {
@@ -34,7 +40,7 @@ public class EventPagerActivity extends FragmentActivity {
             @Override
             public Fragment getItem(int pos) {
                 Event event = mEvents.get(pos);
-                return EventFragment.newInstance(event.getDate());
+                return EventFragment.newInstance(event, mFriends);
             }
         });
 

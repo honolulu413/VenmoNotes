@@ -38,6 +38,10 @@ public class FriendSearchActivity extends ActionBarActivity {
         currentUser = (User) getIntent().getSerializableExtra(HomePageActivity.CURRENT_USER);
         mFriendTransactions = (HashMap<User, ArrayList<Transaction>>) getIntent().getSerializableExtra(HomePageActivity.TRAN);
 
+        mFriendsList = (ArrayList<User>) getIntent().getSerializableExtra(HomePageActivity.FRIENDS);
+
+
+
         token = PreferenceManager.getDefaultSharedPreferences(this)
                 .getString(HomePageActivity.ACCESS_TOKEN, null);
         setContentView(R.layout.activity_friend_list);
@@ -45,6 +49,9 @@ public class FriendSearchActivity extends ActionBarActivity {
         searchBox = (EditText) findViewById(R.id.searchBox);
 
         mListViewFriend = (ListView) findViewById(R.id.friendList);
+        mAdapter = new FriendSearchAdapter(FriendSearchActivity.this, -1, mFriendsList);
+        mListViewFriend.setAdapter(mAdapter);
+
         mListViewFriend.setClickable(true);
         mListViewFriend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -54,7 +61,6 @@ public class FriendSearchActivity extends ActionBarActivity {
                 Intent i = new Intent(FriendSearchActivity.this, FriendPageActivity.class);
                 Bundle mBundle = new Bundle();
                 mBundle.putSerializable(FriendPageActivity.USER, friend);
-//                mBundle.putSerializable(FriendPageActivity.TRAN, mFriendTransactions.get(friend));
 
                 i.putExtras(mBundle);
                 i.putExtra(FriendPageActivity.TRAN, mFriendTransactions.get(friend));
@@ -64,50 +70,29 @@ public class FriendSearchActivity extends ActionBarActivity {
             }
         });
 
+        searchBox.addTextChangedListener(new TextWatcher() {
 
-        new FetchFriends().execute(token);
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                // When user changed the Text
+                Log.d(TAG, "" + (mAdapter == null));
+                mAdapter.getFilter().filter(cs);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                          int arg3) {
+                // TODO Auto-generated method stub
+
+            }
 
 
-
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
     }
 
 
-    private class FetchFriends extends AsyncTask<String, Void, ArrayList<User>> {
-        @Override
-        protected ArrayList<User> doInBackground(String... params) {
-            String token = params[0];
-            return new FriendSearchFetcher(token, currentUser.getUserName()).getFriend();
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<User> result) {
-            mFriendsList = result;
-            mAdapter = new FriendSearchAdapter(FriendSearchActivity.this, -1, mFriendsList);
-            mListViewFriend.setAdapter(mAdapter);
-
-            searchBox.addTextChangedListener(new TextWatcher() {
-
-                @Override
-                public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                    // When user changed the Text
-                    Log.d(TAG, "" + (mAdapter == null));
-                    mAdapter.getFilter().filter(cs);
-                }
-
-                @Override
-                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-                                              int arg3) {
-                    // TODO Auto-generated method stub
-
-                }
-
-
-                @Override
-                public void afterTextChanged(Editable arg0) {
-                    // TODO Auto-generated method stub
-                }
-            });
-        }
-
-    }
 }

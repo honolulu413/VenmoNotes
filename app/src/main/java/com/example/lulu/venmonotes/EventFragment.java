@@ -34,7 +34,7 @@ import java.util.UUID;
  * Created by lulu on 8/18/2015.
  */
 public class EventFragment extends Fragment {
-    public static final String EXTRA_EVENT_DATE = "com.eventDate";
+    public static final String EXTRA_EVENT = "com.event";
     public static final String FRIENDS = "com.example.lulu.EventFragment.friends";
     private static final int REQUEST_PHOTO = 1;
     private static final String DIALOG_IMAGE = "image";
@@ -51,9 +51,9 @@ public class EventFragment extends Fragment {
 
     private CheckBox mSolvedCheckBox;
 
-    public static EventFragment newInstance(Date eventDate, ArrayList<User> friends) {
+    public static EventFragment newInstance(Event event, ArrayList<User> friends) {
         Bundle args = new Bundle();
-        args.putSerializable(EXTRA_EVENT_DATE, eventDate);
+        args.putSerializable(EXTRA_EVENT, event);
         args.putSerializable(FRIENDS, friends);
         EventFragment fragment = new EventFragment();
         fragment.setArguments(args);
@@ -64,8 +64,7 @@ public class EventFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        Date eventDate = (Date) getArguments().getSerializable(EXTRA_EVENT_DATE);
-        mEvent = EventLab.get(getActivity()).getEvent(eventDate);
+        mEvent = (Event) getArguments().getSerializable(EXTRA_EVENT);
         mFriends = (ArrayList<User>) getArguments().getSerializable(FRIENDS);
     }
 

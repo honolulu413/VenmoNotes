@@ -96,7 +96,9 @@
             <!--android:id="@+id/searchButton"-->
             <!--android:layout_width="240dp"-->
             <!--android:layout_height="wrap_content"-->
-            <!--android:text="Search Friend" />-->
+            <!--android:layout_gravity="start"-->
+
+    <!--android:text="Search Friend" />-->
 
         <Button
             android:id="@+id/createNoteButton"
