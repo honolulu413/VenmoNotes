@@ -44,7 +44,7 @@ public class EventPagerActivity extends FragmentActivity {
             }
         });
 
-        Date eventDate = (Date) getIntent().getSerializableExtra(EventFragment.EXTRA_EVENT_DATE);
+        Date eventDate = (Date) getIntent().getSerializableExtra(EventFragment.EXTRA_EVENT);
         for (int i = 0; i < mEvents.size(); i++) {
             if (mEvents.get(i).getDate().equals(eventDate)) {
                 mViewPager.setCurrentItem(i);
