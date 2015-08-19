@@ -77,7 +77,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/friend_selector"
             android:layout_width="120dp"
             android:layout_height="wrap_content"

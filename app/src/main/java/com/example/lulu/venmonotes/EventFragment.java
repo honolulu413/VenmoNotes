@@ -13,6 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -23,6 +26,7 @@ import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
@@ -31,20 +35,24 @@ import java.util.UUID;
  */
 public class EventFragment extends Fragment {
     public static final String EXTRA_EVENT_DATE = "com.eventDate";
+    public static final String FRIENDS = "com.example.lulu.EventFragment.friends";
     private static final int REQUEST_PHOTO = 1;
     private static final String DIALOG_IMAGE = "image";
+    private ArrayList<User> mFriends;
 
     private Event mEvent;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     private EditText mTitleField;
     private TextView mDateFiled;
+    private User selectedFriend;
 
     private CheckBox mSolvedCheckBox;
 
-    public static EventFragment newInstance(Date eventDate) {
+    public static EventFragment newInstance(Date eventDate, ArrayList<User> friends) {
         Bundle args = new Bundle();
         args.putSerializable(EXTRA_EVENT_DATE, eventDate);
+        args.putSerializable(FRIENDS, friends);
         EventFragment fragment = new EventFragment();
         fragment.setArguments(args);
         return fragment;
@@ -56,19 +64,16 @@ public class EventFragment extends Fragment {
         setHasOptionsMenu(true);
         Date eventDate = (Date) getArguments().getSerializable(EXTRA_EVENT_DATE);
         mEvent = EventLab.get(getActivity()).getEvent(eventDate);
+        mFriends = (ArrayList<User>) getArguments().getSerializable(FRIENDS);
     }
 
-    private String getDateString(Date date) {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-        return df.format(date).replaceAll("T.+", "");
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_event, parent, false);
 
         mDateFiled = (TextView) v.findViewById(R.id.event_date);
-        mDateFiled.setText(getDateString(mEvent.getDate()));
+        mDateFiled.setText(mEvent.getDateString());
 
         mPhotoButton = (ImageButton) v.findViewById(R.id.event_imageButton);
         mPhotoButton.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +125,21 @@ public class EventFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Set the crime's solved property
                 mEvent.setSettled(isChecked);
+            }
+        });
+
+        final AutoCompleteTextView autoText = (AutoCompleteTextView) v.findViewById(R.id.friend_selector);
+        FriendSearchAdapter adapter = new FriendSearchAdapter(getActivity(), -1, mFriends);
+        autoText.setAdapter(adapter);
+        autoText.setThreshold(1);
+        autoText.setDropDownHeight(350);
+        autoText.setCompletionHint("Search by name");
+
+        autoText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedFriend = (User) parent.getAdapter().getItem(position);
+                autoText.setText(selectedFriend.getDisplayName());
             }
         });
 
