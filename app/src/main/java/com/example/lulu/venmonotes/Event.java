@@ -38,7 +38,7 @@ public class Event implements Serializable{
         subEvents = new ArrayList<>();
     }
 
-    
+
     public Event(JSONObject json) throws JSONException {
         settled = json.getBoolean(JSON_SETTLED);
         title = json.getString(JSON_TITLE);

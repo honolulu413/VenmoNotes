@@ -136,7 +136,7 @@ public class NotesFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
 //        Crime c = (Crime) (getListAdapter()).getItem(position);
         Event event = ((EventAdapter) getListAdapter()).getItem(position);
-        Log.d(TAG, position + " is clicked");
+        //Log.d(TAG, position + " is clicked");
         // Start CrimeActivity
         Intent i = new Intent(getActivity(), EventPagerActivity.class);
         i.putExtra(HomePageActivity.FRIENDS, HomePageActivity.getFriendList());
