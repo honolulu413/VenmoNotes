@@ -42,9 +42,9 @@ public class EventFragment extends Fragment {
 
     private CheckBox mSolvedCheckBox;
 
-    public static EventFragment newInstance(Date eventDate) {
+    public static EventFragment newInstance(Event event) {
         Bundle args = new Bundle();
-        args.putSerializable(EXTRA_EVENT_DATE, eventDate);
+        args.putSerializable(EXTRA_EVENT_DATE, event);
         EventFragment fragment = new EventFragment();
         fragment.setArguments(args);
         return fragment;
@@ -54,9 +54,8 @@ public class EventFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        Date eventDate = (Date) getArguments().getSerializable(EXTRA_EVENT_DATE);
-        mEvent = EventLab.get(getActivity()).getEvent(eventDate);
-    }
+         mEvent = (Event) getArguments().getSerializable(EXTRA_EVENT_DATE);
+     }
 
     private String getDateString(Date date) {
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");

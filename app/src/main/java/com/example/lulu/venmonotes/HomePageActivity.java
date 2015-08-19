@@ -43,6 +43,7 @@ public class HomePageActivity extends ActionBarActivity {
     public static final String ACCESS_TOKEN = "com.example.lulu.HomePageActivity.accessToken";
     public static final String CURRENT_USER = "com.example.lulu.HomePageActivity.currentUser";
     public static final String TRAN = "com.example.lulu.HomePageActivity.transactions";
+    public static final String FRIENDS = "com.example.lulu.HomePageActivity.friends";
 
     private static final String TAG = "DATE";
     private ArrayList<Transaction> mTransactions;
@@ -70,11 +71,15 @@ public class HomePageActivity extends ActionBarActivity {
     private FragmentManager fm;
 
     private HashMap<User, ArrayList<Transaction>> mFriendTransactions;
-    private ArrayList<User> mFriendsList;
+    private static ArrayList<User> mFriendsList;
 
     private ListView mListViewFriend;
     private Button mSearchButton;
     private Button mCreateNoteButton;
+
+    public  static ArrayList<User> getFriendList() {
+        return mFriendsList;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +118,10 @@ public class HomePageActivity extends ActionBarActivity {
 //                Intent i = new Intent(HomePageActivity.this, FriendSearchActivity.class);
 //                Bundle mBundle = new Bundle();
 //                mBundle.putSerializable(HomePageActivity.CURRENT_USER, currentUser);
+//
 //                i.putExtras(mBundle);
 //                i.putExtra(HomePageActivity.TRAN, mFriendTransactions);
+//                i.putExtra(HomePageActivity.FRIENDS, mFriendsList);
 //                startActivity(i);
 //            }
 //        });
@@ -362,7 +369,7 @@ public class HomePageActivity extends ActionBarActivity {
                 e.printStackTrace();
             }
             new FetchTransactions().execute(token);
-//            new FetchFriends().execute(token);
+            new FetchFriends().execute(token);
         }
     }
 }

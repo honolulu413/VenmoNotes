@@ -56,6 +56,7 @@ public class NotesFragment extends ListFragment {
                 EventLab.get(getActivity()).addEvent(event);
                 ((EventAdapter)getListAdapter()).notifyDataSetChanged();
                 Intent i = new Intent(getActivity(), EventPagerActivity.class);
+                i.putExtra(HomePageActivity.FRIENDS, HomePageActivity.getFriendList());
                 i.putExtra(EventFragment.EXTRA_EVENT_DATE, event.getDate());
                 startActivity(i);
                 return true;
