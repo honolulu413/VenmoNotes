@@ -33,7 +33,7 @@ public class TransactionFetcher {
         HttpService httpService = new HttpService();
 
         String jsonString = httpService.getUrl(urlSpec);
-        Log.d(HttpService.TAG, jsonString);
+        Log.d(HttpService.TAG, "" + jsonString);
         ArrayList<Transaction> transactions = new ArrayList<Transaction>();
         try {
             JSONObject jsonObject = new JSONObject(jsonString);

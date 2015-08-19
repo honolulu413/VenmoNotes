@@ -15,6 +15,6 @@
     <string name="event_settled">All Settled?</string>
     <string name="add_pay">Add Pay</string>
     <string name="add_charge">Add Charge</string>
-    <string name="pay_all">Pay/Charge All</string>
+    <string name="pay_all">Send All</string>
     <string name="take">Take!</string>
 </resources>

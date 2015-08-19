@@ -47,7 +47,8 @@ public class EventFragment extends Fragment {
     private EditText mTitleField;
     private TextView mDateFiled;
     private User mSelectedFriend;
-    private Button mAddButton;
+    private Button mAddPayButton;
+    private Button mAddChargeButton;
     private AutoCompleteTextView mAutoText;
     private CheckBox mSolvedCheckBox;
     private TextView mPayTextView;
@@ -72,6 +73,14 @@ public class EventFragment extends Fragment {
         setHasOptionsMenu(true);
         mEvent = (Event) getArguments().getSerializable(EXTRA_EVENT);
         mFriends = (ArrayList<User>) getArguments().getSerializable(FRIENDS);
+        FragmentManager fm = getFragmentManager();
+        SubEventListFragment fragment = (SubEventListFragment) fm.findFragmentById(R.id.fragmentContainer);
+        if (fragment == null) {
+            fragment = SubEventListFragment.newInstace(mEvent.getSubEvents());
+            fm.beginTransaction()
+                    .add(R.id.fragmentContainer, fragment)
+                    .commit();
+        }
     }
 
     @Override
@@ -148,8 +157,11 @@ public class EventFragment extends Fragment {
         mAutoText.setDropDownHeight(350);
         mAutoText.setCompletionHint("Search by name");
 
-        mAddButton = (Button) v.findViewById(R.id.add_button);
-        mAddButton.setEnabled(false);
+        mAddPayButton = (Button) v.findViewById(R.id.add_pay);
+        mAddChargeButton = (Button) v.findViewById(R.id.add_charge);
+
+        mAddPayButton.setEnabled(false);
+        mAddChargeButton.setEnabled(false);
         mAutoText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -158,7 +170,8 @@ public class EventFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mAddButton.setEnabled(false);
+                mAddPayButton.setEnabled(false);
+                mAddChargeButton.setEnabled(false);
             }
 
             @Override
@@ -172,17 +185,40 @@ public class EventFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mSelectedFriend = (User) parent.getAdapter().getItem(position);
                 mAutoText.setText(mSelectedFriend.getDisplayName());
-                mAddButton.setEnabled(true);
+                mAddPayButton.setEnabled(true);
+                mAddChargeButton.setEnabled(true);
             }
         });
 
 
-        mAddButton.setOnClickListener(new View.OnClickListener() {
+        mAddPayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     int amount = Integer.parseInt(mAmountTextView.getText().toString());
-                    
+                    SubEvent s = new SubEvent(mSelectedFriend);
+                    s.setAction("pay");
+                    s.setIsPositive(false);
+                    s.setAmount(amount);
+                    mEvent.addSubEvent(s);
+                    updateUI();
+                } catch (Exception e) {
+                    return;
+                }
+            }
+        });
+
+        mAddPayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    int amount = Integer.parseInt(mAmountTextView.getText().toString());
+                    SubEvent s = new SubEvent(mSelectedFriend);
+                    s.setAction("charge");
+                    s.setIsPositive(true);
+                    s.setAmount(amount);
+                    mEvent.addSubEvent(s);
+                    updateUI();
                 } catch (Exception e) {
                     return;
                 }
