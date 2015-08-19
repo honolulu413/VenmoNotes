@@ -238,7 +238,7 @@ public class EventFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-//        CrimeLab.get(getActivity()).saveCrimes();
+        EventLab.get(getActivity()).saveEvents();
     }
 
     @Override

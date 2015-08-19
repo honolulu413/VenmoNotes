@@ -1,9 +1,11 @@
 package com.example.lulu.venmonotes;
 
+import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
  */
 public class NotesFragment extends ListFragment {
     private ArrayList<Event> mEvents;
+    public String TAG = "note";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
@@ -128,6 +131,16 @@ public class NotesFragment extends ListFragment {
         EventLab.get(getActivity()).saveEvents();
     }
 
-
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+//        Crime c = (Crime) (getListAdapter()).getItem(position);
+        Event event = (Event)((EventAdapter) getListAdapter()).getItem(position);
+        Log.d(TAG, position + " is clicked");
+        // Start CrimeActivity
+        Intent i = new Intent(getActivity(), EventPagerActivity.class);
+        i.putExtra(HomePageActivity.FRIENDS, HomePageActivity.getFriendList());
+        i.putExtra(EventFragment.EXTRA_EVENT, event.getDate());
+        startActivity(i);
+    }
 
 }
