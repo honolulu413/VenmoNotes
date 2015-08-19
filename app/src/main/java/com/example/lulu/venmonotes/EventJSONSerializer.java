@@ -54,7 +54,7 @@ public class EventJSONSerializer {
         return events;
     }
 
-    public void saveCrimes(ArrayList<Event> events)
+    public void saveEvents(ArrayList<Event> events)
             throws JSONException, IOException {
         // Build an array in JSON
         JSONArray array = new JSONArray();

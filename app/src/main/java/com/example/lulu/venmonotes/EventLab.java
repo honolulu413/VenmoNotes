@@ -30,7 +30,7 @@ public class EventLab {
 
     public boolean saveEvents() {
         try {
-            mSerializer.saveCrimes(mEvents);
+            mSerializer.saveEvents(mEvents);
             Log.d(TAG, "Events saved to file");
             return true;
         } catch (Exception e) {

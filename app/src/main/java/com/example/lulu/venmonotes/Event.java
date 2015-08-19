@@ -1,5 +1,7 @@
 package com.example.lulu.venmonotes;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +18,7 @@ import java.util.UUID;
  * Created by lulu on 8/17/2015.
  */
 public class Event implements Serializable{
+    String TAG = "photo";
     private boolean settled;
     private String title;
     private Date date;
@@ -47,7 +50,7 @@ public class Event implements Serializable{
         if (json.has(JSON_PHOTO)) {
             photo = new Photo(json.getJSONObject(JSON_PHOTO));
         }
-        note = json.getString(JSON_NOTE);
+//        note = json.getString(JSON_NOTE);
     }
 
     public JSONObject toJSON() throws JSONException {
@@ -55,13 +58,15 @@ public class Event implements Serializable{
         json.put(JSON_SETTLED, settled);
         json.put(JSON_TITLE, title);
         json.put(JSON_DATE, date.getTime());
-        json.put(JSON_NOTE, note);
+//        json.put(JSON_NOTE, note);
         JSONArray array = new JSONArray();
         for (SubEvent subEvent: subEvents) {
             array.put(subEvent.toJSON());
         }
         json.put(JSON_SUBEVENTS, array);
-        json.put(JSON_PHOTO, photo.toJSON());
+        Log.d(TAG, "photo is " + photo);
+        if (photo != null)
+            json.put(JSON_PHOTO, photo.toJSON());
         return json;
     }
 
