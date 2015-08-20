@@ -1,24 +1,25 @@
 package com.example.lulu.venmonotes;
 
-import android.app.usage.UsageEvents;
 import android.content.Intent;
-import android.os.Build;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import java.util.ArrayList;
 
@@ -32,7 +33,50 @@ public class NotesFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        View v = super.onCreateView(inflater, parent, savedInstanceState);
+//        View v = super.onCreateView(inflater, parent, savedInstanceState);
+        View v = inflater.inflate(R.layout.listview_swipe_list_view, parent, false);
+        SwipeMenuListView mListView = (SwipeMenuListView) v.findViewById(android.R.id.list);
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+
+            @Override
+            public void create(SwipeMenu menu) {
+                SwipeMenuItem openItem = new SwipeMenuItem(
+                        getActivity().getApplicationContext());
+                openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
+                        0xCE)));
+                openItem.setWidth(200);
+                openItem.setTitle("OPEN");
+                openItem.setTitleSize(15);
+                openItem.setTitleColor(Color.WHITE);
+                menu.addMenuItem(openItem);
+
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getActivity().getApplicationContext());
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
+                        0x3F, 0x25)));
+                deleteItem.setWidth(200);
+                deleteItem.setIcon(R.mipmap.ic_delete);
+                menu.addMenuItem(deleteItem);
+            }
+        };
+        mListView.setMenuCreator(creator);
+
+        mListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                Event event = mEvents.get(position);
+                switch (index) {
+                    case 0:
+                        openEvent(event);
+                        break;
+                    case 1:
+                        mEvents.remove(position);
+                        updateUI();
+                        break;
+                }
+                return false;
+            }
+        });
         return v;
     }
 
@@ -93,7 +137,6 @@ public class NotesFragment extends ListFragment {
             }
             Event e = getItem(position);
 
-
             ArrayList<SubEvent> subEvents = e.getSubEvents();
             String tmp = "";
             for (int i = 0; i < subEvents.size(); i++) {
@@ -134,10 +177,11 @@ public class NotesFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-//        Crime c = (Crime) (getListAdapter()).getItem(position);
         Event event = ((EventAdapter) getListAdapter()).getItem(position);
-        //Log.d(TAG, position + " is clicked");
-        // Start CrimeActivity
+        openEvent(event);
+    }
+
+    public void openEvent(Event event ) {
         Intent i = new Intent(getActivity(), EventPagerActivity.class);
         i.putExtra(HomePageActivity.FRIENDS, HomePageActivity.getFriendList());
         i.putExtra(EventFragment.EXTRA_EVENT, event.getDate());

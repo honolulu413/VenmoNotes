@@ -97,7 +97,6 @@ public class SubEvent {
         return date;
     }
 
-
     public double getAmount() {
         return amount;
     }
