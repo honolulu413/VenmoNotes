@@ -49,7 +49,7 @@ public class HomePageActivity extends ActionBarActivity {
     public static final String TRAN = "com.example.lulu.HomePageActivity.transactions";
     public static final String FRIENDS = "com.example.lulu.HomePageActivity.friends";
 
-    private static final String TAG = "DATE";
+    private static final String TAG = "Date";
     private ArrayList<Transaction> mTransactions;
     private String mAction = null;
     private String mDate = null;
@@ -147,6 +147,7 @@ public class HomePageActivity extends ActionBarActivity {
                             .commit();
                     Intent i = new Intent(HomePageActivity.this, MainActivity.class);
                     startActivity(i);
+                    finish();
                 }
             }
         });
@@ -185,14 +186,18 @@ public class HomePageActivity extends ActionBarActivity {
                     case R.id.transactions:
                         transaction.replace(R.id.fragmentContainer, mHomeFragment).commit();
                         mCategory = Category.ALL;
-
-                        updateUI();
+                        Log.d(TAG, "1TX is " + mTransactions);
+//                        updateUI();
+                        mDate = null;
+                        new FetchTransactions().execute(token);
                         break;
                     case R.id.statistics:
                         if (mStaFragment == null)
                             mStaFragment = StatisticsFragment.newInstance(mTransactions, mFriendTransactions);
                         transaction.replace(R.id.fragmentContainer, mStaFragment).commit();
 //                        updateUI();
+                        Log.d(TAG, "2TX is " + mTransactions);
+
                         break;
                 }
             }
@@ -292,6 +297,8 @@ public class HomePageActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(ArrayList<Transaction> result) {
             mTransactions = result;
+            Log.d(TAG, "after fetch is " + mTransactions);
+
             updateTransaction();
 //            mHomeFragment.mTransactions = result;
             updateUI();
@@ -315,15 +322,16 @@ public class HomePageActivity extends ActionBarActivity {
             }
             mFriendTransactions.get(friend).add(tx);
         }
-        Log.d(TAG, "Friends\n" + mFriendTransactions);
+//        Log.d(TAG, "Friends\n" + mFriendTransactions);
 
     }
 
 
     private void updateUI() {
         Log.d(TAG, "CATEGORY IS " + mCategory);
+        Log.d(TAG, "mTransactions is " + mTransactions);
+
         if (mCategory == Category.ALL) {
-            Log.d(TAG, "mTransactions is " + mTransactions);
 
             mHomeFragment.updateUI(mTransactions);
             return;
@@ -363,7 +371,7 @@ public class HomePageActivity extends ActionBarActivity {
             month = selectedMonth + 1;
             day = selectedDay;
             mDate = "" + year + "-" + month + "-" + day;
-            Log.d(TAG, "MONTH IS " + month + "");
+//            Log.d(TAG, "MONTH IS " + month + "");
 
 
         }

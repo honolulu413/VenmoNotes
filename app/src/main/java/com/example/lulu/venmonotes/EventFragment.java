@@ -2,12 +2,17 @@ package com.example.lulu.venmonotes;
 
 import android.app.Activity;
 import android.app.usage.UsageEvents;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -55,6 +61,7 @@ public class EventFragment extends Fragment {
     private TextView mPayTextView;
     private TextView mChargeTextView;
     private EditText mAmountTextView;
+    private Button mPayAllButton;
 
     private double mPayAmount;
     private double mChargeAmount;
@@ -231,7 +238,65 @@ public class EventFragment extends Fragment {
                 }
             }
         });
+
+        mPayAllButton = (Button) v.findViewById(R.id.pay_all_button);
+        mPayAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Confirm to pay all?");
+
+                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new ExecuteAllPayments().execute();                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.create().show();
+
+            }
+        });
+
+
         return v;
+    }
+
+    private class ExecuteAllPayments extends AsyncTask<Void, Void, String> {
+        @Override
+        protected String doInBackground(Void... params) {
+            return payAllHelper();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(getActivity(), "All payments sent!", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    private String payAllHelper() {
+        String ENDPOINT = "https://api.venmo.com/v1/payments";
+        String token = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .getString(HomePageActivity.ACCESS_TOKEN, null);
+        Log.d(TAG, ENDPOINT);
+        String result = "";
+        for (SubEvent subEvent : mEvent.getSubEvents()) {
+            Uri.Builder builder = Uri.parse(ENDPOINT).buildUpon();
+
+            String paramters = "access_token=" + token + "&user_id=" + subEvent.getUserID() +
+                    "&note=" + mEvent.getTitle() + "&amount=" + subEvent.getRealAmount();
+            String urlSpec = builder.build().toString();
+            HttpService httpService = new HttpService();
+            result += httpService.getPostUrl(urlSpec, paramters);
+
+            Log.d(TAG, urlSpec);
+        }
+
+        return result;
     }
 
     public void updateUI() {
