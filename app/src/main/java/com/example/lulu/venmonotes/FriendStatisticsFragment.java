@@ -91,16 +91,16 @@ public class FriendStatisticsFragment extends Fragment {
 
 
         String dateString = mTransactions.get(mTransactions.size() - 1).getDateString();
-        String summary = "Since " + dateString + "    " + "Gained: " + sGained + "$  Paid: " + sPaid + "$";
+        String summary = "Since " + dateString + "    " + "Gained: $" + sGained + "  Paid: $" + sPaid;
         SpannableStringBuilder sb = new SpannableStringBuilder(summary);
         int p = summary.indexOf(dateString);
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), p, p + dateString.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         p = summary.indexOf("Gained:") + 8;
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), p, p + sGained.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        sb.setSpan(new ForegroundColorSpan(Color.RED), p, p + sGained.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), p, p + sGained.length() + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        sb.setSpan(new ForegroundColorSpan(Color.rgb(34, 139, 34)), p, p + sGained.length() + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         p = summary.indexOf("Paid:") + 6;
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), p, p + sPaid.length() , Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        sb.setSpan(new ForegroundColorSpan(Color.BLUE), p, p + sPaid.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), p, p + sPaid.length() + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        sb.setSpan(new ForegroundColorSpan(Color.RED), p, p + sPaid.length() + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         mSummary = (TextView) v.findViewById(R.id.statistics_summary1);
         mSummary.setText(sb);
 
@@ -118,9 +118,9 @@ public class FriendStatisticsFragment extends Fragment {
         };
 
         if (!pTransactions.isEmpty())
-            drawSeries(pTransactions, Color.RED);
+            drawSeries(pTransactions, Color.rgb(34, 139, 34));
         if (!nTransactions.isEmpty())
-            drawSeries(nTransactions, Color.BLUE);
+            drawSeries(nTransactions, Color.RED);
 
         mGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
         mGraph.getGridLabelRenderer().setNumHorizontalLabels(3);

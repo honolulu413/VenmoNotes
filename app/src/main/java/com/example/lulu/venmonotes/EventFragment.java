@@ -1,7 +1,6 @@
 package com.example.lulu.venmonotes;
 
 import android.app.Activity;
-import android.app.usage.UsageEvents;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -101,7 +100,7 @@ public class EventFragment extends Fragment {
         mPayTextView = (TextView) v.findViewById(R.id.pay_amount);
         mChargeTextView = (TextView) v.findViewById(R.id.charge_amount);
         mPayTextView.setTextColor(Color.RED);
-        mChargeTextView.setTextColor(Color.GREEN);
+        mChargeTextView.setTextColor(Color.rgb(34, 139, 34));
         updateUI();
 
         mDateFiled = (TextView) v.findViewById(R.id.event_date);
@@ -312,8 +311,8 @@ public class EventFragment extends Fragment {
                 mPayAmount += e.getAmount();
             }
         }
-        mPayTextView.setText("" + mPayAmount);
-        mChargeTextView.setText("" + mChargeAmount);
+        mPayTextView.setText("$" + mPayAmount);
+        mChargeTextView.setText("$" + mChargeAmount);
     }
 
     @Override

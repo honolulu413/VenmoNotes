@@ -104,7 +104,7 @@ public class SubEvent implements Serializable {
     }
 
     public double getRealAmount() {
-        int a = isPositive ? -1 : 1;
+        int a = isPositive ? 1 : -1;
         return a * amount;
     }
 
