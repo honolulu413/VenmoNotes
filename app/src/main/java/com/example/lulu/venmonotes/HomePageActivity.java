@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -87,6 +88,11 @@ public class HomePageActivity extends ActionBarActivity {
     }
 
     public static final List<String> drawerItems =  Arrays.asList("Search Friend", "Create Note", "Log Out");
+
+    private String[] mNavigationDrawerItemTitles;
+    private ListView mDrawerList;
+    private DrawerLayout mDrawerLayout;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
@@ -111,36 +117,46 @@ public class HomePageActivity extends ActionBarActivity {
 
         new ProfileFetcher().execute(token);
 
-//        mSearchButton = (Button) findViewById(R.id.searchButton);
         mImageView = (SmartImageView) findViewById(R.id.imageView);
         mUserName = (TextView) findViewById(R.id.user_name);
         mDisplayName = (TextView) findViewById(R.id.display_name);
         mRadioGroup = (RadioGroup) findViewById(R.id.tab);
-//        mCreateNoteButton = (Button) findViewById(R.id.createNoteButton);
 
-        mDrawer = (ListView) findViewById(R.id.left_drawer);
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(HomePageActivity.this,
-                        android.R.layout.simple_list_item_1,
-                        drawerItems);
-        mDrawer.setAdapter(adapter);
-        mDrawer.setClickable(true);
-        mDrawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[8];
+
+        for (int i = 0; i < drawerItem.length; i++) {
+            if (i == 0)
+                drawerItem[i] = new ObjectDrawerItem(R.mipmap.ic_people, mNavigationDrawerItemTitles[0]);
+            else if (i == 1)
+                drawerItem[i] = new ObjectDrawerItem(R.mipmap.ic_note, mNavigationDrawerItemTitles[1]);
+            else if (i == 7)
+                drawerItem[i] = new ObjectDrawerItem(R.mipmap.ic_logout, mNavigationDrawerItemTitles[2]);
+            else
+                drawerItem[i] = new ObjectDrawerItem(R.mipmap.ic_white, "");
+        }
+
+        DrawerItemAdapter drawerAdapter = new DrawerItemAdapter(this, R.layout.listview_item_row, drawerItem);
+        mDrawerList.setAdapter(drawerAdapter);
+        mDrawerList.setClickable(true);
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 if (position == 0) {
-                Intent i = new Intent(HomePageActivity.this, FriendSearchActivity.class);
-                Bundle mBundle = new Bundle();
-                mBundle.putSerializable(HomePageActivity.CURRENT_USER, currentUser);
+                    Intent i = new Intent(HomePageActivity.this, FriendSearchActivity.class);
+                    Bundle mBundle = new Bundle();
+                    mBundle.putSerializable(HomePageActivity.CURRENT_USER, currentUser);
 
-                i.putExtras(mBundle);
-                i.putExtra(HomePageActivity.TRAN, mFriendTransactions);
-                i.putExtra(HomePageActivity.FRIENDS, mFriendsList);
-                startActivity(i);
+                    i.putExtras(mBundle);
+                    i.putExtra(HomePageActivity.TRAN, mFriendTransactions);
+                    i.putExtra(HomePageActivity.FRIENDS, mFriendsList);
+                    startActivity(i);
                 } else if (position == 1) {
                     Intent i = new Intent(HomePageActivity.this, NotesActivity.class);
                     startActivity(i);
-                } else {
+                } else if (position == 7) {
                     PreferenceManager.getDefaultSharedPreferences(HomePageActivity.this)
                             .edit()
                             .putString(HomePageActivity.ACCESS_TOKEN, null)
@@ -149,12 +165,26 @@ public class HomePageActivity extends ActionBarActivity {
                     startActivity(i);
                     finish();
                 }
+
+                mDrawerLayout.closeDrawer(mDrawerList);
             }
         });
 
 
-//        mSearchButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
+
+
+
+//        mDrawer = (ListView) findViewById(R.id.left_drawer);
+//        ArrayAdapter<String> adapter =
+//                new ArrayAdapter<String>(HomePageActivity.this,
+//                        android.R.layout.simple_list_item_1,
+//                        drawerItems);
+//        mDrawer.setAdapter(adapter);
+//        mDrawer.setClickable(true);
+//        mDrawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+//                if (position == 0) {
 //                Intent i = new Intent(HomePageActivity.this, FriendSearchActivity.class);
 //                Bundle mBundle = new Bundle();
 //                mBundle.putSerializable(HomePageActivity.CURRENT_USER, currentUser);
@@ -163,16 +193,23 @@ public class HomePageActivity extends ActionBarActivity {
 //                i.putExtra(HomePageActivity.TRAN, mFriendTransactions);
 //                i.putExtra(HomePageActivity.FRIENDS, mFriendsList);
 //                startActivity(i);
+//                } else if (position == 1) {
+//                    Intent i = new Intent(HomePageActivity.this, NotesActivity.class);
+//                    startActivity(i);
+//                } else {
+//                    PreferenceManager.getDefaultSharedPreferences(HomePageActivity.this)
+//                            .edit()
+//                            .putString(HomePageActivity.ACCESS_TOKEN, null)
+//                            .commit();
+//                    Intent i = new Intent(HomePageActivity.this, MainActivity.class);
+//                    startActivity(i);
+//                    finish();
+//                }
 //            }
 //        });
 
 
-//        mCreateNoteButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                Intent i = new Intent(HomePageActivity.this, NotesActivity.class);
-//                startActivity(i);
-//            }
-//        });
+
 
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
