@@ -18,8 +18,8 @@
     <string name="pay_all">Send All</string>
     <string name="take">Take!</string>
     <string-array name="navigation_drawer_items_array">
-        <item>Search Friend</item>
-        <item>Create Note</item>
+        <item>Search Friends</item>
+        <item>Create Notes</item>
         <item>Log Out</item>
     </string-array>
 </resources>
