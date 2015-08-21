@@ -33,10 +33,10 @@ public class Transaction implements Serializable {
         this.actor = actor;
         this.note = note;
         this.amount = amount;
-        this.action = action;
+        this.action = action.equals("pay")? "paid": "charged";
         this.note = note;
-        if (actor.getUserName().equals(currentUser) && action.equals("charge") ||
-                targetUser.getUserName().equals(currentUser) && action.equals("pay"))
+        if (actor.getUserName().equals(currentUser) && this.action.equals("charged") ||
+                targetUser.getUserName().equals(currentUser) && this.action.equals("paid"))
             isPositive = true;
         if (actor.getUserName().equals(currentUser)) friend = actor;
         else friend = targetUser;
@@ -48,8 +48,7 @@ public class Transaction implements Serializable {
     }
 
     public String getDetail() {
-        String tmp = isPositive ? "+" : "-";
-        return actor + " " + action + " " + targetUser + " " + tmp + amount + "$";
+        return actor + " " + action + " " + targetUser;
     }
 
     public String getShortDate() {

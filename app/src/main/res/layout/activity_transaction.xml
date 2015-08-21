@@ -1,31 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal">
 
     <com.loopj.android.image.SmartImageView
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:id="@+id/profileImg"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@android:color/darker_gray"
         android:cropToPadding="true"
         android:scaleType="fitXY" />
 
     <LinearLayout
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="6dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        style="?android:listSeparatorTextViewStyle"
         >
 
-        <TextView
-            android:id="@+id/tx_detail"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="details" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tx_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="details"
+                android:textSize="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:textSize="16dp"/>
+        </LinearLayout>
+
 
         <LinearLayout
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -42,6 +67,7 @@
                 android:layout_weight="1" />
 
             <TextView
+                android:layout_marginRight="8dp"
                 android:id="@+id/tx_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

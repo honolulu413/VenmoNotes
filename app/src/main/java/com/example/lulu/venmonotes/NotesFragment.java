@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ import java.util.ArrayList;
  */
 public class NotesFragment extends ListFragment {
     private ArrayList<Event> mEvents;
+    private boolean showPhoto;
     public String TAG = "note";
 
     @Override
@@ -44,7 +46,7 @@ public class NotesFragment extends ListFragment {
                         getActivity().getApplicationContext());
                 openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
                         0xCE)));
-                openItem.setWidth(200);
+                openItem.setWidth(220);
                 openItem.setTitle("OPEN");
                 openItem.setTitleSize(15);
                 openItem.setTitleColor(Color.WHITE);
@@ -54,7 +56,7 @@ public class NotesFragment extends ListFragment {
                         getActivity().getApplicationContext());
                 deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
                         0x3F, 0x25)));
-                deleteItem.setWidth(200);
+                deleteItem.setWidth(220);
                 deleteItem.setIcon(R.mipmap.ic_delete);
                 menu.addMenuItem(deleteItem);
             }
@@ -90,11 +92,20 @@ public class NotesFragment extends ListFragment {
         setListAdapter(adapter);
     }
 
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_event_list, menu);
+        MenuItem item = menu.findItem(R.id.menu_item_show_photo);
+        setMenuTitle(item);
+    }
+
+    public void setMenuTitle(MenuItem item) {
+        if (showPhoto) {
+            item.setTitle(R.string.hide_photo);
+        } else {
+            item.setTitle(R.string.show_photo);
+        }
     }
 
     @Override
@@ -110,9 +121,9 @@ public class NotesFragment extends ListFragment {
                 startActivity(i);
                 return true;
             case R.id.menu_item_show_photo:
-
-
-                
+                showPhoto = !showPhoto;
+                setMenuTitle(item);
+                NotesFragment.this.setListAdapter(new EventAdapter(mEvents));
                 return true;
 
             default:
@@ -144,15 +155,18 @@ public class NotesFragment extends ListFragment {
                     tmp += "...";
                     break;
                 }
-                tmp += subEvents.get(i).getDisplayName() + ",";
+                tmp += subEvents.get(i).getDisplayName();
+                if (i != subEvents.size() - 1) tmp += ", ";
             }
             TextView peopleTextView =
                     (TextView) convertView.findViewById(R.id.people);
-            peopleTextView.setText(tmp);
+            peopleTextView.setText(subEvents.size() == 0? "no friends added": tmp);
 
             TextView titleTextView =
                     (TextView) convertView.findViewById(R.id.title);
-            titleTextView.setText(e.getTitle());
+            String s = e.getTitle();
+            String title = s == null || s.equals("") ? "Unnamed": s;
+            titleTextView.setText(title);
 
             TextView dateTextView =
                     (TextView) convertView.findViewById(R.id.date);
@@ -160,6 +174,14 @@ public class NotesFragment extends ListFragment {
             CheckBox solvedCheckBox =
                     (CheckBox) convertView.findViewById(R.id.solvedCheckBox);
             solvedCheckBox.setChecked(e.isSettled());
+
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.event_imageView);
+            if (showPhoto) {
+
+            } else {
+                imageView.setVisibility(View.GONE);
+            }
+
             return convertView;
         }
     }

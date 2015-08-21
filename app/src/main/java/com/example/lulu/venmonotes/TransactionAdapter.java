@@ -1,6 +1,7 @@
 package com.example.lulu.venmonotes;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,18 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
 
         SmartImageView mImageView = (SmartImageView) convertView.findViewById(R.id.profileImg);
         mImageView.setImageUrl(transaction.getActor().getProfileUrl());
+
+        TextView amountTextView = (TextView) convertView.findViewById(R.id.amount);
+        String s = "";
+        if (transaction.isPositive()) {
+            s += "+";
+            amountTextView.setTextColor(Color.rgb(34, 139, 34));
+        } else {
+            s += "-";
+            amountTextView.setTextColor(Color.RED);
+        }
+        s += "$" + transaction.getAmount();
+        amountTextView.setText(s);
 
 
         return convertView;

@@ -29,6 +29,8 @@ import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 import com.jjoe64.graphview.series.Series;
 import com.loopj.android.image.SmartImageView;
+import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -321,13 +323,13 @@ public class StatisticsFragment extends Fragment{
 
     public void loadImage(ViewGroup v, FriendTotal[] friends) {
         for (int i = 0; i < friends.length; i++) {
-            SmartImageView image = (SmartImageView) v.getChildAt(i);
+            RoundedImageView image = (RoundedImageView) v.getChildAt(i);
             final FriendTotal friend = friends[i];
             Log.d(TAG, "image" + image);
             Log.d(TAG, "friend" + friend);
             Log.d(TAG, "friendurl" + friend.getUrl());
 
-            image.setImageUrl(friend.getUrl());
+            Picasso.with(getActivity()).load(friend.getUrl()).fit().into(image);
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

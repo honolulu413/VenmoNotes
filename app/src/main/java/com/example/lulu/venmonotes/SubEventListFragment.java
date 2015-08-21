@@ -1,22 +1,22 @@
 package com.example.lulu.venmonotes;
 
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import com.baoyz.swipemenulistview.SwipeMenu;
-import com.baoyz.swipemenulistview.SwipeMenuCreator;
-import com.baoyz.swipemenulistview.SwipeMenuItem;
-import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
@@ -32,35 +32,49 @@ public class SubEventListFragment extends ListFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.listview_swipe_list_view, parent, false);
-        SwipeMenuListView mListView = (SwipeMenuListView) v.findViewById(android.R.id.list);
-        SwipeMenuCreator creator = new SwipeMenuCreator() {
+        View v = super.onCreateView(inflater, parent, savedInstanceState);
 
-            @Override
-            public void create(SwipeMenu menu) {
-                SwipeMenuItem deleteItem = new SwipeMenuItem(
-                        getActivity().getApplicationContext());
-                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
-                        0x3F, 0x25)));
-                deleteItem.setWidth(200);
-                deleteItem.setIcon(R.mipmap.ic_delete);
-                menu.addMenuItem(deleteItem);
-            }
-        };
-        mListView.setMenuCreator(creator);
-
-        mListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                switch (index) {
-                    case 0:
-                        mSubEvents.remove(position);
-                        updateUI();
-                        break;
+        ListView listView = (ListView) v.findViewById(android.R.id.list);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            registerForContextMenu(listView);
+        } else {
+            listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+            listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+                public void onItemCheckedStateChanged(ActionMode mode, int position,
+                                                      long id, boolean checked) {
                 }
-                return false;
-            }
-        });
+
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    MenuInflater inflater = mode.getMenuInflater();
+                    inflater.inflate(R.menu.subevent_list_item_context, menu);
+                    return true;
+                }
+
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    return false;
+                }
+
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.menu_item_delete_subevent:
+                            SubEventAdapter adapter = (SubEventAdapter) getListAdapter();
+                            for (int i = adapter.getCount() - 1; i >= 0; i--) {
+                                if (getListView().isItemChecked(i)) {
+                                    mSubEvents.remove(adapter.getItem(i));
+                                }
+                            }
+                            mode.finish();
+                            adapter.notifyDataSetChanged();
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+
+                public void onDestroyActionMode(ActionMode mode) {
+                }
+            });
+        }
         return v;
     }
 
@@ -75,7 +89,7 @@ public class SubEventListFragment extends ListFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getActivity().setTitle(R.string.notes);
+        setHasOptionsMenu(true);
         mSubEvents = (ArrayList<SubEvent>) getArguments().getSerializable(ARRAY);
         SubEventAdapter adapter = new SubEventAdapter(mSubEvents);
         setListAdapter(adapter);

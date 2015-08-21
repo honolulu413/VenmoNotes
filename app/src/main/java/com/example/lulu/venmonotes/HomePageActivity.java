@@ -67,6 +67,7 @@ public class HomePageActivity extends ActionBarActivity {
     private SmartImageView mImageView;
     private TextView mUserName;
     private TextView mDisplayName;
+    private TextView mBalance;
 
     private Fragment mTranFragment;
     private Fragment mStaFragment;
@@ -117,6 +118,7 @@ public class HomePageActivity extends ActionBarActivity {
         mDisplayName = (TextView) findViewById(R.id.display_name);
         mRadioGroup = (RadioGroup) findViewById(R.id.tab);
 //        mCreateNoteButton = (Button) findViewById(R.id.createNoteButton);
+        mBalance = (TextView) findViewById(R.id.balance);
 
         mDrawer = (ListView) findViewById(R.id.left_drawer);
         ArrayAdapter<String> adapter =
@@ -404,6 +406,7 @@ public class HomePageActivity extends ActionBarActivity {
 
                 mDisplayName.setText(currentUser.getDisplayName());
                 mUserName.setText("@" + currentUser.getUserName());
+                mBalance.setText("$" + balance + " in Venmo");
             } catch (JSONException e) {
                 e.printStackTrace();
             }

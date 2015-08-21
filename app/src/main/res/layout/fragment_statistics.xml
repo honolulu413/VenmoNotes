@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 <LinearLayout android:orientation="vertical"
+              android:layout_margin="6dp"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <TextView
-        android:layout_marginLeft="7dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="10dp"
         android:id="@+id/statistics_summary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:textSize="15dp"
+        />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="3dp"
+        style="?android:listSeparatorTextViewStyle"
         />
 
     <com.jjoe64.graphview.GraphView
@@ -22,8 +31,8 @@
         android:layout_height="200dp"/>
 
 
-
     <TextView
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,9 +40,15 @@
         android:text="@string/bar_text"
         />
 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="3dp"
+        style="?android:listSeparatorTextViewStyle"
+        />
+
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="235dp">
 
         <com.jjoe64.graphview.GraphView
             android:id="@+id/top_friend"
@@ -45,37 +60,69 @@
             android:layout_marginBottom="20dp"/>
 
         <LinearLayout
+            android:layout_marginLeft="87dp"
             android:layout_gravity="bottom"
             android:id="@+id/top_friend_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <com.loopj.android.image.SmartImageView
-                android:layout_marginLeft="93dp"
-                style="@style/small_image" />
-            <com.loopj.android.image.SmartImageView
-                android:layout_marginLeft="38dp"
-                style="@style/small_image" />
-            <com.loopj.android.image.SmartImageView
-                android:layout_marginLeft="38dp"
-                style="@style/small_image"
-                android:layout_width="42dp"/>
+            <com.makeramen.roundedimageview.RoundedImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
+                app:riv_corner_radius="100dp"
+                app:riv_border_width="0dip"
+                app:riv_border_color="#333333"
+                app:riv_mutate_background="false"
+                app:riv_tile_mode="repeat"
+                app:riv_oval="true" />
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_marginLeft="25dp"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
+                app:riv_corner_radius="100dp"
+                app:riv_border_width="0dip"
+                app:riv_border_color="#333333"
+                app:riv_mutate_background="false"
+                app:riv_tile_mode="repeat"
+                app:riv_oval="true" />
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_marginLeft="25dp"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
+                app:riv_corner_radius="100dp"
+                app:riv_border_width="0dip"
+                app:riv_border_color="#333333"
+                app:riv_mutate_background="false"
+                app:riv_tile_mode="repeat"
+                app:riv_oval="true" />
         </LinearLayout></FrameLayout>
 
 
     <TextView
+        android:layout_marginTop="22dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="7dp"
+        android:layout_marginRight="3dp"
         android:layout_marginBottom="7dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16dp"
         android:text="@string/bar_text2"
         />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="3dp"
+        style="?android:listSeparatorTextViewStyle"
+        />
 
     <FrameLayout
         android:layout_marginBottom="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="235dp">
     <com.jjoe64.graphview.GraphView
         android:layout_marginTop="7dp"
         android:layout_marginRight="7dp"
@@ -86,19 +133,46 @@
         android:layout_height="200dp"/>
 
     <LinearLayout
+        android:layout_marginLeft="87dp"
         android:layout_gravity="bottom"
         android:id="@+id/top_friend_group2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <com.loopj.android.image.SmartImageView
-            android:layout_marginLeft="93dp"
-            style="@style/small_image" />
-        <com.loopj.android.image.SmartImageView
-            android:layout_marginLeft="38dp"
-            style="@style/small_image" />
-        <com.loopj.android.image.SmartImageView
-            android:layout_marginLeft="38dp"
-            style="@style/small_image"/>
+        <com.makeramen.roundedimageview.RoundedImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitCenter"
+            app:riv_corner_radius="100dp"
+            app:riv_border_width="0dip"
+            app:riv_border_color="#333333"
+            app:riv_mutate_background="false"
+            app:riv_tile_mode="repeat"
+            app:riv_oval="true" />
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_marginLeft="25dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitCenter"
+            app:riv_corner_radius="100dp"
+            app:riv_border_width="0dip"
+            app:riv_border_color="#333333"
+            app:riv_mutate_background="false"
+            app:riv_tile_mode="repeat"
+            app:riv_oval="true" />
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_marginLeft="25dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitCenter"
+            app:riv_corner_radius="100dp"
+            app:riv_border_width="0dip"
+            app:riv_border_color="#333333"
+            app:riv_mutate_background="false"
+            app:riv_tile_mode="repeat"
+            app:riv_oval="true" />
     </LinearLayout>
     </FrameLayout>
 
