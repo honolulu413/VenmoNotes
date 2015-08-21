@@ -3,14 +3,17 @@ package com.example.lulu.venmonotes;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.util.Date;
+
 /**
  * Created by Joseph on 2015/8/17.
  */
-public class SubEvent {
-    private String date;
+public class SubEvent implements Serializable {
     private String userName;
     private String displayName;
     private String profileUrl;
+    private String userID;
 
     private double amount;
     private String action;
@@ -21,15 +24,15 @@ public class SubEvent {
     private static final String JSON_USER_NAME = "userName";
     private static final String JSON_DISPLAY_NAME = "displayName";
     private static final String JSON_PROFILE_URL = "profileUrl";
+    private static final String JSON_USER_ID = "userID";
+
 
     private static final String JSON_AMOUNT = "amount";
     private static final String JSON_ACTION = "action";
     private static final String JSON_POSITIVE = "positive";
     private static final String JSON_SETTLED = "settled";
 
-    public void setDate(String date) {
-        this.date = date;
-    }
+    public void setUserID(String userID) {this.userID = userID; }
 
     public void setUserName(String userName) {
         this.userName = userName;
@@ -63,12 +66,13 @@ public class SubEvent {
         userName = user.getUserName();
         displayName = user.getDisplayName();
         profileUrl = user.getProfileUrl();
+        userID = user.getUser_id();
     }
     public SubEvent(JSONObject json) throws JSONException {
-        date = json.getString(JSON_DATE);
         userName = json.getString(JSON_USER_NAME);
         displayName = json.getString(JSON_DISPLAY_NAME);
         profileUrl = json.getString(JSON_PROFILE_URL);
+        userID = json.getString(JSON_USER_ID);
         amount = json.getDouble(JSON_AMOUNT);
         action = json.getString(JSON_ACTION);
         isPositive = json.getBoolean(JSON_POSITIVE);
@@ -78,11 +82,11 @@ public class SubEvent {
 
     public JSONObject toJSON() throws JSONException {
         JSONObject json = new JSONObject();
-        json.put(JSON_DATE, date);
         json.put(JSON_USER_NAME, userName);
         json.put(JSON_DISPLAY_NAME, displayName);
 
         json.put(JSON_PROFILE_URL, profileUrl);
+        json.put(JSON_USER_ID, userID);
         json.put(JSON_AMOUNT, amount);
         json.put(JSON_ACTION, action);
 
@@ -93,16 +97,14 @@ public class SubEvent {
     }
 
 
-    public String getDate() {
-        return date;
-    }
+    public String getUserID() {return userID; }
 
     public double getAmount() {
         return amount;
     }
 
     public double getRealAmount() {
-        int a = isPositive ? 1 : -1;
+        int a = isPositive ? -1 : 1;
         return a * amount;
     }
 
@@ -134,6 +136,6 @@ public class SubEvent {
 
     @Override
     public String toString() {
-        return "You " + action + " " + displayName + " " + amount + "$ on " + date;
+        return "You " + action + " " + displayName + " " + amount + "$";
     }
 }

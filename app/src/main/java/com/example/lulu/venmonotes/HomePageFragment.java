@@ -27,7 +27,7 @@ import java.util.HashMap;
  */
 public class HomePageFragment extends ListFragment {
     //    public ArrayList<String> transactions = new ArrayList<String>();
-    private static final String TAG = "HOME";
+    private static final String TAG = "Date";
     public static final String TRANS = "com.example.lulu.HomePageFragment.transactions";
 
     private ArrayList<Transaction> mTransactions;
@@ -63,8 +63,8 @@ public class HomePageFragment extends ListFragment {
 //                new ArrayAdapter<Transaction>(getActivity(),
 //                        android.R.layout.simple_list_item_1,
 //                        mTransactions);
+        Log.d(TAG, "FragUpdate " + mTransactions);
 
-        Log.d(TAG, "Activity is " + myActivity);
         ArrayAdapter<Transaction> adapter =
                 new TransactionAdapter(myActivity,
                         -1,
@@ -102,6 +102,7 @@ public class HomePageFragment extends ListFragment {
             mTransactions = new ArrayList<Transaction>();
             flag = true;
         }
+        Log.d(TAG, "FragOncreate is " + mTransactions);
 
         ArrayAdapter<Transaction> adapter =
                 new TransactionAdapter(getActivity(),
