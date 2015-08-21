@@ -1,10 +1,14 @@
 package com.example.lulu.venmonotes;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -176,14 +180,28 @@ public class NotesFragment extends ListFragment {
             solvedCheckBox.setChecked(e.isSettled());
 
             ImageView imageView = (ImageView) convertView.findViewById(R.id.event_imageView);
-            if (showPhoto) {
+            Log.d(TAG, "photo is " + e.getPhoto());
 
+            if (showPhoto) {
+                doShowPhoto(e.getPhoto(), imageView);
             } else {
                 imageView.setVisibility(View.GONE);
             }
 
             return convertView;
         }
+    }
+
+    private void doShowPhoto(Photo p, ImageView imageView) {
+        BitmapDrawable b = null;
+        if (p != null) {
+            String path = getActivity()
+                    .getFileStreamPath(p.getFilename()).getAbsolutePath();
+            b = PictureUtils.getScaledDrawable(getActivity(), path);
+            Log.d(TAG, "path is " + path);
+
+        }
+        imageView.setImageDrawable(b);
     }
 
     public void onResume() {
