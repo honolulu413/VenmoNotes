@@ -13,6 +13,5 @@ public class VenmoResponse {
         this.amount = amount;
      }
 
-
 }
 
