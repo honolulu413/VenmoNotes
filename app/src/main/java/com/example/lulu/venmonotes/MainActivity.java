@@ -33,13 +33,6 @@ public class MainActivity extends Activity {
 
         Log.d(HttpService.TAG, "The token is " + token);
 
-        if (token != null) {
-            Intent i = new Intent(this, HomePageActivity.class);
-            i.putExtra(HomePageActivity.ACCESS_TOKEN, token);
-            startActivity(i);
-            finish();
-        }
-
         setContentView(R.layout.activity_main);
         buttonSignUp = (Button) findViewById(R.id.signUp);
         buttonSignIn = (Button) findViewById(R.id.signIn);
@@ -83,6 +76,7 @@ public class MainActivity extends Activity {
             Intent i = new Intent(this, HomePageActivity.class);
             i.putExtra(HomePageActivity.ACCESS_TOKEN, token);
             startActivity(i);
+            finish();
         }
     }
 

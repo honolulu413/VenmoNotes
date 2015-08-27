@@ -187,6 +187,7 @@ public class NotesFragment extends ListFragment {
                     (TextView) convertView.findViewById(R.id.title);
             String s = e.getTitle();
             String title = s == null || s.equals("") ? "Unnamed" : s;
+            if (title.length() > 18) title = title.substring(0, 19) + "...";
             titleTextView.setText(title);
 
             TextView dateTextView =
