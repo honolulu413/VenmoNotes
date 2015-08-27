@@ -40,7 +40,6 @@ public class EventCameraFragment extends Fragment {
         mProgressContainer = v.findViewById(R.id.event_camera_progressContainer);
         mProgressContainer.setVisibility(View.INVISIBLE);
 
-
         Button takePictureButton = (Button)v
                 .findViewById(R.id.event_camera_takePictureButton);
         takePictureButton.setOnClickListener(new View.OnClickListener() {

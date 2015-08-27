@@ -41,7 +41,7 @@ import java.util.UUID;
  * Created by lulu on 8/18/2015.
  */
 public class EventFragment extends Fragment {
-    private static final String TAG = "EVENTFRAGMENT";
+    private static final String TAG = "frag";
     public static final String EXTRA_EVENT = "com.event";
     public static final String FRIENDS = "com.example.lulu.EventFragment.friends";
     private static final int REQUEST_PHOTO = 1;
@@ -198,6 +198,7 @@ public class EventFragment extends Fragment {
                 mAutoText.setText(mSelectedFriend.getDisplayName());
                 mAddPayButton.setEnabled(true);
                 mAddChargeButton.setEnabled(true);
+                Log.d(TAG, "ssssssssss");
             }
         });
 
@@ -207,7 +208,7 @@ public class EventFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
-                    Log.d(TAG, mAmountTextView.getText().toString());
+                    Log.d(TAG, "ssssssssss" + mAmountTextView.getText().toString());
                     double amount = Double.parseDouble(mAmountTextView.getText().toString());
                     SubEvent s = new SubEvent(mSelectedFriend);
                     s.setAction("pay");
@@ -215,6 +216,7 @@ public class EventFragment extends Fragment {
                     s.setAmount(amount);
                     mEvent.addSubEvent(s);
                     updateUI();
+                    mPayAllButton.setEnabled(true);
                 } catch (Exception e) {
                     Log.d(TAG, "wrong number");
                     return;
@@ -233,6 +235,7 @@ public class EventFragment extends Fragment {
                     s.setAmount(amount);
                     mEvent.addSubEvent(s);
                     updateUI();
+                    mPayAllButton.setEnabled(true);
                 } catch (Exception e) {
                     return;
                 }
@@ -240,11 +243,24 @@ public class EventFragment extends Fragment {
         });
 
         mPayAllButton = (Button) v.findViewById(R.id.pay_all_button);
+        if (mEvent.getSubEvents().size() == 0)
+                mPayAllButton.setEnabled(false);
+
         mPayAllButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Confirm to pay all?");
+                ArrayList<SubEvent> subEvents = mEvent.getSubEvents();
+                double pay = 0;
+                double charge = 0;
+                for (SubEvent sub : subEvents) {
+                    if (sub.getRealAmount() > 0)
+                        pay += sub.getRealAmount();
+                    else
+                        charge += Math.abs(sub.getRealAmount());
+                }
+
+                builder.setTitle("Confirm to pay $" + pay + " and charge $" + charge + "?");
 
                 builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
@@ -343,8 +359,17 @@ public class EventFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (mEvent.getSubEvents().size() == 0)
+            mPayAllButton.setEnabled(false);
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
+        if (mEvent.getSubEvents().size() == 0)
+            mPayAllButton.setEnabled(false);
         EventLab.get(getActivity()).saveEvents();
     }
 

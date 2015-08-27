@@ -63,7 +63,7 @@ public class HomePageFragment extends ListFragment {
 //                new ArrayAdapter<Transaction>(getActivity(),
 //                        android.R.layout.simple_list_item_1,
 //                        mTransactions);
-        Log.d(TAG, "FragUpdate " + mTransactions);
+//        Log.d(TAG, "FragUpdate " + mTransactions);
 
         ArrayAdapter<Transaction> adapter =
                 new TransactionAdapter(myActivity,
@@ -102,7 +102,7 @@ public class HomePageFragment extends ListFragment {
             mTransactions = new ArrayList<Transaction>();
             flag = true;
         }
-        Log.d(TAG, "FragOncreate is " + mTransactions);
+//        Log.d(TAG, "FragOncreate is " + mTransactions);
 
         ArrayAdapter<Transaction> adapter =
                 new TransactionAdapter(getActivity(),
