@@ -1,7 +1,6 @@
 package com.example.lulu.venmonotes;
 
 import android.app.Activity;
-import android.app.usage.UsageEvents;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,6 +30,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -101,7 +103,7 @@ public class EventFragment extends Fragment {
         mPayTextView = (TextView) v.findViewById(R.id.pay_amount);
         mChargeTextView = (TextView) v.findViewById(R.id.charge_amount);
         mPayTextView.setTextColor(Color.RED);
-        mChargeTextView.setTextColor(Color.GREEN);
+        mChargeTextView.setTextColor(Color.rgb(34, 139, 34));
         updateUI();
 
         mDateFiled = (TextView) v.findViewById(R.id.event_date);
@@ -328,8 +330,8 @@ public class EventFragment extends Fragment {
                 mPayAmount += e.getAmount();
             }
         }
-        mPayTextView.setText("" + mPayAmount);
-        mChargeTextView.setText("" + mChargeAmount);
+        mPayTextView.setText("$" + mPayAmount);
+        mChargeTextView.setText("$" + mChargeAmount);
     }
 
     @Override
@@ -349,13 +351,8 @@ public class EventFragment extends Fragment {
 
     private void showPhoto() {
         Photo p = mEvent.getPhoto();
-        BitmapDrawable b = null;
-        if (p != null) {
-            String path = getActivity()
-                    .getFileStreamPath(p.getFilename()).getAbsolutePath();
-            b = PictureUtils.getScaledDrawable(getActivity(), path);
-        }
-        mPhotoView.setImageDrawable(b);
+        Picasso.with(getActivity()).load(new File(getActivity()
+                .getFileStreamPath(p.getFilename()).getAbsolutePath())).fit().into(mPhotoView);
     }
 
     @Override
@@ -376,6 +373,7 @@ public class EventFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+//        PictureUtils.cleanImageView(mPhotoView);
     }
 
     @Override

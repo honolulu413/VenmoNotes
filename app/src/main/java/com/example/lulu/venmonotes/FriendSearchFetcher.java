@@ -26,6 +26,11 @@ public class FriendSearchFetcher {
     }
 
     public ArrayList<User> getFriend() {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         ArrayList<User> friends = new ArrayList<User>();
         Uri.Builder builder = Uri.parse(ENDPOINT).buildUpon();
         builder.appendQueryParameter("access_token", token);
@@ -33,6 +38,7 @@ public class FriendSearchFetcher {
         HttpService httpService = new HttpService();
 
         String jsonString = httpService.getUrl(urlSpec);
+        Log.d("note", "123" + jsonString);
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -41,9 +47,27 @@ public class FriendSearchFetcher {
                 User friend = new User(tmpObject);
                 friends.add(friend);
             }
+
+            String next = jsonObject.getJSONObject("pagination").getString("next");
+            while (!(next == null || next.equals("") || next.equals("null"))) {
+                Thread.sleep(300);
+                jsonString = httpService.getUrl(next + "&access_token=" + token);
+                jsonObject = new JSONObject(jsonString);
+                next = jsonObject.getJSONObject("pagination").getString("next");
+                jsonArray = jsonObject.getJSONArray("data");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject tmpObject = jsonArray.getJSONObject(i);
+                    User friend = new User(tmpObject);
+                    friends.add(friend);
+                }
+            }
+
+
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d(HttpService.TAG, "OMG IT IS DDDDDD" + e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         Collections.sort(friends, new Comparator<User>() {

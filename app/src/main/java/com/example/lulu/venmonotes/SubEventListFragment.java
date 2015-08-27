@@ -65,7 +65,7 @@ public class SubEventListFragment extends ListFragment{
                                 }
                             }
                             mode.finish();
-                            adapter.notifyDataSetChanged();
+                            ((EventFragment)getParentFragment()).updateUI();
                             return true;
                         default:
                             return false;
@@ -123,8 +123,8 @@ public class SubEventListFragment extends ListFragment{
             TextView amount =
                     (TextView) convertView.findViewById(R.id.amount);
             String symbol = s.getRealAmount() >= 0? "+": "";
-            amount.setText(symbol + s.getRealAmount());
-            amount.setTextColor(s.getRealAmount() >= 0 ? Color.GREEN : Color.RED);
+            amount.setText(symbol + "$" + s.getRealAmount());
+            amount.setTextColor(s.getRealAmount() >= 0 ? Color.rgb(34, 139, 34) : Color.RED);
 
             CheckBox solvedCheckBox =
                     (CheckBox) convertView.findViewById(R.id.solvedCheckBox);

@@ -105,16 +105,16 @@ public class StatisticsFragment extends Fragment{
         View v = inflater.inflate(R.layout.fragment_statistics, parent, false);
 
         String dateString = mTransactions.get(mTransactions.size() - 1).getDateString();
-        String summary = "Since " + dateString + "    " + "Gained: " + sGained + "$  Paid: " + sPaid + "$";
+        String summary = "Since " + dateString + "    " + "Gained: $" + sGained + "  Paid: $" + sPaid;
         SpannableStringBuilder sb = new SpannableStringBuilder(summary);
         int p = summary.indexOf(dateString);
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), p, p + dateString.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         p = summary.indexOf("Gained:") + 8;
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), p, p + sGained.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        sb.setSpan(new ForegroundColorSpan(Color.RED), p, p + sGained.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), p, p + sGained.length() + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        sb.setSpan(new ForegroundColorSpan(Color.rgb(34, 139, 34)), p, p + sGained.length() + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         p = summary.indexOf("Paid:") + 6;
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), p, p + sPaid.length() , Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        sb.setSpan(new ForegroundColorSpan(Color.BLUE), p, p + sPaid.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), p, p + sPaid.length() + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        sb.setSpan(new ForegroundColorSpan(Color.RED), p, p + sPaid.length() + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         mSummary = (TextView) v.findViewById(R.id.statistics_summary);
         mSummary.setText(sb);
 
@@ -132,9 +132,9 @@ public class StatisticsFragment extends Fragment{
         };
 
         if (!pTransactions.isEmpty())
-            drawSeries(pTransactions, Color.RED);
+            drawSeries(pTransactions, Color.rgb(34, 139, 34));
         if (!nTransactions.isEmpty())
-            drawSeries(nTransactions, Color.BLUE);
+            drawSeries(nTransactions, Color.RED);
 
         mGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
         mGraph.getGridLabelRenderer().setNumHorizontalLabels(3);
@@ -239,12 +239,12 @@ public class StatisticsFragment extends Fragment{
         }
 
         BarGraphSeries<DataPoint> gainSeries = new BarGraphSeries<DataPoint>(gainPoints);
-        gainSeries.setColor(Color.RED);
+        gainSeries.setColor(Color.rgb(34, 139, 34));
         gainSeries.setSpacing(barWidth);
         mBarGraph.addSeries(gainSeries);
 
         BarGraphSeries<DataPoint> paySeries = new BarGraphSeries<DataPoint>(payPoints);
-        paySeries.setColor(Color.BLUE);
+        paySeries.setColor(Color.RED);
         paySeries.setSpacing(barWidth);
         mBarGraph.addSeries(paySeries);
 
@@ -298,7 +298,7 @@ public class StatisticsFragment extends Fragment{
         });
 
         BarGraphSeries<DataPoint> series = new BarGraphSeries<DataPoint>(points);
-        series.setColor(Color.rgb(102, 204, 0));
+        series.setColor(Color.BLUE);
         series.setSpacing((int) (barWidth * 1.8));
         mBarGraph2.addSeries(series);
 

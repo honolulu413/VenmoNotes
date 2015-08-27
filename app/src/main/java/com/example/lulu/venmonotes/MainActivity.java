@@ -26,19 +26,12 @@ public class MainActivity extends Activity {
         final Context context = this;
 
         super.onCreate(savedInstanceState);
-
+        //PreferenceManager.getDefaultSharedPreferences(this).edit().putString(HomePageActivity.ACCESS_TOKEN, null).commit();
 
         String token = PreferenceManager.getDefaultSharedPreferences(this)
                 .getString(HomePageActivity.ACCESS_TOKEN, null);
 
         Log.d(HttpService.TAG, "The token is " + token);
-
-        if (token != null) {
-            Intent i = new Intent(this, HomePageActivity.class);
-            i.putExtra(HomePageActivity.ACCESS_TOKEN, token);
-            startActivity(i);
-            finish();
-        }
 
         setContentView(R.layout.activity_main);
         buttonSignUp = (Button) findViewById(R.id.signUp);
@@ -73,6 +66,18 @@ public class MainActivity extends Activity {
             }
 
         });
+
+        if (!haveNetworkConnection()) {
+            Toast.makeText(MainActivity.this, "No network connection!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (token != null) {
+            Intent i = new Intent(this, HomePageActivity.class);
+            i.putExtra(HomePageActivity.ACCESS_TOKEN, token);
+            startActivity(i);
+            finish();
+        }
     }
 
     @Override
