@@ -351,7 +351,8 @@ public class EventFragment extends Fragment {
 
     private void showPhoto() {
         Photo p = mEvent.getPhoto();
-        Picasso.with(getActivity()).load(new File(getActivity()
+        if (p != null)
+            Picasso.with(getActivity()).load(new File(getActivity()
                 .getFileStreamPath(p.getFilename()).getAbsolutePath())).fit().into(mPhotoView);
     }
 
