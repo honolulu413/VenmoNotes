@@ -376,7 +376,6 @@ public class EventFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        PictureUtils.cleanImageView(mPhotoView);
     }
 
     @Override
