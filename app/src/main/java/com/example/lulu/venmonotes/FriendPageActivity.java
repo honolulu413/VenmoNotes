@@ -1,5 +1,7 @@
 package com.example.lulu.venmonotes;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -31,6 +33,7 @@ public class FriendPageActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(59, 89, 152)));
 
         mUser = (User) getIntent().getSerializableExtra(USER);
         mTransactions = (ArrayList<Transaction>) getIntent().getSerializableExtra(TRAN);
@@ -40,7 +43,7 @@ public class FriendPageActivity extends ActionBarActivity {
         mDisplayName = (TextView) findViewById(R.id.display_name);
 
         mImageView.setImageUrl(mUser.getProfileUrl());
-        mUserName.setText(mUser.getUserName());
+        mUserName.setText("@" + mUser.getUserName());
         mDisplayName.setText(mUser.getDisplayName());
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
