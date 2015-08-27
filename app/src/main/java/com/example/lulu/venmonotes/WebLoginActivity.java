@@ -124,6 +124,7 @@ public class WebLoginActivity extends ActionBarActivity {
                         .commit();
                 i.putExtra(HomePageActivity.ACCESS_TOKEN, token);
                 startActivity(i);
+                finish();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

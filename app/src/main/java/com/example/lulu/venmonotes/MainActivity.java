@@ -1,5 +1,6 @@
 package com.example.lulu.venmonotes;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -16,7 +17,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
     private Button buttonSignUp;
     private Button buttonSignIn;
 
@@ -30,7 +31,14 @@ public class MainActivity extends ActionBarActivity {
         String token = PreferenceManager.getDefaultSharedPreferences(this)
                 .getString(HomePageActivity.ACCESS_TOKEN, null);
 
-        Log.d(HttpService.TAG, "" + token);
+        Log.d(HttpService.TAG, "The token is " + token);
+
+        if (token != null) {
+            Intent i = new Intent(this, HomePageActivity.class);
+            i.putExtra(HomePageActivity.ACCESS_TOKEN, token);
+            startActivity(i);
+            finish();
+        }
 
         setContentView(R.layout.activity_main);
         buttonSignUp = (Button) findViewById(R.id.signUp);
@@ -46,6 +54,7 @@ public class MainActivity extends ActionBarActivity {
                 }
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://venmo.com/signup"));
                 startActivity(browserIntent);
+                finish();
             }
 
         });
@@ -60,6 +69,7 @@ public class MainActivity extends ActionBarActivity {
                 }
                 Intent intent = new Intent(MainActivity.this, WebLoginActivity.class);
                 startActivity(intent);
+                finish();
             }
 
         });

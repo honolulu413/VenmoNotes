@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -103,7 +104,7 @@ public class SubEventListFragment extends ListFragment{
         public SubEventAdapter(ArrayList<SubEvent> events) {
             super(getActivity(), 0, events);
         }
-
+        public SubEvent mSubEvent;
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
@@ -111,6 +112,7 @@ public class SubEventListFragment extends ListFragment{
                         .inflate(R.layout.list_item_subevent, null);
             }
             SubEvent s = getItem(position);
+            mSubEvent = s;
             RoundedImageView image = (RoundedImageView) convertView.findViewById(R.id.round_imageView);
             Picasso.with(getActivity()).load(s.getProfileUrl()).fit().into(image);
 
@@ -127,6 +129,15 @@ public class SubEventListFragment extends ListFragment{
             CheckBox solvedCheckBox =
                     (CheckBox) convertView.findViewById(R.id.solvedCheckBox);
             solvedCheckBox.setChecked(s.isSettled());
+            solvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    // update your model (or other business logic) based on isChecked
+                    if (isChecked)
+                        mSubEvent.setIsSettled(true);
+                    else
+                        mSubEvent.setIsSettled(false);
+                }
+            });
             return convertView;
         }
     }

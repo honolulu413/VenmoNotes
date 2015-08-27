@@ -23,7 +23,7 @@ public class PictureUtils {
         // Read in the dimensions of the image on disk
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
+//        BitmapFactory.decodeFile(path, options);
         float srcWidth = options.outWidth;
         float srcHeight = options.outHeight;
         int inSampleSize = 1;
@@ -37,7 +37,33 @@ public class PictureUtils {
         options = new BitmapFactory.Options();
         options.inSampleSize = inSampleSize;
         Bitmap bitmap = BitmapFactory.decodeFile(path, options);
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, )
         return new BitmapDrawable(a.getResources(), bitmap);
+    }
+
+    public static BitmapDrawable getScaledDrawable2(Activity a, String path) {
+        Display display = a.getWindowManager().getDefaultDisplay();
+        float destWidth = display.getWidth();
+        float destHeight = display.getHeight();
+        // Read in the dimensions of the image on disk
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+//        BitmapFactory.decodeFile(path, options);
+        float srcWidth = options.outWidth;
+        float srcHeight = options.outHeight;
+        int inSampleSize = 1;
+        if (srcHeight > destHeight || srcWidth > destWidth) {
+            if (srcWidth > srcHeight) {
+                inSampleSize = Math.round(srcHeight / destHeight);
+            } else {
+                inSampleSize = Math.round(srcWidth / destWidth);
+            }
+        }
+        options = new BitmapFactory.Options();
+        options.inSampleSize = inSampleSize;
+        Bitmap bitmap = BitmapFactory.decodeFile(path, options);
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, )
+        return new BitmapDrawable(a.getResources(), Bitmap.createScaledBitmap(bitmap, 50, 50, true));
     }
 
     public static void cleanImageView(ImageView imageView) {

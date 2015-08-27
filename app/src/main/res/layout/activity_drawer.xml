@@ -83,17 +83,21 @@
             <RadioButton
                 android:id="@+id/filter"
                 style="@style/tab_button"
-                android:text="Filter"/>
+                android:text="Filter"
+                android:onClick="onRadioButtonClicked"/>
 
             <RadioButton
                 android:id="@+id/transactions"
                 style="@style/tab_button"
-                android:text="Transactions"/>
+                android:text="Transactions"
+                android:onClick="onRadioButtonClicked"/>
 
             <RadioButton
                 android:id="@+id/statistics"
                 style="@style/tab_button"
-                android:text="Statistics"/>
+                android:text="Statistics"
+                android:onClick="onRadioButtonClicked"/>
+
 
         </RadioGroup>
 

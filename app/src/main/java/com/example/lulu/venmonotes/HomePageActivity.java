@@ -28,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.DatePicker;
@@ -177,77 +178,76 @@ public class HomePageActivity extends ActionBarActivity {
             }
         });
 
-
-
-
-
-//        mDrawer = (ListView) findViewById(R.id.left_drawer);
-//        ArrayAdapter<String> adapter =
-//                new ArrayAdapter<String>(HomePageActivity.this,
-//                        android.R.layout.simple_list_item_1,
-//                        drawerItems);
-//        mDrawer.setAdapter(adapter);
-//        mDrawer.setClickable(true);
-//        mDrawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 //            @Override
-//            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-//                if (position == 0) {
-//                Intent i = new Intent(HomePageActivity.this, FriendSearchActivity.class);
-//                Bundle mBundle = new Bundle();
-//                mBundle.putSerializable(HomePageActivity.CURRENT_USER, currentUser);
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                FragmentTransaction transaction = fm.beginTransaction();
+//                switch (checkedId) {
+//                    case R.id.filter:
+//                        transaction.replace(R.id.fragmentContainer, mHomeFragment).commit();
+//                        filterAction();
+//                        Log.d(TAG, "filter clicked");
 //
-//                i.putExtras(mBundle);
-//                i.putExtra(HomePageActivity.TRAN, mFriendTransactions);
-//                i.putExtra(HomePageActivity.FRIENDS, mFriendsList);
-//                startActivity(i);
-//                } else if (position == 1) {
-//                    Intent i = new Intent(HomePageActivity.this, NotesActivity.class);
-//                    startActivity(i);
-//                } else {
-//                    PreferenceManager.getDefaultSharedPreferences(HomePageActivity.this)
-//                            .edit()
-//                            .putString(HomePageActivity.ACCESS_TOKEN, null)
-//                            .commit();
-//                    Intent i = new Intent(HomePageActivity.this, MainActivity.class);
-//                    startActivity(i);
-//                    finish();
+//                        break;
+//                    case R.id.transactions:
+//                        transaction.replace(R.id.fragmentContainer, mHomeFragment).commit();
+//                        mCategory = Category.ALL;
+//                        Log.d(TAG, "1TX is " + mTransactions);
+////                        updateUI();
+//                        mDate = null;
+//                        new FetchTransactions().execute(token);
+//                        Log.d(TAG, "tx clicked");
+//
+//                        break;
+//                    case R.id.statistics:
+//                        if (mStaFragment == null)
+//                            mStaFragment = StatisticsFragment.newInstance(mTransactions, mFriendTransactions);
+//                        transaction.replace(R.id.fragmentContainer, mStaFragment).commit();
+////                        updateUI();
+//                        Log.d(TAG, "2TX is " + mTransactions);
+//
+//                        break;
 //                }
 //            }
 //        });
-
-
-
-
-        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                FragmentTransaction transaction = fm.beginTransaction();
-                switch (checkedId) {
-                    case R.id.filter:
-                        transaction.replace(R.id.fragmentContainer, mHomeFragment).commit();
-                        filterAction();
-                        break;
-                    case R.id.transactions:
-                        transaction.replace(R.id.fragmentContainer, mHomeFragment).commit();
-                        mCategory = Category.ALL;
-                        Log.d(TAG, "1TX is " + mTransactions);
-//                        updateUI();
-                        mDate = null;
-                        new FetchTransactions().execute(token);
-                        break;
-                    case R.id.statistics:
-                        if (mStaFragment == null)
-                            mStaFragment = StatisticsFragment.newInstance(mTransactions, mFriendTransactions);
-                        transaction.replace(R.id.fragmentContainer, mStaFragment).commit();
-//                        updateUI();
-                        Log.d(TAG, "2TX is " + mTransactions);
-
-                        break;
-                }
-            }
-        });
     }
 
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+        FragmentTransaction transaction = fm.beginTransaction();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.filter:
+                if (checked) {
+                    transaction.replace(R.id.fragmentContainer, mHomeFragment).commit();
+                    filterAction();
+                    Log.d(TAG, "filter clicked");
+                }
+                break;
+            case R.id.transactions:
+                if (checked) {
+                    transaction.replace(R.id.fragmentContainer, mHomeFragment).commit();
+                    mCategory = Category.ALL;
+                    Log.d(TAG, "1TX is " + mTransactions);
+//                        updateUI();
+                    mDate = null;
+                    new FetchTransactions().execute(token);
+                    Log.d(TAG, "tx clicked");
+                }
+                break;
+            case R.id.statistics:
+                if (checked) {
+                    if (mStaFragment == null)
+                        mStaFragment = StatisticsFragment.newInstance(mTransactions, mFriendTransactions);
+                    transaction.replace(R.id.fragmentContainer, mStaFragment).commit();
+//                        updateUI();
+                    Log.d(TAG, "2TX is " + mTransactions);
+                }
+                    break;
+        }
+    }
 
     private void filterAction() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -341,7 +341,7 @@ public class HomePageActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(ArrayList<Transaction> result) {
             mTransactions = result;
-            Log.d(TAG, "after fetch is " + mTransactions);
+//            Log.d(TAG, "after fetch is " + mTransactions);
 
             updateTransaction();
 //            mHomeFragment.mTransactions = result;
@@ -372,9 +372,6 @@ public class HomePageActivity extends ActionBarActivity {
 
 
     private void updateUI() {
-        Log.d(TAG, "CATEGORY IS " + mCategory);
-        Log.d(TAG, "mTransactions is " + mTransactions);
-
         if (mCategory == Category.ALL) {
 
             mHomeFragment.updateUI(mTransactions);
@@ -481,4 +478,6 @@ public class HomePageActivity extends ActionBarActivity {
         }
         return haveConnectedWifi || haveConnectedMobile;
     }
+
+
 }
