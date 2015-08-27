@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -59,7 +61,7 @@ public class HomePageActivity extends ActionBarActivity {
     private String mAction = null;
     private String mDate = null;
     private Button buttonFilter;
-    private static final CharSequence[] options = {"All", "Income", "Expense", "Date"};
+    private static final CharSequence[] options = {"All", "Income", "Expense", "Since Date"};
     private final boolean[] selected = new boolean[]{false, false, false, false};
     private static final int DATE_PICKER_ID = 111;
     private int year, month, day;
@@ -122,7 +124,7 @@ public class HomePageActivity extends ActionBarActivity {
         }
 
         new ProfileFetcher().execute(token);
-
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(59, 89, 152)));
         mImageView = (SmartImageView) findViewById(R.id.imageView);
         mUserName = (TextView) findViewById(R.id.user_name);
         mDisplayName = (TextView) findViewById(R.id.display_name);
