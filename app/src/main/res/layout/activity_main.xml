@@ -20,19 +20,11 @@
 
         <Button
             android:id="@+id/signIn"
-            android:layout_width="match_parent"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_margin="4dp"
-            android:text="Sign in with Venmo"
-            />
-        <Button
-            android:id="@+id/signUp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_margin="4dp"
-            android:text="Sign up with Venmo"
+            android:text="Sign in"
             />
 
     </LinearLayout>
@@ -41,13 +33,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Welcome to TX Notes!"
+        android:text="Welcome to EZ-Pay Note"
         android:id="@+id/textView"
-        android:layout_marginBottom="55dp"
-        android:layout_above="@+id/linearLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentEnd="false"
         android:textStyle="bold"
-        android:textSize="@dimen/abc_text_size_large_material" />
+        android:textSize="28dp"
+        android:layout_above="@+id/textView2"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_alignEnd="@+id/textView2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="——a Venmo-based app"
+        android:id="@+id/textView2"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="46dp"
+        android:padding="10dp"/>
+
+    <Button
+        android:id="@+id/signUp"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Sign up"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true"/>
+
 
 </RelativeLayout>
