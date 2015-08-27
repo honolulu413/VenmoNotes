@@ -2,8 +2,11 @@ package com.example.lulu.venmonotes;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -69,7 +72,7 @@ public class HomePageActivity extends ActionBarActivity {
     private TextView mUserName;
     private TextView mDisplayName;
     private TextView mBalance;
-
+    private View mProgressBarContainer;
     private Fragment mTranFragment;
     private Fragment mStaFragment;
     private RadioGroup mRadioGroup;
@@ -107,6 +110,7 @@ public class HomePageActivity extends ActionBarActivity {
         month = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
 
+        mProgressBarContainer = findViewById(R.id.progressContainer);
         fm = getSupportFragmentManager();
         mHomeFragment = (HomePageFragment) fm.findFragmentById(R.id.fragmentContainer);
         if (mHomeFragment == null) {
@@ -342,7 +346,7 @@ public class HomePageActivity extends ActionBarActivity {
             updateTransaction();
 //            mHomeFragment.mTransactions = result;
             updateUI();
-
+            mProgressBarContainer.setVisibility(View.INVISIBLE);
 
         }
 
@@ -459,5 +463,22 @@ public class HomePageActivity extends ActionBarActivity {
             new FetchTransactions().execute(token);
             new FetchFriends().execute(token);
         }
+    }
+
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
     }
 }

@@ -30,6 +30,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -332,13 +335,8 @@ public class EventFragment extends Fragment {
 
     private void showPhoto() {
         Photo p = mEvent.getPhoto();
-        BitmapDrawable b = null;
-        if (p != null) {
-            String path = getActivity()
-                    .getFileStreamPath(p.getFilename()).getAbsolutePath();
-            b = PictureUtils.getScaledDrawable(getActivity(), path);
-        }
-        mPhotoView.setImageDrawable(b);
+        Picasso.with(getActivity()).load(new File(getActivity()
+                .getFileStreamPath(p.getFilename()).getAbsolutePath())).fit().into(mPhotoView);
     }
 
     @Override
@@ -350,7 +348,7 @@ public class EventFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        PictureUtils.cleanImageView(mPhotoView);
+//        PictureUtils.cleanImageView(mPhotoView);
     }
 
     @Override

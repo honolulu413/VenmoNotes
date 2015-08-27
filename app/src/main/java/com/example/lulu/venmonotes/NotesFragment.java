@@ -1,5 +1,6 @@
 package com.example.lulu.venmonotes;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,13 +27,16 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
  * Created by lulu on 8/18/2015.
  */
 public class NotesFragment extends ListFragment {
+    private final String SHOWPHOTO = "com.example.lulu.NotesFragment.showPhoto";
     private ArrayList<Event> mEvents;
     private boolean showPhoto;
     public String TAG = "note";
@@ -89,12 +94,24 @@ public class NotesFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        showPhoto = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .getBoolean(SHOWPHOTO, false);
         setHasOptionsMenu(true);
         getActivity().setTitle(R.string.notes);
         mEvents = EventLab.get(getActivity()).getEvents();
         EventAdapter adapter = new EventAdapter(mEvents);
         setListAdapter(adapter);
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .edit()
+                .putBoolean(SHOWPHOTO, showPhoto)
+                .commit();
+    }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -118,7 +135,7 @@ public class NotesFragment extends ListFragment {
             case R.id.menu_item_new_event:
                 Event event = new Event();
                 EventLab.get(getActivity()).addEvent(event);
-                ((EventAdapter)getListAdapter()).notifyDataSetChanged();
+                ((EventAdapter) getListAdapter()).notifyDataSetChanged();
                 Intent i = new Intent(getActivity(), EventPagerActivity.class);
                 i.putExtra(HomePageActivity.FRIENDS, HomePageActivity.getFriendList());
                 i.putExtra(EventFragment.EXTRA_EVENT, event.getDate());
@@ -136,7 +153,7 @@ public class NotesFragment extends ListFragment {
     }
 
     public void updateUI() {
-        ((EventAdapter)getListAdapter()).notifyDataSetChanged();
+        ((EventAdapter) getListAdapter()).notifyDataSetChanged();
     }
 
     private class EventAdapter extends ArrayAdapter<Event> {
@@ -164,12 +181,12 @@ public class NotesFragment extends ListFragment {
             }
             TextView peopleTextView =
                     (TextView) convertView.findViewById(R.id.people);
-            peopleTextView.setText(subEvents.size() == 0? "no friends added": tmp);
+            peopleTextView.setText(subEvents.size() == 0 ? "no friends added" : tmp);
 
             TextView titleTextView =
                     (TextView) convertView.findViewById(R.id.title);
             String s = e.getTitle();
-            String title = s == null || s.equals("") ? "Unnamed": s;
+            String title = s == null || s.equals("") ? "Unnamed" : s;
             titleTextView.setText(title);
 
             TextView dateTextView =
@@ -180,28 +197,17 @@ public class NotesFragment extends ListFragment {
             solvedCheckBox.setChecked(e.isSettled());
 
             ImageView imageView = (ImageView) convertView.findViewById(R.id.event_imageView);
-            Log.d(TAG, "photo is " + e.getPhoto());
 
             if (showPhoto) {
-                doShowPhoto(e.getPhoto(), imageView);
+                Picasso.with(getActivity()).load(new File(getActivity()
+                        .getFileStreamPath(e.getPhoto().getFilename()).getAbsolutePath())).fit().into(imageView);
+//                doShowPhoto(e.getPhoto(), imageView);
             } else {
                 imageView.setVisibility(View.GONE);
             }
 
             return convertView;
         }
-    }
-
-    private void doShowPhoto(Photo p, ImageView imageView) {
-        BitmapDrawable b = null;
-        if (p != null) {
-            String path = getActivity()
-                    .getFileStreamPath(p.getFilename()).getAbsolutePath();
-            b = PictureUtils.getScaledDrawable(getActivity(), path);
-            Log.d(TAG, "path is " + path);
-
-        }
-        imageView.setImageDrawable(b);
     }
 
     public void onResume() {
@@ -221,7 +227,7 @@ public class NotesFragment extends ListFragment {
         openEvent(event);
     }
 
-    public void openEvent(Event event ) {
+    public void openEvent(Event event) {
         Intent i = new Intent(getActivity(), EventPagerActivity.class);
         i.putExtra(HomePageActivity.FRIENDS, HomePageActivity.getFriendList());
         i.putExtra(EventFragment.EXTRA_EVENT, event.getDate());
