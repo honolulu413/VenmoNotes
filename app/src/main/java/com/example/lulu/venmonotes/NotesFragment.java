@@ -204,7 +204,6 @@ public class NotesFragment extends ListFragment {
                     Log.d("note", e + " " + e.getPhoto() + " " + e.getPhoto().getFilename());
                     Picasso.with(getActivity()).load(new File(getActivity()
                         .getFileStreamPath(e.getPhoto().getFilename()).getAbsolutePath())).fit().into(imageView);
-//                doShowPhoto(e.getPhoto(), imageView);
             } else {
                 imageView.setVisibility(View.GONE);
             }
