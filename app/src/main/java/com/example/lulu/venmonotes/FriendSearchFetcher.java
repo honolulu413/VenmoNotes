@@ -38,7 +38,6 @@ public class FriendSearchFetcher {
         HttpService httpService = new HttpService();
 
         String jsonString = httpService.getUrl(urlSpec);
-        Log.d("note", "123" + jsonString);
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONArray jsonArray = jsonObject.getJSONArray("data");

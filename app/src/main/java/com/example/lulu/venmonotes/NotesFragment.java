@@ -200,7 +200,8 @@ public class NotesFragment extends ListFragment {
             ImageView imageView = (ImageView) convertView.findViewById(R.id.event_imageView);
 
             if (showPhoto) {
-                if (e.getPhoto() != null)
+                if (e.getPhoto() != null && e.getPhoto().getFilename() != null)
+                    Log.d("note", e + " " + e.getPhoto() + " " + e.getPhoto().getFilename());
                     Picasso.with(getActivity()).load(new File(getActivity()
                         .getFileStreamPath(e.getPhoto().getFilename()).getAbsolutePath())).fit().into(imageView);
             } else {
