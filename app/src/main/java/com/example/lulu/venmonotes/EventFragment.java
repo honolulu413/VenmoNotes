@@ -313,6 +313,11 @@ public class EventFragment extends Fragment {
             result += tmp;
 
             Log.d(TAG, tmp);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         return result;
