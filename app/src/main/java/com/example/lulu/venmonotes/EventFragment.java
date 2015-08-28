@@ -309,9 +309,10 @@ public class EventFragment extends Fragment {
                     "&note=" + mEvent.getTitle() + "&amount=" + subEvent.getRealAmount();
             String urlSpec = builder.build().toString();
             HttpService httpService = new HttpService();
-            result += httpService.getPostUrl(urlSpec, paramters);
+            String tmp = httpService.getPostUrl(urlSpec, paramters);
+            result += tmp;
 
-            Log.d(TAG, urlSpec);
+            Log.d(TAG, tmp);
         }
 
         return result;
