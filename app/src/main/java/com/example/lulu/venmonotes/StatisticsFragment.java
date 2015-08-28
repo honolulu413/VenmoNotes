@@ -127,7 +127,7 @@ public class StatisticsFragment extends Fragment{
                 date.setTime((long) dataPoint.getX());
                 String dateString = "On " + new SimpleDateFormat("MM/dd/yyyy").format(date);
                 String action = dataPoint.getY() >= 0? "gained": "paid";
-                Toast.makeText(getActivity(), dateString + ", you " + action + " " + dataPoint.getY() + "$", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), dateString + ", you " + action + " $" + dataPoint.getY(), Toast.LENGTH_SHORT).show();
             }
         };
 
