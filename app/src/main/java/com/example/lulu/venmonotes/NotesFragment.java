@@ -154,6 +154,7 @@ public class NotesFragment extends ListFragment {
 
     public void updateUI() {
         ((EventAdapter) getListAdapter()).notifyDataSetChanged();
+        setListAdapter(new EventAdapter(mEvents));
     }
 
     private class EventAdapter extends ArrayAdapter<Event> {
@@ -200,10 +201,12 @@ public class NotesFragment extends ListFragment {
             ImageView imageView = (ImageView) convertView.findViewById(R.id.event_imageView);
 
             if (showPhoto) {
-                if (e.getPhoto() != null && e.getPhoto().getFilename() != null)
-                    Log.d("note", e + " " + e.getPhoto() + " " + e.getPhoto().getFilename());
+                if (e.getPhoto() != null && e.getPhoto().getFilename() != null) {
                     Picasso.with(getActivity()).load(new File(getActivity()
-                        .getFileStreamPath(e.getPhoto().getFilename()).getAbsolutePath())).fit().into(imageView);
+                            .getFileStreamPath(e.getPhoto().getFilename()).getAbsolutePath())).fit().into(imageView);
+                } else {
+                    Picasso.with(getActivity()).load(R.drawable.grey).fit().into(imageView);
+                }
             } else {
                 imageView.setVisibility(View.GONE);
             }
